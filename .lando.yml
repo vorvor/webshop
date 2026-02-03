@@ -1,0 +1,62 @@
+name: webshop
+recipe: drupal10
+keys: true
+config:
+  php: '8.3'
+  via: 'apache:2.4'
+  database: 'mysql:8.0'
+  webroot: web
+  drush: ^11
+  xdebug: false
+env_file:
+  - ./lando/vars.env
+
+services:
+  database:
+    type: mariadb:10.6   # or mysql:8.0
+    creds:
+      database: webshop
+      user: webshop
+      password: webshop
+  pma:
+    type: phpmyadmin
+    hosts:
+      - database
+  mailhog:
+    type: mailhog
+    portforward: true
+    hogfrom:
+      - appserver
+  appserver:
+    xdebug: true
+    overrides:
+      environment:
+        # Support debugging CLI with XDEBUG.
+        PHP_IDE_CONFIG: "serverName=appserver"
+        XDEBUG_SESSION_START: lando
+
+tooling:
+  xdebug-on:
+    service: appserver
+    description: Enable xdebug for apache.
+    cmd:
+      - |
+        rm -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && docker-php-ext-enable xdebug && /etc/init.d/apache2 reload && echo "Xdebug enabled"
+    user: root
+  xdebug-off:
+    service: appserver
+    description: Disable xdebug for apache.
+    cmd:
+      - |
+        rm -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && /etc/init.d/apache2 reload && echo "Xdebug disabled"
+    user: root
+  drush:
+    service: appserver
+    env:
+      DRUSH_OPTIONS_URI: "https://webshop.lndo.site/"
+  lint-be:
+    service: appserver
+    description: Runs composer validate and PHPCS lint.
+    cmd:
+      - |
+        composer run lint-be
