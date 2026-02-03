@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'drupal/recommended-project',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => null,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '5cc2ba268c3c07ba7a989575e8a80947c16efcd8',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -406,6 +406,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'drupal/kart' => array(
+            'pretty_version' => '1.0.14',
+            'version' => '1.0.14.0',
+            'reference' => '1.0.14',
+            'type' => 'drupal-theme',
+            'install_path' => __DIR__ . '/../../web/themes/contrib/kart',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'drupal/profile' => array(
             'pretty_version' => '1.14.0',
             'version' => '1.14.0.0',
@@ -425,9 +434,9 @@
             'dev_requirement' => false,
         ),
         'drupal/recommended-project' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => null,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '5cc2ba268c3c07ba7a989575e8a80947c16efcd8',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
