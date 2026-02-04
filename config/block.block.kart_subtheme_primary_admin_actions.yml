@@ -1,0 +1,20 @@
+uuid: df3037f6-d351-4f91-9a15-54601646cd08
+langcode: en
+status: true
+dependencies:
+  theme:
+    - kart_subtheme
+_core:
+  default_config_hash: jYuXEzagcc6YQqcnFOy1bCK2rJ39zKTRV0oshnqfL7I
+id: kart_subtheme_primary_admin_actions
+theme: kart_subtheme
+region: content
+weight: -7
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  label_display: '0'
+  provider: core
+visibility: {  }

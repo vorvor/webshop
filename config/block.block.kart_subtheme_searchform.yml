@@ -1,0 +1,21 @@
+uuid: 9b3aeb6f-1374-469d-a7d0-1ca5b882baa3
+langcode: en
+status: true
+dependencies:
+  module:
+    - search
+  theme:
+    - kart_subtheme
+id: kart_subtheme_searchform
+theme: kart_subtheme
+region: search_box
+weight: 0
+provider: null
+plugin: search_form_block
+settings:
+  id: search_form_block
+  label: 'Search form'
+  label_display: '0'
+  provider: search
+  page_id: null
+visibility: {  }

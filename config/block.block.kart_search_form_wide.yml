@@ -1,0 +1,23 @@
+uuid: f0e4755a-5a09-4f28-8f01-cdd8ce05473a
+langcode: en
+status: true
+dependencies:
+  module:
+    - search
+  theme:
+    - kart
+_core:
+  default_config_hash: tbgj8InEL7STnYWOisTsELcL2j6N5CvoyldiAcaeoLU
+id: kart_search_form_wide
+theme: kart
+region: search_box
+weight: -7
+provider: null
+plugin: search_form_block
+settings:
+  id: search_form_block
+  label: 'Search form (wide)'
+  label_display: '0'
+  provider: search
+  page_id: null
+visibility: {  }

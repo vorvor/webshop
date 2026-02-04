@@ -1,0 +1,22 @@
+uuid: ac16ba80-4691-46a7-8c7f-0a378ab8582c
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - kart_subtheme
+_core:
+  default_config_hash: v3ZiUY0Uoig8LMdG6l1KNwFZpC-DRvf5ZjBdZ5HdhUQ
+id: kart_subtheme_breadcrumbs
+theme: kart_subtheme
+region: sidebar_first
+weight: -6
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility: {  }

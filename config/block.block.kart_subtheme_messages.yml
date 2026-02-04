@@ -1,0 +1,22 @@
+uuid: dde67772-a6e1-4cd7-94af-c19712abe143
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - kart_subtheme
+_core:
+  default_config_hash: Slek_yN3t0frsKrPghQ2uRCm12HACXzypVklGkDKBaw
+id: kart_subtheme_messages
+theme: kart_subtheme
+region: highlighted
+weight: -15
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: 'Status messages'
+  label_display: '0'
+  provider: system
+visibility: {  }

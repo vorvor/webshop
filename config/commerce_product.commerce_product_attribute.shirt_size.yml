@@ -1,0 +1,7 @@
+uuid: ea409749-9e46-4cd0-838f-a7b296f4a280
+langcode: en
+status: true
+dependencies: {  }
+id: shirt_size
+label: 'Shirt size'
+elementType: radios
