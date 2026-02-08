@@ -1,0 +1,109 @@
+uuid: ce11fe30-ec0f-4186-a112-e5d806461044
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.order_option.field_3xl_amount
+    - field.field.paragraph.order_option.field_4xl_amount
+    - field.field.paragraph.order_option.field_5xl_amount
+    - field.field.paragraph.order_option.field_color
+    - field.field.paragraph.order_option.field_l_amount
+    - field.field.paragraph.order_option.field_m_amount
+    - field.field.paragraph.order_option.field_product_id
+    - field.field.paragraph.order_option.field_s_amount
+    - field.field.paragraph.order_option.field_xl_amount
+    - field.field.paragraph.order_option.field_xs_amount
+    - field.field.paragraph.order_option.field_xxl_amount
+    - field.field.paragraph.order_option.field_xxs_amount
+    - paragraphs.paragraphs_type.order_option
+  module:
+    - select2
+id: paragraph.order_option.default
+targetEntityType: paragraph
+bundle: order_option
+mode: default
+content:
+  field_3xl_amount:
+    type: number
+    weight: 8
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_4xl_amount:
+    type: number
+    weight: 9
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_5xl_amount:
+    type: number
+    weight: 10
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_color:
+    type: select2_entity_reference
+    weight: 0
+    region: content
+    settings:
+      width: 100%
+      autocomplete: false
+      match_operator: CONTAINS
+      match_limit: 10
+    third_party_settings: {  }
+  field_l_amount:
+    type: number
+    weight: 5
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_m_amount:
+    type: number
+    weight: 4
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_s_amount:
+    type: number
+    weight: 3
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_xl_amount:
+    type: number
+    weight: 6
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_xs_amount:
+    type: number
+    weight: 2
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_xxl_amount:
+    type: number
+    weight: 7
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_xxs_amount:
+    type: number
+    weight: 1
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  field_product_id: true
+  status: true

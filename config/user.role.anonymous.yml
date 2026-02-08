@@ -4,11 +4,11 @@ status: true
 dependencies:
   config:
     - filter.format.restricted_html
+    - node.type.order
   module:
     - comment
-    - commerce_checkout
-    - commerce_product
     - filter
+    - node
     - search
     - system
 _core:
@@ -18,9 +18,8 @@ label: 'Anonymous user'
 weight: 0
 is_admin: false
 permissions:
-  - 'access checkout'
   - 'access comments'
   - 'access content'
+  - 'create order content'
   - 'search content'
   - 'use text format restricted_html'
-  - 'view commerce_product'

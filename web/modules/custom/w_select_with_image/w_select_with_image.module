@@ -36,14 +36,14 @@ function w_select_with_image_form_node_order_form_alter(array &$form, FormStateI
     $nid = is_numeric($nid) ? (int) $nid : null;
     $product = \Drupal::entityTypeManager()->getStorage('node')->load($nid);
     $colors = $product->get('field_available_colors')->getValue();
-
-    foreach ($el['#options'] as $tid => $option) {
-      if (!in_array($tid, array_column($colors, 'target_id'))) {
-        unset($el['#options'][$tid]);
-      }
+    $availableColors = [];
+    foreach ($colors as $color) {
+      $availableColors[$color['target_id']] = $color['target_id'];
     }
+
   }
 
   $form['#attached']['library'][] = 'w_select_with_image/color_select2';
   $form['#attached']['drupalSettings']['colorSelect2'] = $hexCodes;
+  $form['#attached']['drupalSettings']['availableColors'] = $availableColors;
 }

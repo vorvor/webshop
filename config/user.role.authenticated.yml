@@ -4,13 +4,12 @@ status: true
 dependencies:
   config:
     - filter.format.basic_html
+    - node.type.order
   module:
     - comment
-    - commerce_checkout
-    - commerce_order
-    - commerce_product
     - file
     - filter
+    - node
     - search
     - shortcut
     - system
@@ -21,14 +20,12 @@ label: 'Authenticated user'
 weight: 1
 is_admin: false
 permissions:
-  - 'access checkout'
   - 'access comments'
   - 'access content'
   - 'access shortcuts'
+  - 'create order content'
   - 'delete own files'
   - 'post comments'
   - 'search content'
   - 'skip comment approval'
   - 'use text format basic_html'
-  - 'view commerce_product'
-  - 'view own commerce_order'

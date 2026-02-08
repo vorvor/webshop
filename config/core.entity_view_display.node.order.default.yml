@@ -1,0 +1,30 @@
+uuid: c09b651d-5d99-4236-8c5c-dd5521bd8b80
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.order.field_order_options
+    - node.type.order
+  module:
+    - entity_reference_revisions
+    - user
+id: node.order.default
+targetEntityType: node
+bundle: order
+mode: default
+content:
+  field_order_options:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

@@ -1,0 +1,29 @@
+uuid: 0f196771-dd33-4e49-a5b1-4bd1997cf0ee
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_color
+    - paragraphs.paragraphs_type.order_option
+    - taxonomy.vocabulary.t_shirt_colors
+id: paragraph.order_option.field_color
+field_name: field_color
+entity_type: paragraph
+bundle: order_option
+label: Color
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:filter_existing_terms'
+  handler_settings:
+    target_bundles:
+      t_shirt_colors: t_shirt_colors
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

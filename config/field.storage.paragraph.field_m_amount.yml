@@ -1,0 +1,20 @@
+uuid: 0ca0e3a9-1745-426c-a7ac-a52149e38db1
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.field_m_amount
+field_name: field_m_amount
+entity_type: paragraph
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

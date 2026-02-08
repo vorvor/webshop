@@ -1,7 +1,0 @@
-uuid: 6f03a093-097d-48bb-93f5-ba79a4ff3584
-langcode: en
-status: true
-dependencies: {  }
-id: color
-label: Color
-elementType: radios

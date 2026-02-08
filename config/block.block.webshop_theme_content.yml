@@ -1,0 +1,22 @@
+uuid: 01269c8e-5426-40a0-bd96-dd02c3d2f0ed
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - webshop_theme
+_core:
+  default_config_hash: erQSEZF2XUjNmgTl0uNRBzmg18ZGXwUcw2FhApoeuHk
+id: webshop_theme_content
+theme: webshop_theme
+region: content
+weight: -7
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility: {  }

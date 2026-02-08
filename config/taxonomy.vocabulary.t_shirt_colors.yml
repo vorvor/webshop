@@ -1,0 +1,9 @@
+uuid: cc5ccb81-970b-4af5-97ec-872161fe03c3
+langcode: en
+status: true
+dependencies: {  }
+name: 'T-shirt colors'
+vid: t_shirt_colors
+description: null
+weight: 0
+new_revision: false

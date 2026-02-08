@@ -1,0 +1,9 @@
+uuid: 93ae99ea-9ce7-4dbf-83db-f7e851cbc2a4
+langcode: en
+status: true
+dependencies: {  }
+name: 'T-shirt type'
+vid: t_shirt_type
+description: null
+weight: 0
+new_revision: false

@@ -1,0 +1,23 @@
+uuid: 4ee0ff01-bb55-49ff-86b3-8658a9756144
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_3xl_amount
+    - paragraphs.paragraphs_type.order_option
+id: paragraph.order_option.field_3xl_amount
+field_name: field_3xl_amount
+entity_type: paragraph
+bundle: order_option
+label: 3XL
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

@@ -1,0 +1,23 @@
+uuid: 9c5f1b12-9e61-451e-bf68-9d5101b145e3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_4xl_amount
+    - paragraphs.paragraphs_type.order_option
+id: paragraph.order_option.field_4xl_amount
+field_name: field_4xl_amount
+entity_type: paragraph
+bundle: order_option
+label: 4XL
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

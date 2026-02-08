@@ -1,0 +1,23 @@
+uuid: 9e1c2763-bbc3-4931-829a-f40b3d78352e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_l_amount
+    - paragraphs.paragraphs_type.order_option
+id: paragraph.order_option.field_l_amount
+field_name: field_l_amount
+entity_type: paragraph
+bundle: order_option
+label: L
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

@@ -1,0 +1,23 @@
+uuid: a0bc65b4-c8d2-44b1-8f97-6df712522ad4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_5xl_amount
+    - paragraphs.paragraphs_type.order_option
+id: paragraph.order_option.field_5xl_amount
+field_name: field_5xl_amount
+entity_type: paragraph
+bundle: order_option
+label: 5XL
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

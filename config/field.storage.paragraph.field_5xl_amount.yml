@@ -1,0 +1,20 @@
+uuid: 8e717c7c-79e2-46d2-87be-242a3b8dab37
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.field_5xl_amount
+field_name: field_5xl_amount
+entity_type: paragraph
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

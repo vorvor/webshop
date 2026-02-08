@@ -1,0 +1,22 @@
+uuid: 12bc268a-eeef-4fc6-983d-57df0b533ac9
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - webshop_theme
+_core:
+  default_config_hash: eYL19CLDyinGTWYQfBD1DswWzglEotE_kHnHx3AxTXM
+id: webshop_theme_powered
+theme: webshop_theme
+region: footer_bottom
+weight: 0
+provider: null
+plugin: system_powered_by_block
+settings:
+  id: system_powered_by_block
+  label: 'Powered by Drupal'
+  label_display: '0'
+  provider: system
+visibility: {  }

@@ -1,0 +1,31 @@
+uuid: 38ff304d-6820-445c-99a8-ff11e82f9ee2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_order_options
+    - node.type.order
+    - paragraphs.paragraphs_type.order_option
+  module:
+    - entity_reference_revisions
+id: node.order.field_order_options
+field_name: field_order_options
+entity_type: node
+bundle: order
+label: 'Order options'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      order_option: order_option
+    negate: 0
+    target_bundles_drag_drop:
+      order_option:
+        weight: 2
+        enabled: true
+field_type: entity_reference_revisions

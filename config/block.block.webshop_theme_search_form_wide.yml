@@ -1,0 +1,23 @@
+uuid: def77a56-5e45-409e-b225-b483e01352b9
+langcode: en
+status: true
+dependencies:
+  module:
+    - search
+  theme:
+    - webshop_theme
+_core:
+  default_config_hash: pbbed0hdqGDF-_QWVVTWRAwgDIotFuAvWH5mWUZu0fA
+id: webshop_theme_search_form_wide
+theme: webshop_theme
+region: secondary_menu
+weight: -5
+provider: null
+plugin: search_form_block
+settings:
+  id: search_form_block
+  label: 'Search form (wide)'
+  label_display: '0'
+  provider: search
+  page_id: null
+visibility: {  }

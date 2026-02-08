@@ -1,17 +1,17 @@
-uuid: ac16ba80-4691-46a7-8c7f-0a378ab8582c
+uuid: 9bac0b41-bc12-4dfc-a9e0-2229080578e4
 langcode: en
-status: false
+status: true
 dependencies:
   module:
     - system
   theme:
-    - kart_subtheme
+    - webshop_theme
 _core:
-  default_config_hash: v3ZiUY0Uoig8LMdG6l1KNwFZpC-DRvf5ZjBdZ5HdhUQ
-id: kart_subtheme_breadcrumbs
-theme: kart_subtheme
-region: header
-weight: -6
+  default_config_hash: VhBzWb7lMRtIOg9G7VSw_0uopi-7zXeHq4vXqqV1HFE
+id: webshop_theme_breadcrumbs
+theme: webshop_theme
+region: breadcrumb
+weight: 0
 provider: null
 plugin: system_breadcrumb_block
 settings:

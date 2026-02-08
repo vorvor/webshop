@@ -1,0 +1,23 @@
+uuid: 9f897315-ea98-449e-b780-502a362486c3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_product_id
+    - paragraphs.paragraphs_type.order_option
+id: paragraph.order_option.field_product_id
+field_name: field_product_id
+entity_type: paragraph
+bundle: order_option
+label: 'Product ID'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

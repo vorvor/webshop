@@ -1,0 +1,23 @@
+uuid: 0ed97c2e-5573-4126-b805-c25f99023bf4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_xxl_amount
+    - paragraphs.paragraphs_type.order_option
+id: paragraph.order_option.field_xxl_amount
+field_name: field_xxl_amount
+entity_type: paragraph
+bundle: order_option
+label: XXL
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

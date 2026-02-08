@@ -1,0 +1,29 @@
+uuid: 273a0e4b-dc1b-43d8-be56-c78346d005e8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_available_colors
+    - node.type.product
+    - taxonomy.vocabulary.t_shirt_colors
+id: node.product.field_available_colors
+field_name: field_available_colors
+entity_type: node
+bundle: product
+label: 'Available colors'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:filter_existing_terms'
+  handler_settings:
+    target_bundles:
+      t_shirt_colors: t_shirt_colors
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

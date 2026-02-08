@@ -1,0 +1,30 @@
+uuid: 4111a96a-3f19-44ba-89a9-8b8dfca94faf
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.t_shirt_colors.field_color_hex
+    - taxonomy.vocabulary.t_shirt_colors
+  module:
+    - text
+id: taxonomy_term.t_shirt_colors.default
+targetEntityType: taxonomy_term
+bundle: t_shirt_colors
+mode: default
+content:
+  description:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_color_hex:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden: {  }

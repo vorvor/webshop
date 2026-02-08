@@ -11,8 +11,9 @@
           $select.select2('destroy');
         }
 
-        console.log($select);
         const colors = drupalSettings.colorSelect2;
+        const availableColors = drupalSettings.availableColors;
+
         $select.select2({
           width: '100%',
           placeholder: "Select color",
@@ -22,6 +23,18 @@
         });
 
         function formatColorOption(data) {
+          const idStr = String(data.id);
+          const idNum = Number(data.id);
+
+          const isAvailable = Array.isArray(availableColors)
+            ? (availableColors.includes(idStr) || availableColors.includes(idNum))
+            : Object.prototype.hasOwnProperty.call(availableColors ?? {}, idStr);
+
+
+          if (!isAvailable && data.id !== '') {
+            return null;
+          }
+
           const dot = `<span class="color-dot" style="background:${colors[data.id]}"></span>`;
           return `<span class="color-option">${dot}${data.text}</span>`;
         }
