@@ -1,0 +1,10 @@
+color_select2:
+  css:
+    theme:
+      src/css/color-select2.css: {}
+  js:
+    src/js/color-select2.js: {}
+
+  dependencies:
+    - core/jquery
+    - core/drupalSettings

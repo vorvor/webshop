@@ -1,0 +1,17 @@
+{
+    "_hash": "9735f0fe733dd3364ecdd1a76e1eebe49501d4e5bf82e6985b8e3a8d862f9072",
+    "patches": {
+        "drupal/select2": [
+            {
+                "package": "drupal/select2",
+                "description": "jQuery 4 compatibility",
+                "url": "https://www.drupal.org/files/issues/2025-02-26/3509122-jquery4-compatibility-1.patch",
+                "sha256": "2f1787a4c599f8711d24f35a0c18a97dc863c4529336f3c202f6f00a0ee4861a",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ]
+    }
+}

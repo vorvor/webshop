@@ -1,0 +1,44 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ * Example: article node form + field_colors taxonomy term reference.
+ */
+function w_select_with_image_form_node_order_form_alter(array &$form, FormStateInterface $form_state) {
+  $el =& $form['field_order_options']['widget'][0]['subform']['field_color']['widget']; // adjust field machine name
+
+  // Handle common widget structures (select / options widgets vary).
+  // If it's a simple select:
+
+
+    // Turn it into select2 if your module provides #type = select2:
+    // If not, keep #type = select and Select2 can attach by class.
+    $el['#attributes']['class'][] = 'js-color-select2';
+
+    // Add data-color to each option by term ID.
+    $hexCodes = [];
+    if (!empty($el['#options']) && is_array($el['#options'])) {
+      $tids = array_filter(array_keys($el['#options']), 'is_numeric');
+      if ($tids) {
+        /** @var \Drupal\taxonomy\TermStorageInterface $storage */
+        $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+        $terms = $storage->loadMultiple($tids);
+
+        foreach ($terms as $tid => $term) {
+          $hex = $term->get('field_color_hex')->value ?? '';
+          if ($hex) {
+            // Drupal supports option attributes like this:
+            $el['#option_attributes'][$tid]['data-color'] = $hex;
+            $hexCodes[$tid] = $hex;
+          }
+        }
+      }
+    }
+
+    // Attach our JS/CSS that configures Select2 templates.
+    $form['#attached']['library'][] = 'w_select_with_image/color_select2';
+    $form['#attached']['drupalSettings']['colorSelect2'] = $hexCodes;
+
+}

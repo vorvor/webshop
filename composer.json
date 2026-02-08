@@ -12,19 +12,30 @@
         {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
+        },
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
         }
     ],
     "require": {
         "composer/installers": "^2.3",
+        "cweagans/composer-patches": "~2.0",
         "drupal/admin_toolbar": "^3.6",
         "drupal/commerce": "^3.2",
         "drupal/core-composer-scaffold": "^11.3",
         "drupal/core-project-message": "^11.3",
         "drupal/core-recipe-unpack": "^11.3",
         "drupal/core-recommended": "^11.3",
+        "drupal/form_options_attributes": "^2.1",
         "drupal/inline_entity_form": "^3.0@RC",
         "drupal/kart": "^1.0",
-        "drush/drush": "^13.7"
+        "drupal/paragraphs": "^1.20",
+        "drupal/select2": "^2.0",
+        "drupal/taxonomy_manager": "^2.0",
+        "drush/drush": "^13.7",
+        "npm-asset/select2": "^4.0",
+        "oomphinc/composer-installers-extender": "^2.0"
     },
     "conflict": {
         "drupal/drupal": "*"
@@ -34,17 +45,24 @@
     "config": {
         "allow-plugins": {
             "composer/installers": true,
-            "drupal/core-composer-scaffold": true,
-            "drupal/core-recipe-unpack": true,
-            "drupal/core-project-message": true,
-            "phpstan/extension-installer": true,
+            "cweagans/composer-patches": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
+            "drupal/core-composer-scaffold": true,
+            "drupal/core-project-message": true,
+            "drupal/core-recipe-unpack": true,
+            "oomphinc/composer-installers-extender": true,
             "php-http/discovery": true,
-            "php-tuf/composer-integration": true
+            "php-tuf/composer-integration": true,
+            "phpstan/extension-installer": true
         },
         "sort-packages": true
     },
     "extra": {
+        "patches": {
+            "drupal/select2": {
+                "jQuery 4 compatibility": "https://www.drupal.org/files/issues/2025-02-26/3509122-jquery4-compatibility-1.patch"
+            }
+        },
         "drupal-scaffold": {
             "locations": {
                 "web-root": "web/"
@@ -55,7 +73,9 @@
                 "type:drupal-core"
             ],
             "web/libraries/{$name}": [
-                "type:drupal-library"
+                "type:drupal-library",
+                "type:bower-asset",
+                "type:npm-asset"
             ],
             "web/modules/contrib/{$name}": [
                 "type:drupal-module"
@@ -82,6 +102,7 @@
                 "type:drupal-recipe"
             ]
         },
+        "installer-types": ["bower-asset", "npm-asset"],
         "drupal-core-project-message": {
             "include-keys": [
                 "homepage",
