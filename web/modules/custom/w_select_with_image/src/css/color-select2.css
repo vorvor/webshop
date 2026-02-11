@@ -9,9 +9,31 @@
   border-radius: 999px;
   border: 1px solid rgba(0,0,0,.25);
   display: inline-block;
+  cursor: pointer;
 }
 
 .select2-container .select2-selection--single {
   height: 36px;
   padding-top: 3px;
+}
+
+.view-available-colors {
+  #shirt-image {
+
+  }
+  .view-content {
+    display: flex;
+    gap: 12px;
+  }
+}
+
+/* product page */
+.product-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .product-top-item {
+    width: 50%;
+  }
 }

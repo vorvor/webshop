@@ -4,6 +4,7 @@ color_select2:
       src/css/color-select2.css: {}
   js:
     src/js/color-select2.js: {}
+    src/js/color-to-photo.js: {}
 
   dependencies:
     - core/jquery

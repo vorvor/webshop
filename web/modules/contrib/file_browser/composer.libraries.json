@@ -1,0 +1,71 @@
+{
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "desandro/imagesloaded",
+        "version": "4.1.4",
+        "type": "drupal-library",
+        "dist": {
+          "url": "https://github.com/desandro/imagesloaded/archive/refs/tags/v4.1.4.zip",
+          "type": "zip"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "desandro/masonry",
+        "version": "4.2.2",
+        "type": "drupal-library",
+        "dist": {
+          "url": "https://github.com/desandro/masonry/archive/refs/tags/v4.2.2.zip",
+          "type": "zip"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "dropzone/dropzone",
+        "version": "5.7.3",
+        "type": "drupal-library",
+        "dist": {
+          "url": "https://github.com/dropzone/dropzone-packagist/archive/refs/tags/v5.7.3.zip",
+          "type": "zip"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "jashkenas/backbone",
+        "version": "1.6.1",
+        "type": "drupal-library",
+        "dist": {
+          "url": "https://github.com/jashkenas/backbone/archive/refs/tags/1.6.1.zip",
+          "type": "zip"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "jashkenas/underscore",
+        "version": "1.13.7",
+        "type": "drupal-library",
+        "dist": {
+          "url": "https://github.com/jashkenas/underscore/archive/refs/tags/1.13.7.zip",
+          "type": "zip"
+        }
+      }
+    }
+  ],
+  "require": {
+    "desandro/imagesloaded": "^4",
+    "desandro/masonry": "^4",
+    "dropzone/dropzone": "^5",
+    "jashkenas/backbone": "^1",
+    "jashkenas/underscore": "^1"
+  }
+}

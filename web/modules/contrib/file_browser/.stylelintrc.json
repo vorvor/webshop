@@ -1,0 +1,22 @@
+{
+    "plugins": [
+        "stylelint-order",
+        "stylelint-use-logical"
+    ],
+    "extends": [
+        "stylelint-config-standard"
+    ],
+    "rules": {
+        "color-function-notation": "modern",
+        "csstools/use-logical": true,
+        "declaration-no-important": null,
+        "order/order": [
+            "custom-properties",
+            "declarations"
+        ],
+        "order/properties-alphabetical-order": true,
+        "property-no-vendor-prefix": null,
+        "selector-class-pattern": null,
+        "selector-id-pattern": null
+    }
+}

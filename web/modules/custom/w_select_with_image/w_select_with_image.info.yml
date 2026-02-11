@@ -1,5 +1,5 @@
 name: 'W Select with image'
 type: module
 description: 'Make radios look like a select list with images.'
-package: Custom
+package: Webshop
 core_version_requirement: ^10 || ^11

@@ -1,0 +1,11 @@
+name: File Browser Example
+description: 'Provides an example Content Type and Custom Block Type for File Browser.'
+type: module
+core_version_requirement: ^10 || ^11
+dependencies:
+  - file_browser:file_browser
+
+# Information added by Drupal.org packaging script on 2025-10-16
+version: '2.0.7'
+project: 'file_browser'
+datestamp: 1760593014

@@ -1,0 +1,10 @@
+#editor-front {
+  background: url('../images/shirt-front.jpg');
+}
+
+#editor-side {
+  background: url('../images/shirt-side.jpg');
+}
+#editor-back {
+  background: url('../images/shirt-back.jpg');
+}

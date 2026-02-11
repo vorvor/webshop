@@ -1,0 +1,5 @@
+name: 'W Image editor'
+type: module
+description: 'Image transform widget for uploaded images.'
+package: Webshop
+core_version_requirement: ^10 || ^11

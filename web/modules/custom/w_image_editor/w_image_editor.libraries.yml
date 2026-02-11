@@ -1,0 +1,11 @@
+global:
+  css:
+    theme:
+      src/css/image-editor.css: {}
+  js:
+    https://cdn.jsdelivr.net/npm/fabric@latest/dist/index.min.js: {type: external, minified: true}
+    src/js/image-editor.js: {}
+
+  dependencies:
+    - core/jquery
+    - core/drupalSettings

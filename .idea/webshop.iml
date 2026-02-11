@@ -37,6 +37,35 @@
       <sourceFolder url="file://$MODULE_DIR$/web/core/tests/PHPStan/../Drupal/Tests" isTestSource="false" packagePrefix="Drupal\Tests\" />
       <sourceFolder url="file://$MODULE_DIR$/web/core/tests/PHPStan/Rules" isTestSource="false" packagePrefix="Drupal\PHPStan\Rules\" />
       <sourceFolder url="file://$MODULE_DIR$/web/core/tests/PHPStan/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/recipes/administrator_role/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/recipes/article_comment/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/recipes/article_content_type/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/recipes/article_tags/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/recipes/audio_media_type/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/recipes/basic_block_type/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/recipes/basic_html_format_editor/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/recipes/basic_shortcuts/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/recipes/comment_base/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/recipes/content_editor_role/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/recipes/content_search/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/recipes/core_recommended_admin_theme/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/recipes/core_recommended_front_end_theme/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/recipes/core_recommended_maintenance/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/recipes/core_recommended_performance/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/recipes/document_media_type/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/recipes/editorial_workflow/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/recipes/full_html_format_editor/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/recipes/image_media_type/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/recipes/local_video_media_type/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/recipes/page_content_type/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/recipes/remote_video_media_type/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/recipes/restricted_html_format/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/recipes/standard/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/recipes/standard_responsive_images/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/recipes/tags_taxonomy/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/recipes/user_picture/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/web/core/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/asm89/stack-cors" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/chi-teck/drupal-code-generator" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/commerceguys/addressing" />
@@ -126,6 +155,9 @@
       <excludeFolder url="file://$MODULE_DIR$/web/core/modules/package_manager/tests/fixtures/fake_site/vendor/drupal/core" />
       <excludeFolder url="file://$MODULE_DIR$/web/core/modules/package_manager/tests/fixtures/fake_site/vendor/drupal/core-dev" />
       <excludeFolder url="file://$MODULE_DIR$/web/core/modules/package_manager/tests/fixtures/fake_site/vendor/drupal/core-recommended" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/cweagans/composer-configurable-plugin" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/cweagans/composer-patches" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/oomphinc/composer-installers-extender" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

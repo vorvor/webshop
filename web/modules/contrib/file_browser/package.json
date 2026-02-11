@@ -1,0 +1,20 @@
+{
+    "name": "file_browser",
+    "version": "2.x",
+    "author": "",
+    "type": "module",
+    "description": "",
+    "keywords": [],
+    "license": "",
+    "scripts": {
+        "lint:css": "stylelint 'css/*.css'",
+        "lint:css:fix": "stylelint 'css/*.css' --fix"
+    },
+    "devDependencies": {
+        "stylelint": "^16.0.0",
+        "stylelint-config-standard": "^39.0.0",
+        "stylelint-order": "^6.0.0",
+        "stylelint-prettier": "^5.0.0",
+        "stylelint-use-logical": "^2.0.0"
+    }
+}

@@ -1,0 +1,33 @@
+/**
+ * @file file_browser.preview.css
+ */
+
+.file-browser-preview-dialog {
+  block-size: 100% !important;
+  inline-size: 100% !important;
+  inset: 0 auto auto 0 !important;
+  max-inline-size: none !important;
+  position: absolute;
+}
+
+.file-browser-preview-dialog #drupal-modal {
+  background: #2d2d2d;
+  block-size: 100% !important;
+  inline-size: 100% !important;
+  margin-block-start: -20px;
+  max-block-size: none !important;
+  padding-block-start: 0;
+}
+
+#file-browser-preview-wrapper {
+  max-inline-size: 90%;
+}
+
+.file-browser-preview-dialog.ui-dialog .ui-dialog-titlebar {
+  background-color: #2d2d2d;
+  border-radius: 0;
+}
+
+.file-browser-preview-dialog.ui-dialog .ui-dialog-title {
+  color: transparent;
+}

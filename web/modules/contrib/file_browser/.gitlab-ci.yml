@@ -1,0 +1,87 @@
+################
+# DrupalCI GitLabCI template
+#
+# Gitlab-ci.yml to replicate DrupalCI testing for Contrib
+#
+# With thanks to:
+#   * The GitLab Acceleration Initiative participants
+#   * DrupalSpoons
+################
+
+################
+# Guidelines
+#
+# This template is designed to give any Contrib maintainer everything they need to test, without requiring modification. It is also designed to keep up to date with Core Development automatically through the use of include files that can be centrally maintained.
+#
+# However, you can modify this template if you have additional needs for your project.
+################
+
+################
+# Includes
+#
+# Additional configuration can be provided through includes.
+# One advantage of include files is that if they are updated upstream, the changes affect all pipelines using that include.
+#
+# Includes can be overridden by re-declaring anything provided in an include, here in gitlab-ci.yml
+# https://docs.gitlab.com/ee/ci/yaml/includes.html#override-included-configuration-values
+################
+
+include:
+  ################
+  # DrupalCI includes:
+  # As long as you include this, any future includes added by the Drupal Association will be accessible to your pipelines automatically.
+  # View these include files at https://git.drupalcode.org/project/gitlab_templates/
+  ################
+  - project: $_GITLAB_TEMPLATES_REPO
+    ref: $_GITLAB_TEMPLATES_REF
+    file:
+      - '/includes/include.drupalci.main.yml'
+      - '/includes/include.drupalci.variables.yml'
+      - '/includes/include.drupalci.workflows.yml'
+
+# Require tests to pass.
+cspell:
+  allow_failure: false
+eslint:
+  allow_failure: false
+phpcs:
+  allow_failure: false
+phpstan:
+  allow_failure: false
+stylelint:
+  allow_failure: false
+  stage: validate
+  image: node:latest
+  before_script:
+    - npm install
+  script:
+    - npm run lint:css
+
+################
+# Pipeline configuration variables
+#
+# These are the variables provided to the Run Pipeline form that a user may want to override.
+#
+# Docs at https://git.drupalcode.org/project/gitlab_templates/-/blob/1.0.x/includes/include.drupalci.variables.yml
+################
+variables:
+  # Convenient, and we have no secrets.
+  _SHOW_ENVIRONMENT_VARIABLES: 1
+  DROPZONE_VERSION: v6.0.0-beta.2
+  MINK_DRIVER_ARGS: '["chrome", null, {"chromeOptions":{"args":["--window-size=1920,1080"]}}]'
+
+.composer-base:
+  after_script:
+    - mkdir $_WEB_ROOT/libraries
+    - cd $_WEB_ROOT/libraries
+    - curl -L https://github.com/dropzone/dropzone/releases/download/$DROPZONE_VERSION/dist.zip -o dropzone.zip --silent
+    - unzip dropzone.zip
+    - mv dist dropzone
+    - mkdir imagesloaded
+    - curl -L https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js -o imagesloaded/imagesloaded.pkgd.min.js
+    - mkdir -p masonry/dist
+    - curl -L https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js -o masonry/dist/masonry.pkgd.min.js
+    - mkdir backbone
+    - curl -L https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.4.0/backbone-min.js -o backbone/backbone-min.js
+    - mkdir underscore
+    - curl -L https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.7/underscore-min.js -o underscore/underscore-min.js
