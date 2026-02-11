@@ -66,7 +66,7 @@
    'fieldset__description',
   ]
 %}
-AAAA
+
 <fieldset{{ attributes.addClass(classes) }}>
   {# Always wrap fieldset legends in a <span> for CSS positioning. #}
   {% if legend.title %}
@@ -87,10 +87,19 @@ AAAA
       <span class="fieldset__prefix">{{ prefix }}</span>
     {% endif %}
     {{ children }}
-        <div class="after-image-area" data-paragraph-image="1" data-type="back">
-          <div id="hud-back">Waiting…</div>
-          <input id="rotation-back" type="text" value="0">
-          <canvas id="editor-back" width="300" height="300"></canvas>
+        <div class="after-image-area" data-paragraph-image="1" data-type="front">
+          {# <div id="hud-front">Waiting…</div> #}
+          <div class="editor-fields-front">
+            {#
+            <input id="rotation-front" type="text" value="0" placeholder="Rotation">
+            <input id="top-front" type="text" value="0" placeholder="Top">
+            <input id="left-front" type="text" value="0" placeholder="Left">
+            <input id="scale-front" type="text" value="0" placeholder="Scale">
+            #}
+          </div>
+          <div id="editor-canvas-front">
+            <canvas id="editor-front" width="300" height="300"></canvas>
+          </div>
         </div>
     {% if suffix %}
       <span class="fieldset__suffix">{{ suffix }}</span>

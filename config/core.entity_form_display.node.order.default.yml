@@ -9,8 +9,76 @@ dependencies:
     - field.field.node.order.field_order_options
     - node.type.order
   module:
+    - field_group
     - paragraphs
     - paragraphs_features
+third_party_settings:
+  field_group:
+    group_image_placement:
+      children:
+        - group_front
+        - group_back
+        - group_side
+      label: 'Image placement'
+      region: content
+      parent_name: ''
+      weight: 2
+      format_type: tabs
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        direction: horizontal
+        width_breakpoint: 640
+    group_front:
+      children:
+        - field_image_placement_front
+      label: Front
+      region: content
+      parent_name: group_image_placement
+      weight: 6
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_back:
+      children:
+        - field_image_placement_back
+      label: Back
+      region: content
+      parent_name: group_image_placement
+      weight: 7
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_side:
+      children:
+        - field_image_placement_side
+      label: Side
+      region: content
+      parent_name: group_image_placement
+      weight: 8
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        formatter: closed
+        description: ''
+        required_fields: true
 id: node.order.default
 targetEntityType: node
 bundle: order
@@ -18,7 +86,7 @@ mode: default
 content:
   field_image_placement_back:
     type: paragraphs
-    weight: 4
+    weight: 5
     region: content
     settings:
       title: Paragraph
@@ -36,7 +104,7 @@ content:
     third_party_settings: {  }
   field_image_placement_front:
     type: paragraphs
-    weight: 3
+    weight: 4
     region: content
     settings:
       title: Paragraph
@@ -54,7 +122,7 @@ content:
     third_party_settings: {  }
   field_image_placement_side:
     type: paragraphs
-    weight: 5
+    weight: 9
     region: content
     settings:
       title: Paragraph

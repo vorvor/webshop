@@ -19,8 +19,6 @@
             lockUniScaling: true
           });
 
-          const hudEl = document.getElementById(`hud-${type}`);
-
           // We’ll store the "start" state of the active object when user begins an action
           let startState = null;
 
@@ -39,11 +37,15 @@
             };
           }
 
+
+          // const hudEl = document.getElementById(`hud-${type}`);
           function updateHUD(obj) {
+            /*
             if (!obj) {
               hudEl.textContent = 'No active object';
               return;
             }
+            */
 
             // Ensure Fabric has updated coords (useful during interactions)
             obj.setCoords();
@@ -63,20 +65,28 @@
               dScaleY = scaleY - startState.scaleY;
             }
 
+            /*
             hudEl.textContent =
               `x (left):   ${fmt(left, 1)}
-y (top):    ${fmt(top, 1)}
-rotation:   ${fmt(angle, 1)}°
-scaleX:     ${fmt(scaleX, 3)}
-scaleY:     ${fmt(scaleY, 3)}
+                y (top):    ${fmt(top, 1)}
+                rotation:   ${fmt(angle, 1)}°
+                scaleX:     ${fmt(scaleX, 3)}
+                scaleY:     ${fmt(scaleY, 3)}
 
-Δx:         ${fmt(dx, 1)}
-Δy:         ${fmt(dy, 1)}
-Δrot:       ${fmt(dAngle, 1)}°
-ΔscaleX:    ${fmt(dScaleX, 3)}
-ΔscaleY:    ${fmt(dScaleY, 3)}`;
-  
+                Δx:         ${fmt(dx, 1)}
+                Δy:         ${fmt(dy, 1)}
+                Δrot:       ${fmt(dAngle, 1)}°
+                ΔscaleX:    ${fmt(dScaleX, 3)}
+                ΔscaleY:    ${fmt(dScaleY, 3)}`;
+
+             */
+
             document.getElementById(`rotation-${type}`).value = angle;
+            document.getElementById(`top-${type}`).value = top;
+            document.getElementById(`left-${type}`).value = left;
+            document.getElementById(`scale-${type}`).value = scaleX;
+
+            $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-rotation-0-value"]`).val(angle);
 
           }
 

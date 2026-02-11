@@ -79,5 +79,12 @@ function w_image_editor_preprocess_field(array &$variables): void {
  * Implements hook_theme_suggestions_HOOK_alter()
  */
 function w_image_editor_theme_suggestions_fieldset_alter(array &$suggestions, array $variables) {
-  $suggestions[] = 'fieldset__' . $variables['element']['#parents'][0];
+  $name = 'fieldset__' . $variables['element']['#parents'][0];
+  $bundle = '';
+  if (isset($variables['element']['#target_bundles'])) {
+    $bundle = reset($variables['element']['#target_bundles']);
+    $name .= '_' . $bundle;
+  }
+
+  $suggestions[] = $name;
 }

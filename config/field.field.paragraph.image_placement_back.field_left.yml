@@ -1,0 +1,23 @@
+uuid: 7909e6bf-17c5-4992-8b71-9a5d6d5fa373
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_left
+    - paragraphs.paragraphs_type.image_placement_back
+id: paragraph.image_placement_back.field_left
+field_name: field_left
+entity_type: paragraph
+bundle: image_placement_back
+label: Left
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: decimal

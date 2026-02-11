@@ -1,3 +1,49 @@
+.node-order-form {
+  .paragraph-top {
+    display: none;
+  }
+
+  table#field-image-placement-front-values,
+  table#field-image-placement-back-values,
+  table#field-image-placement-side-values {
+    thead {
+      display: none;
+    }
+  }
+
+  .paragraphs-subform {
+    display: flex;
+
+    fieldset {
+      width: 50%;
+    }
+
+    .field--name-field-image {
+      width: 50%;
+
+      fieldset {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.after-image-area {
+  display: flex;
+  justify-content: space-between;
+
+  input {
+    display: block;
+    margin-bottom: 6px;
+  }
+}
+
+article[data-drupal-selector="edit-field-image-placement-front-0-subform-field-image-selection-0-rendered-entity"],
+article[data-drupal-selector="edit-field-image-placement-back-0-subform-field-image-selection-0-rendered-entity"],
+article[data-drupal-selector="edit-field-image-placement-side-0-subform-field-image-selection-0-rendered-entity"] {
+  display: none;
+}
+
 #editor-front {
   background: url('../images/shirt-front.jpg');
 }
@@ -8,3 +54,4 @@
 #editor-back {
   background: url('../images/shirt-back.jpg');
 }
+

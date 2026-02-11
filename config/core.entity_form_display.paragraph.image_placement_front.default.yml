@@ -10,7 +10,28 @@ dependencies:
     - field.field.paragraph.image_placement_front.field_top
     - paragraphs.paragraphs_type.image_placement_front
   module:
+    - field_group
     - media_library
+third_party_settings:
+  field_group:
+    group_image_editor_fields:
+      children:
+        - field_rotation
+        - field_top
+        - field_left
+        - field_scale
+      label: 'Image editor fields'
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
 id: paragraph.image_placement_front.default
 targetEntityType: paragraph
 bundle: image_placement_front
@@ -18,35 +39,35 @@ mode: default
 content:
   field_image:
     type: media_library_widget
-    weight: 4
+    weight: 5
     region: content
     settings:
       media_types: {  }
     third_party_settings: {  }
   field_left:
     type: number
-    weight: 2
+    weight: 3
     region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
   field_rotation:
     type: number
-    weight: 0
+    weight: 1
     region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
   field_scale:
     type: number
-    weight: 3
+    weight: 4
     region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
   field_top:
     type: number
-    weight: 1
+    weight: 2
     region: content
     settings:
       placeholder: ''

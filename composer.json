@@ -29,6 +29,7 @@
         "drupal/core-recipe-unpack": "^11.3",
         "drupal/core-recommended": "^11.3",
         "drupal/entity_browser": "^2.15",
+        "drupal/field_group": "^4.0",
         "drupal/file_browser": "^2.0",
         "drupal/form_options_attributes": "^2.1",
         "drupal/formblock": "^2.0@beta",
