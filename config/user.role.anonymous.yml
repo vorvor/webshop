@@ -8,6 +8,7 @@ dependencies:
   module:
     - comment
     - filter
+    - media
     - node
     - search
     - system
@@ -23,3 +24,4 @@ permissions:
   - 'create order content'
   - 'search content'
   - 'use text format restricted_html'
+  - 'view media'

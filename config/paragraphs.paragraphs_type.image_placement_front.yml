@@ -1,0 +1,10 @@
+uuid: ef6f4323-162c-4577-b296-8763de18f193
+langcode: en
+status: true
+dependencies: {  }
+id: image_placement_front
+label: 'Image placement front'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

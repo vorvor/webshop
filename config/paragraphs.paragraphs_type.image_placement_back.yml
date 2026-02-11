@@ -1,0 +1,10 @@
+uuid: fbe217ce-a129-4513-bdb2-853433ad9b54
+langcode: en
+status: true
+dependencies: {  }
+id: image_placement_back
+label: 'Image placement back'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

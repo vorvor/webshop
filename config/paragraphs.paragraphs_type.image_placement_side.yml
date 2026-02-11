@@ -1,0 +1,10 @@
+uuid: 9486648f-60e3-409e-a296-c353d0068f98
+langcode: en
+status: true
+dependencies: {  }
+id: image_placement_side
+label: 'Image placement side'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

@@ -3,6 +3,9 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.order.field_image_placement_back
+    - field.field.node.order.field_image_placement_front
+    - field.field.node.order.field_image_placement_side
     - field.field.node.order.field_order_options
     - node.type.order
   module:
@@ -13,6 +16,33 @@ targetEntityType: node
 bundle: order
 mode: default
 content:
+  field_image_placement_back:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_image_placement_front:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_image_placement_side:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 104
+    region: content
   field_order_options:
     type: entity_reference_revisions_entity_view
     label: above

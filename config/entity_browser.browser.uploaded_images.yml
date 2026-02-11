@@ -1,0 +1,41 @@
+uuid: adb2fa90-b3f9-49a1-a135-fc721f7441fa
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.uploaded_images
+  module:
+    - views
+name: uploaded_images
+label: 'Uploaded images'
+display: modal
+display_configuration:
+  width: '650'
+  height: '500'
+  link_text: 'Select entities'
+  auto_open: false
+selection_display: no_display
+selection_display_configuration: {  }
+widget_selector: tabs
+widget_selector_configuration: {  }
+widgets:
+  06981b6c-92b6-4f51-a010-6581953e7405:
+    id: upload
+    uuid: 06981b6c-92b6-4f51-a010-6581953e7405
+    label: upload
+    weight: 1
+    settings:
+      submit_text: 'Select files'
+      upload_location: 'public://'
+      multiple: true
+      extensions: 'jpg jpeg gif png txt doc xls pdf ppt pps odt ods odp'
+  59f93f9b-0de2-45e6-8089-3040c06b276e:
+    id: view
+    uuid: 59f93f9b-0de2-45e6-8089-3040c06b276e
+    label: view
+    weight: 2
+    settings:
+      submit_text: 'Select entities'
+      auto_select: false
+      view: uploaded_images
+      view_display: entity_browser_1

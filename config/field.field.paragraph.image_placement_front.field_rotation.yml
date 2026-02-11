@@ -1,0 +1,23 @@
+uuid: 9e34443f-b72c-4bd3-931f-b14fd8fa7c4d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_rotation
+    - paragraphs.paragraphs_type.image_placement_front
+id: paragraph.image_placement_front.field_rotation
+field_name: field_rotation
+entity_type: paragraph
+bundle: image_placement_front
+label: Rotation
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: decimal

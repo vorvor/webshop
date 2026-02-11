@@ -1,0 +1,70 @@
+uuid: 449ee9e4-0fe4-47f5-9c09-850f261dba60
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.image_placement_front.field_image
+    - field.field.paragraph.image_placement_front.field_left
+    - field.field.paragraph.image_placement_front.field_rotation
+    - field.field.paragraph.image_placement_front.field_scale
+    - field.field.paragraph.image_placement_front.field_top
+    - paragraphs.paragraphs_type.image_placement_front
+id: paragraph.image_placement_front.default
+targetEntityType: paragraph
+bundle: image_placement_front
+mode: default
+content:
+  field_image:
+    type: entity_reference_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_left:
+    type: number_decimal
+    label: above
+    settings:
+      thousand_separator: ''
+      decimal_separator: .
+      scale: 2
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_rotation:
+    type: number_decimal
+    label: above
+    settings:
+      thousand_separator: ''
+      decimal_separator: .
+      scale: 2
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_scale:
+    type: number_decimal
+    label: above
+    settings:
+      thousand_separator: ''
+      decimal_separator: .
+      scale: 2
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_top:
+    type: number_decimal
+    label: above
+    settings:
+      thousand_separator: ''
+      decimal_separator: .
+      scale: 2
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 3
+    region: content
+hidden: {  }
