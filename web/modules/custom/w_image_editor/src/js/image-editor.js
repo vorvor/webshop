@@ -79,14 +79,17 @@
                 ΔscaleX:    ${fmt(dScaleX, 3)}
                 ΔscaleY:    ${fmt(dScaleY, 3)}`;
 
-             */
+
 
             document.getElementById(`rotation-${type}`).value = angle;
             document.getElementById(`top-${type}`).value = top;
             document.getElementById(`left-${type}`).value = left;
             document.getElementById(`scale-${type}`).value = scaleX;
-
+*/
             $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-rotation-0-value"]`).val(angle);
+            $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-top-0-value"]`).val(top);
+            $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-left-0-value"]`).val(left);
+            $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-scale-0-value"]`).val(scaleX);
 
           }
 
@@ -135,14 +138,16 @@
             const fabImg = new fabric.Image(htmlImg, {
               left: 100,
               top: 100,
+              scaleX: 116 / htmlImg.naturalWidth,
+              scaleY: 116 / htmlImg.naturalHeight,
               cornerStyle: 'circle',
-              cornerStrokeColor: 'blue',
-              cornerColor: 'lightblue',
-              padding: 10,
+              cornerStrokeColor: 'orange',
+              cornerColor: 'red',
+              padding: 0,
               transparentCorners: false,
               cornerDashArray: [2, 2],
               borderColor: 'orange',
-              borderDashArray: [3, 1, 3],
+              borderDashArray: [3, 1, 3, 1],
               borderScaleFactor: 2,
             });
 
@@ -157,6 +162,29 @@
             canvas.add(fabImg);
             canvas.setActiveObject(fabImg);
             canvas.requestRenderAll();
+
+            var maxScaleX = 116 / htmlImg.naturalWidth;
+            var maxScaleY = 116 / htmlImg.naturalHeight;
+
+
+
+            canvas.on('object:scaling', function(e) {
+              let obj = e.target;
+              console.log('scaling' + obj.scaleX + ':' + maxScaleX);
+              if(obj.scaleX > maxScaleX) {
+                obj.scaleX = maxScaleX;
+                obj.left = obj.lastGoodLeft;
+                obj.top = obj.lastGoodTop;
+                console.log('stop');
+              }
+              if(obj.scaleY > maxScaleY) {
+                obj.scaleY = maxScaleY;
+                obj.left = obj.lastGoodLeft;
+                obj.top = obj.lastGoodTop;
+              }
+              obj.lastGoodTop = obj.top;
+              obj.lastGoodLeft = obj.left;
+            })
 
             // Initialize HUD immediately
             captureStartState(fabImg);

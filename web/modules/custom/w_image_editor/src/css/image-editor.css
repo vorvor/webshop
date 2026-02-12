@@ -23,6 +23,10 @@
 
       fieldset {
         width: 100%;
+
+        .fieldset__prefix {
+          display: none;
+        }
       }
     }
   }
@@ -36,6 +40,11 @@
     display: block;
     margin-bottom: 6px;
   }
+
+  canvas {
+    width: 425px;
+    border: 1px solid #ccc;
+  }
 }
 
 article[data-drupal-selector="edit-field-image-placement-front-0-subform-field-image-selection-0-rendered-entity"],
@@ -45,13 +54,13 @@ article[data-drupal-selector="edit-field-image-placement-side-0-subform-field-im
 }
 
 #editor-front {
-  background: url('../images/shirt-front.jpg');
+  background: url('../images/shirt-front.jpg') 50% 50% no-repeat;
 }
 
 #editor-side {
-  background: url('../images/shirt-side.jpg');
+  background: url('../images/shirt-side.jpg') 50% 50% no-repeat;
 }
 #editor-back {
-  background: url('../images/shirt-back.jpg');
+  background: url('../images/shirt-back.jpg') 50% 50% no-repeat;
 }
 
