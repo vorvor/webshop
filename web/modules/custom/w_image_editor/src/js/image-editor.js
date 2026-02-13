@@ -86,10 +86,10 @@
             document.getElementById(`left-${type}`).value = left;
             document.getElementById(`scale-${type}`).value = scaleX;
 */
-            $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-rotation-0-value"]`).val(angle);
-            $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-top-0-value"]`).val(top);
-            $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-left-0-value"]`).val(left);
-            $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-scale-0-value"]`).val(scaleX);
+            $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-rotation-0-value"]`).val(Math.round(angle));
+            $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-top-0-value"]`).val(Math.round(top));
+            $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-left-0-value"]`).val(Math.round(left));
+            $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-scale-0-value"]`).val(parseFloat(scaleX).toFixed(2));
 
           }
 
@@ -134,12 +134,15 @@
 
           htmlImg.onload = () => {
             console.log('✅ Foreground loaded:', htmlImg.naturalWidth, htmlImg.naturalHeight);
+            let ratio = htmlImg.naturalWidth / htmlImg.naturalHeight;
+            let xScale = 116 / htmlImg.naturalWidth;
+
 
             const fabImg = new fabric.Image(htmlImg, {
               left: 100,
               top: 100,
-              scaleX: 116 / htmlImg.naturalWidth,
-              scaleY: 116 / htmlImg.naturalHeight,
+              scaleX: xScale,
+              scaleY: xScale,
               cornerStyle: 'circle',
               cornerStrokeColor: 'orange',
               cornerColor: 'red',
@@ -177,8 +180,8 @@
                 obj.top = obj.lastGoodTop;
                 console.log('stop');
               }
-              if(obj.scaleY > maxScaleY) {
-                obj.scaleY = maxScaleY;
+              if(obj.scaleY > maxScaleX) {
+                obj.scaleY = maxScaleX;
                 obj.left = obj.lastGoodLeft;
                 obj.top = obj.lastGoodTop;
               }

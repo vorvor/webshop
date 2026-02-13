@@ -47,3 +47,39 @@ div[data-drupal-selector="tabledrag-toggle-weight-wrapper"] {
     width: 9%;
   }
 }
+
+.field--name-field-image-placement-front .field--name-field-media-image .field__item {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  background: url('/modules/custom/w_image_editor/src/images/shirt-front.jpg') no-repeat;
+
+  img {
+    position: absolute;
+    transform-origin: 0 0;
+  }
+}
+
+.field--name-field-image-placement-back .field--name-field-media-image .field__item {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  background: url('/modules/custom/w_image_editor/src/images/shirt-back.jpg') no-repeat;
+
+  img {
+    position: absolute;
+    transform-origin: 0 0;
+  }
+}
+
+.field--name-field-image-placement-side .field--name-field-media-image .field__item {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  background: url('/modules/custom/w_image_editor/src/images/shirt-side.jpg') no-repeat;
+
+  img {
+    position: absolute;
+    transform-origin: 0 0;
+  }
+}

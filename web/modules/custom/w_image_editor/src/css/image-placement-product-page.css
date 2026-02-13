@@ -1,0 +1,10 @@
+.node {
+  position: relative;
+}
+
+.node .field--name-field-image-placement-front img {
+  left: var(--field-image-front-left);
+  top: var(--field-image-front-top);
+  scale: var(--field-image-front-scale);
+  transform: rotate(var(--field-image-front-rotation));
+}

@@ -3,6 +3,9 @@
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\HtmlCommand;
+use Drupal\file\Entity\File;
+use Drupal\image\Entity\ImageStyle;
+use Drupal\node\NodeInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\file\Element\ManagedFile;
 
@@ -87,4 +90,74 @@ function w_image_editor_theme_suggestions_fieldset_alter(array &$suggestions, ar
   }
 
   $suggestions[] = $name;
+}
+
+/**
+ * Implements hook_preprocess_node().
+ */
+function w_image_editor_preprocess_node(array &$variables): void {
+  $node = $variables['node'] ?? NULL;
+  if (!$node instanceof NodeInterface || $node->bundle() !== 'order') {
+    return;
+  }
+
+  // Only on the full node page.
+  if (($variables['view_mode'] ?? '') !== 'full') {
+    return;
+  }
+
+  $sides = ['front', 'back', 'side'];
+
+  $scale = $node->get('field_image_placement_front')->entity->get('field_scale')->getValue()[0]['value'];
+  $left = $node->get('field_image_placement_front')->entity->get('field_left')->getValue()[0]['value'];
+  $top = $node->get('field_image_placement_front')->entity->get('field_top')->getValue()[0]['value'];
+  $rotation = $node->get('field_image_placement_front')->entity->get('field_rotation')->getValue()[0]['value'];
+  $image = $node->get('field_image_placement_front')
+    ->entity->get('field_image')
+    ->entity->get('field_media_image')->getValue()[0];
+  $width = $image['width'];
+  $height = $image['height'];
+
+  $file = File::load($image['target_id']);
+  $dimensions = w_image_editor_get_styled_dimensions('media_library', $file);
+
+  // Image positioning in fabric is by center of the image.
+  $top = $top - ($dimensions['height'] * $scale / 2);
+  $left = $left - ($dimensions['width'] * $scale / 2);
+
+  $variables['#attached']['library'][] = 'w_image_editor/image-placement-product-page';
+  $variables['#attributes'] = $variables['#attributes'] ?? [];
+  $existing = $variables['#attributes']['style'] ?? '';
+  $style = trim($existing . ' ' . "--field-image-front-scale: {$scale};");
+  $style .= " --field-image-front-left: {$left}px; --field-image-front-top: {$top}px; --field-image-front-rotation: {$rotation};";
+  $variables['attributes']['style'] = $style;
+
+
+}
+
+function w_image_editor_get_styled_dimensions(string $style_name, File $file): ?array {
+  $style = ImageStyle::load($style_name);
+  if (!$style) {
+    return NULL;
+  }
+
+  $uri = $file->getFileUri();
+
+  // Read original dimensions.
+  /** @var \Drupal\Core\Image\ImageFactory $image_factory */
+  $image_factory = \Drupal::service('image.factory');
+  $image = $image_factory->get($uri);
+  if (!$image->isValid()) {
+    return NULL;
+  }
+
+  $dimensions = [
+    'width' => $image->getWidth(),
+    'height' => $image->getHeight(),
+  ];
+
+  // Simulate the image style effects (incl. "upscale" behavior).
+  $style->transformDimensions($dimensions, $uri);
+
+  return $dimensions; // ['width' => ..., 'height' => ...]
 }

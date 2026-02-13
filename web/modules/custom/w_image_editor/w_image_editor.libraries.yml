@@ -9,3 +9,9 @@ global:
   dependencies:
     - core/jquery
     - core/drupalSettings
+
+image-placement-product-page:
+  version: 1.x
+  css:
+    theme:
+      src/css/image-placement-product-page.css: {}
