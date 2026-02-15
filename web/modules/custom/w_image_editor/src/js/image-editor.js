@@ -1,16 +1,28 @@
 (function (Drupal, $) {
   Drupal.behaviors.imageEditor = {
     attach(context) {
+      once('imageEditorPopup', '#open-popup', context).forEach((e) => {
+        // popup opener
+        $(e).click(function() {
+          if ($(this).hasClass('active')) {
+            $(this).removeClass('active').html('Place image on shirt');
+            $('.horizontal-tabs').hide();
+          } else {
+            $(this).addClass('active').html('Close image place');
+            $('.horizontal-tabs').show();
+          }
+        })
+
+      })
       once('imageEditor', '.after-image-area', context).forEach((element) => {
 
+
         let type = $(element).data('type');
-
         console.log(`editor ${type} loaded`);
-
         let src = $(`#field_image-media-library-wrapper-field_image_placement_${type}-0-subform .field--name-thumbnail img`).attr('src');
         if (src !== undefined) {
 
-
+          console.log(src);
 
           const canvas = new fabric.Canvas(`editor-${type}`, {
             centeredScaling: false,
@@ -86,6 +98,8 @@
             document.getElementById(`left-${type}`).value = left;
             document.getElementById(`scale-${type}`).value = scaleX;
 */
+
+            console.log('updated.');
             $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-rotation-0-value"]`).val(Math.round(angle));
             $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-top-0-value"]`).val(Math.round(top));
             $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-left-0-value"]`).val(Math.round(left));
@@ -112,8 +126,8 @@
           canvas.on('object:rotating', (e) => updateHUD(e.target));
 
           // Also update when selection changes
-          canvas.on('selection:created', updateFromActive);
-          canvas.on('selection:updated', updateFromActive);
+          //canvas.on('selection:created', updateFromActive);
+          //canvas.on('selection:updated', updateFromActive);
           canvas.on('selection:cleared', () => updateHUD(null));
 
           // Optional: when user releases mouse, reset startState (so Δ values are per-gesture)
@@ -127,22 +141,29 @@
           // 2) FOREGROUND (your existing functionality)
           // ----------------------------
           const url = src;
-          console.log('Loading FOREGROUND:', url);
+          console.log('Loading ' + type, url);
 
           const htmlImg = new Image();
           htmlImg.crossOrigin = 'anonymous';
 
           htmlImg.onload = () => {
-            console.log('✅ Foreground loaded:', htmlImg.naturalWidth, htmlImg.naturalHeight);
+            console.log(`✅ ${type}:`, htmlImg.naturalWidth, htmlImg.naturalHeight);
             let ratio = htmlImg.naturalWidth / htmlImg.naturalHeight;
             let xScale = 116 / htmlImg.naturalWidth;
 
+            let angle = $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-rotation-0-value"]`).val();
+            let topC = $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-top-0-value"]`).val();
+            let leftC = $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-left-0-value"]`).val();
+            let scale = $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-scale-0-value"]`).val();
+
+            console.log(`Xscale: ${xScale}`);
+            console.log(angle, topC, Math.round(leftC), scale);
 
             const fabImg = new fabric.Image(htmlImg, {
-              left: 100,
-              top: 100,
-              scaleX: xScale,
-              scaleY: xScale,
+              left: !leftC ? 100 : Math.round(leftC),
+              top: !topC ? 100 : Math.round(topC),
+              scaleX: !scale ? xScale : scale,
+              scaleY: !scale ? xScale : scale,
               cornerStyle: 'circle',
               cornerStrokeColor: 'orange',
               cornerColor: 'red',
@@ -163,13 +184,12 @@
             });
 
             canvas.add(fabImg);
+            console.log('image added to canvas');
             canvas.setActiveObject(fabImg);
             canvas.requestRenderAll();
 
             var maxScaleX = 116 / htmlImg.naturalWidth;
             var maxScaleY = 116 / htmlImg.naturalHeight;
-
-
 
             canvas.on('object:scaling', function(e) {
               let obj = e.target;
@@ -191,7 +211,7 @@
 
             // Initialize HUD immediately
             captureStartState(fabImg);
-            updateHUD(fabImg);
+            //updateHUD(fabImg);
             startState = null; // so Δ starts at 0 until first gesture
           };
 
@@ -201,10 +221,6 @@
           };
 
           htmlImg.src = url;
-
-
-
-
         }
       });
     }

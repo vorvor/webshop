@@ -3,23 +3,16 @@
     display: none;
   }
 
-  table#field-image-placement-front-values,
-  table#field-image-placement-back-values,
-  table#field-image-placement-side-values {
-    thead {
-      display: none;
-    }
-  }
-
   .paragraphs-subform {
     display: flex;
+    position: relative;
 
     fieldset {
       width: 50%;
     }
 
     .field--name-field-image {
-      width: 50%;
+      width: 100%;
 
       fieldset {
         width: 100%;
@@ -28,6 +21,58 @@
           display: none;
         }
       }
+    }
+
+    .fieldset__suffix {
+      position: absolute;
+      top:38px;
+    }
+  }
+
+  article[data-drupal-selector="edit-field-image-placement-front-0-subform-field-image-selection-0-rendered-entity"],
+  article[data-drupal-selector="edit-field-image-placement-back-0-subform-field-image-selection-0-rendered-entity"],
+  article[data-drupal-selector="edit-field-image-placement-side-0-subform-field-image-selection-0-rendered-entity"] {
+    display: none;
+  }
+
+  #edit-field-image-placement-front-widget-0-subform-group-image-editor-fields,
+  #edit-field-image-placement-back-widget-0-subform-group-image-editor-fields,
+  #edit-field-image-placement-side-widget-0-subform-group-image-editor-fields {
+    display: none;
+  }
+
+  .horizontal-tabs {
+    display: none;
+    .form-item {
+      margin: 0;
+    }
+
+    .details-wrapper {
+      margin: 0;
+      padding: 0;
+    }
+
+    table#field-image-placement-front-values,
+    table#field-image-placement-back-values,
+    table#field-image-placement-side-values {
+      padding: 0;
+      margin: 0;
+
+      thead {
+        display: none;
+      }
+    }
+
+    .field-group-tab {
+      margin: 0;
+    }
+
+    .field-multiple-drag.paragraph-bullet {
+      display: none;
+    }
+
+    .olivero-details__wrapper .details-wrapper {
+      margin: 0;
     }
   }
 }
@@ -47,11 +92,7 @@
   }
 }
 
-article[data-drupal-selector="edit-field-image-placement-front-0-subform-field-image-selection-0-rendered-entity"],
-article[data-drupal-selector="edit-field-image-placement-back-0-subform-field-image-selection-0-rendered-entity"],
-article[data-drupal-selector="edit-field-image-placement-side-0-subform-field-image-selection-0-rendered-entity"] {
-  display: none;
-}
+
 
 #editor-front {
   background: url('../images/shirt-front.jpg') 50% 50% no-repeat;
@@ -64,3 +105,69 @@ article[data-drupal-selector="edit-field-image-placement-side-0-subform-field-im
   background: url('../images/shirt-back.jpg') 50% 50% no-repeat;
 }
 
+/* popup */
+
+#bg-for-popup {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  background: rgba(255, 0, 0, 0.5);
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+
+
+/*
+.horizontal-tabs {
+  display: none;
+  position: fixed;
+  z-index: 2001;
+  top: 10%;
+  left: 10%;
+  width: 80%;
+  height: 80%;
+  background: white;
+  box-shadow: 0 0 22px #aaa;
+
+  .form-item {
+    margin: 0;
+  }
+
+  .details-wrapper {
+    margin: 0;
+    padding: 0;
+  }
+
+  table#field-image-placement-front-values,
+  table#field-image-placement-back-values,
+  table#field-image-placement-side-values {
+    padding: 0;
+    margin: 0;
+
+    thead {
+      display: none;
+    }
+  }
+
+  .field-group-tab {
+    margin: 0;
+  }
+
+  .field-multiple-drag.paragraph-bullet {
+    display: none;
+  }
+
+  .olivero-details__wrapper .details-wrapper {
+    margin: 0;
+  }
+}
+
+.ui-dialog {
+  z-index: 5000 !important;
+}
+
+ */

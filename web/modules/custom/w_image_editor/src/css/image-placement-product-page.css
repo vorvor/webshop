@@ -8,3 +8,17 @@
   scale: var(--field-image-front-scale);
   transform: rotate(var(--field-image-front-rotation));
 }
+
+.node .field--name-field-image-placement-back img {
+  left: var(--field-image-back-left);
+  top: var(--field-image-back-top);
+  scale: var(--field-image-back-scale);
+  transform: rotate(var(--field-image-back-rotation));
+}
+
+.node .field--name-field-image-placement-side img {
+  left: var(--field-image-side-left);
+  top: var(--field-image-side-top);
+  scale: var(--field-image-side-scale);
+  transform: rotate(var(--field-image-side-rotation));
+}

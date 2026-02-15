@@ -1,0 +1,16 @@
+<div class="order-option-color">
+  <div class="color-dot" data-hex-code="{{ color.colorCode }}" style="background: {{ color.colorCode }};"></div>
+  <div class="color-name" data-hex-code="{{ color.colorCode }}">{{ color.value }}</div>
+</div>
+
+<div class="order-amounts-by-sizes">
+  {% for name, field in order_fields %}
+    <div class="order-field order-field--{{ name }}">
+      <strong>{{ field.label }}</strong>
+      {% if field.has_value %}
+        {{ field.value }}
+      {% endif %}
+    </div>
+  {% endfor %}
+</div>
+

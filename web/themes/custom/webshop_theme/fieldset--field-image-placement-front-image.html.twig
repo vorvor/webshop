@@ -86,6 +86,11 @@
     {% if prefix %}
       <span class="fieldset__prefix">{{ prefix }}</span>
     {% endif %}
+        {% if suffix %}
+          <span class="fieldset__suffix">
+            {{ suffix }}
+          </span>
+        {% endif %}
     {{ children }}
         <div class="after-image-area" data-paragraph-image="1" data-type="front">
           {# <div id="hud-front">Waiting…</div> #}
@@ -101,17 +106,16 @@
             <canvas id="editor-front" width="300" height="300"></canvas>
           </div>
         </div>
-    {% if suffix %}
-      <span class="fieldset__suffix">{{ suffix }}</span>
-    {% endif %}
     {% if errors %}
       <div class="fieldset__error-message">
         {{ errors }}
       </div>
     {% endif %}
+        {#
     {% if description_display in ['after', 'invisible'] and description.content %}
       <div{{ description.attributes.addClass(description_classes) }}>{{ description.content }}</div>
     {% endif %}
+        #}
 
     {% if inline_items %}
       </div>

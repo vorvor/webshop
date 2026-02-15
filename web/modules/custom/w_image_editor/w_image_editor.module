@@ -1,11 +1,16 @@
 <?php
 
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\HtmlCommand;
+use Drupal\field\FieldConfigInterface;
 use Drupal\file\Entity\File;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\node\NodeInterface;
+use Drupal\paragraphs\ParagraphInterface;
+use Drupal\taxonomy\Entity\Term;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\file\Element\ManagedFile;
 
@@ -13,9 +18,42 @@ use Drupal\file\Element\ManagedFile;
  * Implements hook_form_alter().
  */
 function w_image_editor_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
-
+  if ($form_id == 'node_order_form' || $form_id == 'node_order_edit_form') {
     $form['#attached']['library'][] = 'w_image_editor/global';
+  }
 
+  if ($form_id == 'node_order_edit_form') {
+    $sides = ['front', 'back', 'side'];
+    foreach ($sides as $side) {
+      $form["field_image_placement_$side"]['widget'][0]['subform']['image_editor'] = [
+        '#type' => 'container',
+        '#attributes' => [
+          'class' => ['after-image-area'],
+          'data-paragraph-image' => '1',
+          'data-type' => $side,
+        ],
+        '#weight' => 1,
+
+        'title' => [
+          '#markup' => 'IMAGE EDITOR',
+        ],
+
+        'canvas_wrap' => [
+          '#type' => 'container',
+          '#attributes' => ['id' => "editor-canvas-$side"],
+          'canvas' => [
+            '#type' => 'html_tag',
+            '#tag' => 'canvas',
+            '#attributes' => [
+              'id' => "editor-$side",
+              'width' => 300,
+              'height' => 300,
+            ],
+          ],
+        ],
+      ];
+    }
+  }
 }
 
 /**
@@ -106,31 +144,37 @@ function w_image_editor_preprocess_node(array &$variables): void {
     return;
   }
 
-  $sides = ['front', 'back', 'side'];
-
-  $scale = $node->get('field_image_placement_front')->entity->get('field_scale')->getValue()[0]['value'];
-  $left = $node->get('field_image_placement_front')->entity->get('field_left')->getValue()[0]['value'];
-  $top = $node->get('field_image_placement_front')->entity->get('field_top')->getValue()[0]['value'];
-  $rotation = $node->get('field_image_placement_front')->entity->get('field_rotation')->getValue()[0]['value'];
-  $image = $node->get('field_image_placement_front')
-    ->entity->get('field_image')
-    ->entity->get('field_media_image')->getValue()[0];
-  $width = $image['width'];
-  $height = $image['height'];
-
-  $file = File::load($image['target_id']);
-  $dimensions = w_image_editor_get_styled_dimensions('media_library', $file);
-
-  // Image positioning in fabric is by center of the image.
-  $top = $top - ($dimensions['height'] * $scale / 2);
-  $left = $left - ($dimensions['width'] * $scale / 2);
-
   $variables['#attached']['library'][] = 'w_image_editor/image-placement-product-page';
-  $variables['#attributes'] = $variables['#attributes'] ?? [];
-  $existing = $variables['#attributes']['style'] ?? '';
-  $style = trim($existing . ' ' . "--field-image-front-scale: {$scale};");
-  $style .= " --field-image-front-left: {$left}px; --field-image-front-top: {$top}px; --field-image-front-rotation: {$rotation};";
-  $variables['attributes']['style'] = $style;
+  $sides = ['front', 'back', 'side'];
+  $style = '';
+  foreach ($sides as $side) {
+    $scale = $node->get("field_image_placement_$side")->entity->get('field_scale')->getValue()[0]['value'];
+    $left = $node->get("field_image_placement_$side")->entity->get('field_left')->getValue()[0]['value'];
+    $top = $node->get("field_image_placement_$side")->entity->get('field_top')->getValue()[0]['value'];
+    $rotation = $node->get("field_image_placement_$side")->entity->get('field_rotation')->getValue()[0]['value'];
+
+    $imagePalcement = $node->get("field_image_placement_$side")
+      ->entity;
+    $image = $imagePalcement->get('field_image')
+      ->entity;
+
+    if (!is_null($image)) {
+      $image = $image->get('field_media_image')->getValue()[0];
+
+      $file = File::load($image['target_id']);
+      $dimensions = w_image_editor_get_styled_dimensions('media_library', $file);
+
+      // Image positioning in fabric is by center of the image.
+      $top = $top - ($dimensions['height'] * $scale / 2);
+      $left = $left - ($dimensions['width'] * $scale / 2);
+
+      $variables['#attributes'] = $variables['#attributes'] ?? [];
+      $existing = $variables['#attributes']['style'] ?? '';
+      $style .= trim($existing . ' ' . "--field-image-$side-scale: {$scale};");
+      $style .= " --field-image-$side-left: {$left}px; --field-image-$side-top: {$top}px; --field-image-$side-rotation: {$rotation};";
+      $variables['attributes']['style'] = $style;
+    }
+  }
 
 
 }
@@ -160,4 +204,80 @@ function w_image_editor_get_styled_dimensions(string $style_name, File $file): ?
   $style->transformDimensions($dimensions, $uri);
 
   return $dimensions; // ['width' => ..., 'height' => ...]
+}
+
+/**
+ * Implements hook_preprocess_paragraph().
+ */
+function w_image_editor_preprocess_paragraph(array &$variables): void {
+  $paragraph = $variables['paragraph'] ?? NULL;
+  if (!$paragraph instanceof ParagraphInterface) {
+    return;
+  }
+  if ($paragraph->bundle() !== 'order_option') {
+    return;
+  }
+
+  $bundle = 'order_option';
+  $view_mode = $variables['view_mode'] ?? 'default';
+
+  $display = EntityViewDisplay::load("paragraph.$bundle.$view_mode");
+  $components = $display ? $display->getComponents() : [];
+
+  $definitions = \Drupal::service('entity_field.manager')
+    ->getFieldDefinitions('paragraph', $bundle);
+
+  $rows = [];
+
+  foreach ($definitions as $field_name => $definition) {
+    if (!$definition instanceof FieldConfigInterface) {
+      continue;
+    }
+
+    if (!isset($components[$field_name])) {
+      continue;
+    }
+
+    if ($field_name === 'field_color' && !is_null($paragraph->get($field_name)->entity)) {
+
+      $termId = \Drupal::entityQuery("taxonomy_term")
+        ->condition("vid", "t_shirt_colors")
+        ->condition("name", $paragraph->get($field_name)->entity->label())
+        ->accessCheck()
+        ->execute();
+
+      $colorTerm = Term::load(reset($termId));
+      $colorCode = $colorTerm->get('field_color_hex')->value ?? '';
+
+      $color = [
+        'name' => $field_name,
+        'colorCode' => $colorCode,
+        'weight' => (int)($components[$field_name]['weight'] ?? 0),
+        'label' => $definition->getLabel(),
+        'value' => $paragraph->get($field_name)->entity->label(),
+      ];
+    }
+
+    if (str_contains($field_name, 'amount')) {
+      $has_value = !$paragraph->get($field_name)->isEmpty();
+      $rows[] = [
+        'name' => $field_name,
+        'weight' => (int)($components[$field_name]['weight'] ?? 0),
+        'label' => $definition->getLabel(),
+        'has_value' => $has_value,
+        'value' => $has_value ? $paragraph->get($field_name)->view(['label' => 'hidden']) : NULL,
+      ];
+    }
+  }
+
+  usort($rows, fn($a, $b) => $a['weight'] <=> $b['weight']);
+
+  // Preserve order for Twig iteration.
+  $ordered = [];
+  foreach ($rows as $r) {
+    $ordered[$r['name']] = $r;
+  }
+
+  $variables['color'] = $color ?? NULL;
+  $variables['order_fields'] = $ordered;
 }

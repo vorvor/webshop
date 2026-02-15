@@ -46,4 +46,12 @@ function w_select_with_image_form_node_order_form_alter(array &$form, FormStateI
   $form['#attached']['library'][] = 'w_select_with_image/color_select2';
   $form['#attached']['drupalSettings']['colorSelect2'] = $hexCodes;
   $form['#attached']['drupalSettings']['availableColors'] = $availableColors;
+
+
+  $form['popup'] = [
+    '#type' => 'markup',
+    '#markup' => '<div id="open-popup" class="button button--small">Place image on shirt</div>',
+    '#weight' => 1,
+  ];
+
 }
