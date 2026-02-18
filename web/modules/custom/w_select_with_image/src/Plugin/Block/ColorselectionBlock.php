@@ -9,6 +9,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Path\CurrentPathStack;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Render\Markup;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -56,10 +57,50 @@ final class ColorselectionBlock extends BlockBase implements ContainerFactoryPlu
       $product = $this->entityTypeManager->getStorage('node')->load($nid);
       $masterCode = $product->get('field_master_code')->getValue()[0]['value'];
       $colors = \Drupal::service('w_solo_api.get_colors')->getColors($masterCode);
-      $content = implode(',', $colors);
+
+      $firstImage = '';
+      $content = '';
+      foreach ($colors as $color) {
+        $colorCode = strtolower($color['color-code']);
+        $term = \Drupal::entityTypeManager()
+          ->getStorage('taxonomy_term')
+          ->loadByProperties(['field_color_code' => $colorCode, 'vid' => 't_shirt_colors']);
+        $term = reset($term);
+
+        if ($term) {
+          $colorName = $term->label();
+          $hex = $term->get('field_color_hex')->value ?? '';
+
+          $content .= '<span class="color-dot" title="' . $colorName . '" class="color-dot" data-color-code="'
+            . $colorCode . '" data-color-hex="' . $hex . '" style="background:'
+            . $hex . '" data-image-front-url="' . $color['image-front'] . '" data-image-back-url="'
+            . $color['image-back'] . '" data-image-side-url="' . $color['image-side'] . '"></span>';
+
+          if (!$firstImageFront) {
+            $firstImageFront = $color['image-front'];
+            $firstImageBack = $color['image-back'];
+            $firstImageSide = $color['image-side'];
+
+          }
+        }
+      }
+      $content = '<div id="shirt-image-wrapper">
+                        <div id="thumbs-wrapper">
+                            <div id="front-thumb" class="thumb"><img id="shirt-image-front-thumb" src="' . $firstImageFront . '"></div>
+                            <div id="back-thumb" class="thumb"><img id="shirt-image-back-thumb" src="' . $firstImageBack . '"></div>
+                            <div id="side-thumb" class="thumb"><img id="shirt-image-side-thumb" src="' . $firstImageSide . '"></div>
+                        </div>
+                        <div id="original">
+                            <img id="shirt-image" src="' . $firstImageFront . '">
+                        </div>
+                        </div>
+                        <div id="color-selector">'
+      . $content;
+      $content .= '</div>';
     }
     $build['content'] = [
-      '#markup' => $content,
+      '#markup' => Markup::create($content),
+      '#allowed_tags' => ['style', 'div', 'span'],
     ];
     return $build;
   }

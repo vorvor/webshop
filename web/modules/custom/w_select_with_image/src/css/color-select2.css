@@ -13,6 +13,20 @@
   cursor: pointer;
 }
 
+#shirt-image-wrapper {
+  position: relative;
+  #thumbs-wrapper {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    .thumb {
+      cursor: pointer;
+      width: 100px;
+      margin-bottom: 12px;
+    }
+  }
+}
+
 .select2-container .select2-selection--single {
   height: 36px;
   padding-top: 3px;

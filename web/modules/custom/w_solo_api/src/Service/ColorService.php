@@ -26,9 +26,16 @@ class ColorService {
       $data = Json::decode(file_get_contents($realpath));
 
       $colors = [];
+      $colorCodes = [];
       foreach ($data['variants'] as $variant) {
-        if (!in_array($variant['color_code'], $colors)) {
-          $colors[] = $variant['color_code'];
+        if (!in_array($variant['color_code'], $colorCodes)) {
+          $colorCodes[] = $variant['color_code'];
+          $colors[] = [
+            'color-code' => $variant['color_code'],
+            'image-front' => $variant['digital_assets'][0]['url'],
+            'image-back' => $variant['digital_assets'][1]['url'],
+            'image-side' => $variant['digital_assets'][2]['url'],
+          ];
         }
       }
 

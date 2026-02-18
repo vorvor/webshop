@@ -1,27 +1,29 @@
 (function (Drupal, $) {
   Drupal.behaviors.colorPhoto = {
     attach(context) {
-      once('colorPhoto', '.view-available-colors', context).forEach((element) => {
-        const nodeTitle = $('h1.page-title, h1').first().text().trim();
-        const code = nodeTitle
-          .split('-')[0]
-          .trim()
-          .toLowerCase();
-        console.log(code);
+      once('colorPhoto', '.block-w-select-with-image-colorselection', context).forEach((element) => {
 
-        $('.view-available-colors .views-row').each(function () {
-          if ($('#shirt-image').attr('src') === '') {
-            $('#shirt-image').attr('src', `https://cdn1.midocean.com/image/700X700/${code}-` + $('.color-dot', this).data('color-code') + '.jpg');
-          }
-
-          $('.color-dot', this)
-            .attr('style', 'background:' + $('.color-dot', this).data('color-hex'))
-            .click(function () {
-              $('#shirt-image').attr('src', `https://cdn1.midocean.com/image/700X700/${code}-` + $(this).data('color-code') + '.jpg');
-              $('#shirt-image-alt').text( $('.color-dot', this).data('color-name') + ' shirt')
-            });
+        console.log('colorphoto loaded.');
+        $('.color-dot').each(function (e) {
+          $(this).click(function () {
+            $('#shirt-image').attr('src', $(this).data('image-front-url'));
+            $('#shirt-image-front-thumb').attr('src', $(this).data('image-front-url'));
+            $('#shirt-image-back-thumb').attr('src', $(this).data('image-back-url'));
+            $('#shirt-image-side-thumb').attr('src', $(this).data('image-side-url'));
+            $('#shirt-image-alt').text($(this).attr('title'));
+          });
         })
+
+        $('.thumb').each(function (e) {
+          console.log('thumb clicked.');
+
+          $(this).click(function () {
+            console.log($('img', this).attr('src'));
+
+            $('#shirt-image').attr('src', $('img', this).attr('src'));
+          })
+        });
       });
     }
-  };
+  }
 })(Drupal, jQuery, drupalSettings);
