@@ -41,6 +41,7 @@ function w_select_with_image_form_node_order_form_alter(array &$form, FormStateI
       $availableColors[$color['target_id']] = $color['target_id'];
     }
 
+    $form['field_product']['#default_value'] = $product->id();
   }
 
   $form['#attached']['library'][] = 'w_select_with_image/color_select2';
@@ -53,5 +54,50 @@ function w_select_with_image_form_node_order_form_alter(array &$form, FormStateI
     '#markup' => '<div id="open-popup" class="button button--small">Place image on shirt</div>',
     '#weight' => 1,
   ];
+}
+
+function w_select_with_image_form_node_order_edit_form_alter(array &$form, FormStateInterface $form_state) {
+  $el =& $form['field_order_options']['widget'][0]['subform']['field_color']['widget'];
+  $el['#attributes']['class'][] = 'js-color-select2';
+
+  $hexCodes = [];
+  if (!empty($el['#options']) && is_array($el['#options'])) {
+    $tids = array_filter(array_keys($el['#options']), 'is_numeric');
+    if ($tids) {
+      /** @var \Drupal\taxonomy\TermStorageInterface $storage */
+      $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+      $terms = $storage->loadMultiple($tids);
+
+      foreach ($terms as $tid => $term) {
+        $hex = $term->get('field_color_hex')->value ?? '';
+        if ($hex) {
+          $el['#option_attributes'][$tid]['data-color'] = $hex;
+          $hexCodes[$tid] = $hex;
+        }
+      }
+    }
+
+    // Order form on product page.
+    $route_match = \Drupal::routeMatch();
+    $nid = $route_match->getParameter('node');
+    if ($nid instanceof NodeInterface) {
+      $nid = $nid->id();
+    }
+    $nid = is_numeric($nid) ? (int) $nid : null;
+    $product = \Drupal::entityTypeManager()->getStorage('node')->load($nid);
+    $bundle = $product->bundle();
+
+    if ($bundle == 'product') {
+      $colors = $product->get('field_available_colors')->getValue();
+      $availableColors = [];
+      foreach ($colors as $color) {
+        $availableColors[$color['target_id']] = $color['target_id'];
+      }
+    }
+  }
+
+  $form['#attached']['library'][] = 'w_select_with_image/color_select2';
+  $form['#attached']['drupalSettings']['colorSelect2'] = $hexCodes;
+  $form['#attached']['drupalSettings']['availableColors'] = $availableColors;
 
 }

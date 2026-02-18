@@ -5,7 +5,7 @@
         .forEach((select) => {
           const $select = $(select);
 
-          console.log('loaded.');
+          console.log('Color select loaded.');
 
         if ($select.data('select2')) {
           $select.select2('destroy');

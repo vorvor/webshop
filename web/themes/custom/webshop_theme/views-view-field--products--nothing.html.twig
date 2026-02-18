@@ -1,0 +1,6 @@
+{% set raw = output|striptags|trim %}
+{% set code = raw|lower|split('-')[0] %}
+
+<a href="/node/{{ row._entity.id }}">
+<img width="200" src="https://cdn1.midocean.com/image/700X700/{{ code }}-{{ row._entity.field_available_colors.0.entity.field_color_code.value }}.jpg" alt="{{ raw }}">
+</a>

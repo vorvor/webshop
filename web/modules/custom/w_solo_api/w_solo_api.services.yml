@@ -1,0 +1,12 @@
+services:
+  logger.channel.w_solo_api:
+    parent: logger.channel_base
+    arguments: [ 'w_solo_api' ]
+
+  w_solo_api.midocean_client:
+    class: Drupal\w_solo_api\Service\MidoceanClient
+    arguments: ['@http_client', '@logger.channel.w_solo_api']
+
+  w_solo_api.get_colors:
+    class: Drupal\w_solo_api\Service\ColorService
+    arguments: ['@http_client', '@logger.channel.w_solo_api']

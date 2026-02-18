@@ -6,6 +6,26 @@ div[data-drupal-selector="tabledrag-toggle-weight-wrapper"] {
   display: none;
 }
 
+/* Product page */
+
+.view-products {
+
+  .view-content {
+    display: flex;
+
+    .views-field-title {
+      font-size: 2em;
+      font-weight: bold;
+
+      a {
+        text-decoration: none;
+        color: #000;
+      }
+
+    }
+  }
+}
+
 .field--name-field-order-options {
   table {
     background: none !important;

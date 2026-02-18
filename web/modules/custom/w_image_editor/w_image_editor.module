@@ -25,7 +25,7 @@ function w_image_editor_form_alter(array &$form, FormStateInterface $form_state,
   if ($form_id == 'node_order_edit_form') {
     $sides = ['front', 'back', 'side'];
     foreach ($sides as $side) {
-      $form["field_image_placement_$side"]['widget'][0]['subform']['image_editor'] = [
+      $form["field_image_placement_$side"]['widget'][0]['subform']['field_image']['widget']['image_editor'] = [
         '#type' => 'container',
         '#attributes' => [
           'class' => ['after-image-area'],
@@ -33,10 +33,6 @@ function w_image_editor_form_alter(array &$form, FormStateInterface $form_state,
           'data-type' => $side,
         ],
         '#weight' => 1,
-
-        'title' => [
-          '#markup' => 'IMAGE EDITOR',
-        ],
 
         'canvas_wrap' => [
           '#type' => 'container',

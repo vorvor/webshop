@@ -1,0 +1,15 @@
+w_solo_api.example:
+  path: '/w-solo-api/example'
+  defaults:
+    _title: 'Example'
+    _controller: '\Drupal\w_solo_api\Controller\WSoloApiController'
+  requirements:
+    _permission: 'access content'
+
+w_solo_api.cache:
+  path: '/w-solo-api/cache'
+  defaults:
+    _title: 'Cache'
+    _controller: '\Drupal\w_solo_api\Controller\WSoloApiController::readCache'
+  requirements:
+    _permission: 'access content'

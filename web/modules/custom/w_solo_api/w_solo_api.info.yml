@@ -1,0 +1,5 @@
+name: 'W Solo API'
+type: module
+description: 'Connection to Solo API.'
+package: Webshop
+core_version_requirement: ^10 || ^11
