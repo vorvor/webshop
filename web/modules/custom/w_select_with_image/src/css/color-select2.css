@@ -1,3 +1,11 @@
+#color-selector {
+  display: inline-flex;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  align-items: center;
+  gap: 8px;
+}
+
 .color-option {
   display: inline-flex;
   align-items: center;
@@ -45,7 +53,6 @@
 /* product page */
 .product-top {
   display: flex;
-  align-items: center;
   justify-content: space-between;
 
   .product-top-item {

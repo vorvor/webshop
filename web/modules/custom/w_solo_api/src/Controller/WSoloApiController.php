@@ -59,7 +59,9 @@ final class WSoloApiController extends ControllerBase {
       $data = $this->filterData($data, 'product_class', 'T-shirt');
       dpm($data);
 
-
+/*
+ * write t-shirt products data separately to files
+ * /
             $directory = 'public://t-shirt';
             $file_system->prepareDirectory(
               $directory,
@@ -75,6 +77,7 @@ final class WSoloApiController extends ControllerBase {
                 Json::encode($item)
               );
             }
+*/
     }
 
     // Get variants.

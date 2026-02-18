@@ -68,8 +68,8 @@ final class ColorselectionBlock extends BlockBase implements ContainerFactoryPlu
         $term = reset($term);
 
         if ($term) {
-          $colorName = $term->label();
-          $hex = $term->get('field_color_hex')->value ?? '';
+          $colorName = $color['term-label'];
+          $hex = $color['term-hex'];
 
           $content .= '<span class="color-dot" title="' . $colorName . '" class="color-dot" data-color-code="'
             . $colorCode . '" data-color-hex="' . $hex . '" style="background:'

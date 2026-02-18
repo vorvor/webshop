@@ -16,6 +16,7 @@ module:
   contextual: 0
   datetime: 0
   dblog: 0
+  devel: 0
   dynamic_page_cache: 0
   editor: 0
   embed: 0
@@ -66,6 +67,7 @@ module:
   views_ui: 0
   w_image_editor: 0
   w_select_with_image: 0
+  w_solo_api: 0
   hide_revision_field: 1
   views: 10
   paragraphs: 11

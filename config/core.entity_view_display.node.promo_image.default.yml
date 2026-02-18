@@ -1,0 +1,55 @@
+uuid: a73afdb1-57d6-45a1-b97b-5efb819fe194
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.promo_image.field_promo_image
+    - field.field.node.promo_image.field_promo_text
+    - field.field.node.promo_image.field_promo_url
+    - node.type.promo_image
+  module:
+    - image
+    - link
+    - user
+id: node.promo_image.default
+targetEntityType: node
+bundle: promo_image
+mode: default
+content:
+  field_promo_image:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_promo_text:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_promo_url:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

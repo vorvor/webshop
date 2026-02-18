@@ -16,9 +16,9 @@ third_party_settings:
   field_group:
     group_image_editor_fields:
       children:
-        - field_rotation
         - field_top
         - field_left
+        - field_rotation
         - field_scale
       label: 'Image editor fields'
       region: content
@@ -46,14 +46,14 @@ content:
     third_party_settings: {  }
   field_left:
     type: number
-    weight: 3
+    weight: 2
     region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
   field_rotation:
     type: number
-    weight: 1
+    weight: 3
     region: content
     settings:
       placeholder: ''
@@ -67,7 +67,7 @@ content:
     third_party_settings: {  }
   field_top:
     type: number
-    weight: 2
+    weight: 1
     region: content
     settings:
       placeholder: ''

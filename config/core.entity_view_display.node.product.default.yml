@@ -5,7 +5,9 @@ dependencies:
   config:
     - field.field.node.product.body
     - field.field.node.product.field_available_colors
+    - field.field.node.product.field_master_code
     - field.field.node.product.field_product_type
+    - field.field.node.product.field_sku
     - node.type.product
   module:
     - text
@@ -30,6 +32,14 @@ content:
     third_party_settings: {  }
     weight: 102
     region: content
+  field_master_code:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 104
+    region: content
   field_product_type:
     type: entity_reference_label
     label: hidden
@@ -37,6 +47,14 @@ content:
       link: true
     third_party_settings: {  }
     weight: 101
+    region: content
+  field_sku:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 103
     region: content
   links:
     settings: {  }

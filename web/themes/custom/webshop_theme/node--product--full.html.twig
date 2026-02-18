@@ -103,7 +103,8 @@
   </header>
   <div{{ content_attributes.addClass('node__content', layout) }}>
     {# Comments not part of content, so they won't inherit .text-content styles. #}
-    {{ content|without('comment') }}
+{#  {{ content|without('comment') }} #}
+    {{ drupal_block('w_select_with_image_productdetails') }}
   </div>
   {% if content.comment %}
     <div id="comments" class="{{ layout }}">

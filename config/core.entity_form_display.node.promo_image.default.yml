@@ -1,66 +1,52 @@
-uuid: bee6d078-d83d-45c1-9671-7dbf769723d5
+uuid: 5d5d5104-190f-4c35-9407-93dab56c3e37
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.product.body
-    - field.field.node.product.field_available_colors
-    - field.field.node.product.field_master_code
-    - field.field.node.product.field_product_type
-    - field.field.node.product.field_sku
-    - node.type.product
+    - field.field.node.promo_image.field_promo_image
+    - field.field.node.promo_image.field_promo_text
+    - field.field.node.promo_image.field_promo_url
+    - image.style.thumbnail
+    - node.type.promo_image
   module:
     - hide_revision_field
+    - image
+    - link
     - path
-    - text
-id: node.product.default
+id: node.promo_image.default
 targetEntityType: node
-bundle: product
+bundle: promo_image
 mode: default
 content:
-  body:
-    type: text_textarea_with_summary
-    weight: 2
-    region: content
-    settings:
-      rows: 9
-      summary_rows: 3
-      placeholder: ''
-      show_summary: false
-    third_party_settings: {  }
   created:
     type: datetime_timestamp
     weight: 10
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_available_colors:
-    type: options_buttons
-    weight: 122
+  field_promo_image:
+    type: image_image
+    weight: 121
     region: content
-    settings: {  }
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
     third_party_settings: {  }
-  field_master_code:
+  field_promo_text:
     type: string_textfield
-    weight: 124
+    weight: 122
     region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_product_type:
-    type: options_select
-    weight: 121
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  field_sku:
-    type: string_textfield
+  field_promo_url:
+    type: link_default
     weight: 123
     region: content
     settings:
-      size: 60
-      placeholder: ''
+      placeholder_url: ''
+      placeholder_title: ''
     third_party_settings: {  }
   path:
     type: path

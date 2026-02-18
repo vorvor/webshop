@@ -33,12 +33,16 @@ function w_select_with_image_form_node_order_form_alter(array &$form, FormStateI
     if ($nid instanceof NodeInterface) {
       $nid = $nid->id();
     }
+
     $nid = is_numeric($nid) ? (int) $nid : null;
     $product = \Drupal::entityTypeManager()->getStorage('node')->load($nid);
-    $colors = $product->get('field_available_colors')->getValue();
+    $masterCode = $product->get('field_master_code')->getValue()[0]['value'];
+
+    $colors = \Drupal::service('w_solo_api.get_colors')->getColors($masterCode);
+
     $availableColors = [];
     foreach ($colors as $color) {
-      $availableColors[$color['target_id']] = $color['target_id'];
+      $availableColors[$color['term-id']] = $color['term-id'];
     }
 
     $form['field_product']['#default_value'] = $product->id();
@@ -83,6 +87,7 @@ function w_select_with_image_form_node_order_edit_form_alter(array &$form, FormS
     if ($nid instanceof NodeInterface) {
       $nid = $nid->id();
     }
+
     $nid = is_numeric($nid) ? (int) $nid : null;
     $product = \Drupal::entityTypeManager()->getStorage('node')->load($nid);
     $bundle = $product->bundle();

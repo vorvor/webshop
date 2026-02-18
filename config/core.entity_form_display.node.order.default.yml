@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.order.field_image_placement_front
     - field.field.node.order.field_image_placement_side
     - field.field.node.order.field_order_options
+    - field.field.node.order.field_product
     - node.type.order
   module:
     - field_group
@@ -164,6 +165,16 @@ content:
         delete_confirmation: false
         show_drag_and_drop: false
         show_collapse_all: false
+  field_product:
+    type: entity_reference_autocomplete
+    weight: 10
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   title:
     type: string_textfield
     weight: 0

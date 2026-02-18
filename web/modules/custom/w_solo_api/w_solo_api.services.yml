@@ -10,3 +10,7 @@ services:
   w_solo_api.get_colors:
     class: Drupal\w_solo_api\Service\ColorService
     arguments: ['@http_client', '@logger.channel.w_solo_api']
+
+  w_solo_api.get_details:
+    class: Drupal\w_solo_api\Service\DetailsService
+    arguments: ['@http_client', '@logger.channel.w_solo_api']

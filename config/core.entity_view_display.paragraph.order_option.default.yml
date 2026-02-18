@@ -9,7 +9,6 @@ dependencies:
     - field.field.paragraph.order_option.field_color
     - field.field.paragraph.order_option.field_l_amount
     - field.field.paragraph.order_option.field_m_amount
-    - field.field.paragraph.order_option.field_product_id
     - field.field.paragraph.order_option.field_s_amount
     - field.field.paragraph.order_option.field_xl_amount
     - field.field.paragraph.order_option.field_xs_amount
@@ -73,15 +72,6 @@ content:
       prefix_suffix: true
     third_party_settings: {  }
     weight: 4
-    region: content
-  field_product_id:
-    type: number_integer
-    label: above
-    settings:
-      thousand_separator: ''
-      prefix_suffix: true
-    third_party_settings: {  }
-    weight: 11
     region: content
   field_s_amount:
     type: number_integer

@@ -12,6 +12,20 @@ div[data-drupal-selector="tabledrag-toggle-weight-wrapper"] {
 
   .view-content {
     display: flex;
+    flex-wrap: wrap;
+
+    .views-row {
+      width: 21%;
+      padding: 12px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+
+      a.details {
+        text-decoration: none;
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #333;
+      }
+    }
 
     .views-field-title {
       font-size: 2em;
@@ -161,4 +175,35 @@ div[data-drupal-selector="tabledrag-toggle-weight-wrapper"] {
   border: 1px solid rgba(0,0,0,.25);
   display: inline-block;
   cursor: pointer;
+}
+
+.product-details {
+  #detail-short {
+    font-weight: bold;
+  }
+}
+
+/* FRONT */
+
+.view-front-promo-1 {
+  .view-content {
+    display: flex;
+    justify-content: space-around;
+    padding: 36px;
+
+    .views-field-field-promo-text .field-content {
+      font-family: "Arial Black", Gadget, sans-serif;
+      font-size: 3em;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 5px 3px 5px #000000;
+      margin-top: -50px;
+      text-align: right;
+      margin-right: 16px;
+    }
+
+   .views-field-field-promo-image .field-content {
+      box-shadow: 0 0 15px rgba(0, 0, 0, 1);
+    }
+  }
 }

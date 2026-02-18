@@ -30,11 +30,20 @@ class ColorService {
       foreach ($data['variants'] as $variant) {
         if (!in_array($variant['color_code'], $colorCodes)) {
           $colorCodes[] = $variant['color_code'];
+
+          $term = \Drupal::entityTypeManager()
+            ->getStorage('taxonomy_term')
+            ->loadByProperties(['field_color_code' => $variant['color_code'], 'vid' => 't_shirt_colors']);
+          $term = reset($term);
+
           $colors[] = [
             'color-code' => $variant['color_code'],
             'image-front' => $variant['digital_assets'][0]['url'],
             'image-back' => $variant['digital_assets'][1]['url'],
             'image-side' => $variant['digital_assets'][2]['url'],
+            'term-label' => ($term) ? $term->label() : '',
+            'term-hex' => ($term) ? $term->get('field_color_hex')->value : '',
+            'term-id' => ($term) ? $term->id() : '',
           ];
         }
       }

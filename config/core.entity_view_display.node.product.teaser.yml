@@ -6,7 +6,9 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.product.body
     - field.field.node.product.field_available_colors
+    - field.field.node.product.field_master_code
     - field.field.node.product.field_product_type
+    - field.field.node.product.field_sku
     - node.type.product
   module:
     - text
@@ -31,4 +33,6 @@ content:
     region: content
 hidden:
   field_available_colors: true
+  field_master_code: true
   field_product_type: true
+  field_sku: true

@@ -1,0 +1,29 @@
+uuid: a421e380-a912-4551-bccb-dab517d430ad
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.front_promo_1
+  module:
+    - system
+    - views
+  theme:
+    - webshop_theme
+id: webshop_theme_views_block__front_promo_1_block_1
+theme: webshop_theme
+region: content
+weight: -7
+provider: null
+plugin: 'views_block:front_promo_1-block_1'
+settings:
+  id: 'views_block:front_promo_1-block_1'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: null
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'
