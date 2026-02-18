@@ -5,6 +5,7 @@ dependencies:
   config:
     - views.view.front_promo_2
   module:
+    - system
     - views
   theme:
     - webshop_theme
@@ -22,4 +23,8 @@ settings:
   context_mapping: {  }
   views_label: ''
   items_per_page: null
-visibility: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'
