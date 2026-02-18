@@ -1,3 +1,9 @@
+.site-header__initial, .site-branding {
+  background: none;
+}
+
+
+
 .layout--content-medium, .layout--pass--content-medium > * {
     grid-column: 1 / 13;
 }
@@ -203,6 +209,29 @@ div[data-drupal-selector="tabledrag-toggle-weight-wrapper"] {
     }
 
    .views-field-field-promo-image .field-content {
+      box-shadow: 0 0 15px rgba(0, 0, 0, 1);
+    }
+  }
+}
+
+.view-front-promo-2 {
+  .view-content {
+    display: flex;
+    justify-content: space-around;
+    padding: 36px;
+
+    .views-field-field-promo-text .field-content {
+      font-family: "Arial Black", Gadget, sans-serif;
+      font-size: 3em;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 5px 3px 5px #000000;
+      margin-top: -95px;
+      text-align: right;
+      margin-right: 16px;
+    }
+
+    .views-field-field-promo-image .field-content {
       box-shadow: 0 0 15px rgba(0, 0, 0, 1);
     }
   }
