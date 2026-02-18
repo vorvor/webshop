@@ -1,0 +1,4 @@
+name: Kart subtheme
+type: theme
+description: 'Custom subtheme based on Kart.'
+core_version_requirement: ^11
