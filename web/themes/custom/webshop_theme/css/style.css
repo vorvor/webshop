@@ -206,6 +206,11 @@ div[data-drupal-selector="tabledrag-toggle-weight-wrapper"] {
       margin-top: -50px;
       text-align: right;
       margin-right: 16px;
+
+      a {
+        text-decoration: none;
+        color: #fff;
+      }
     }
 
    .views-field-field-promo-image .field-content {
@@ -229,6 +234,11 @@ div[data-drupal-selector="tabledrag-toggle-weight-wrapper"] {
       margin-top: -95px;
       text-align: right;
       margin-right: 16px;
+
+      a {
+        text-decoration: none;
+        color: #fff;
+      }
     }
 
     .views-field-field-promo-image .field-content {
