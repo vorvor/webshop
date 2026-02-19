@@ -52,22 +52,15 @@ final class ColorselectionBlock extends BlockBase implements ContainerFactoryPlu
    */
   public function build(): array {
     $parts = explode('/', $this->currentPath->getPath());
+    $content = '';
     if ($parts[1] == 'node' && is_numeric($parts[2])) {
       $nid = $parts[2];
       $product = $this->entityTypeManager->getStorage('node')->load($nid);
       $masterCode = $product->get('field_master_code')->getValue()[0]['value'];
       $colors = \Drupal::service('w_solo_api.get_colors')->getColors($masterCode);
 
-      $firstImage = '';
-      $content = '';
       foreach ($colors as $color) {
         $colorCode = strtolower($color['color-code']);
-        $term = \Drupal::entityTypeManager()
-          ->getStorage('taxonomy_term')
-          ->loadByProperties(['field_color_code' => $colorCode, 'vid' => 't_shirt_colors']);
-        $term = reset($term);
-
-        if ($term) {
           $colorName = $color['term-label'];
           $hex = $color['term-hex'];
 
@@ -80,9 +73,7 @@ final class ColorselectionBlock extends BlockBase implements ContainerFactoryPlu
             $firstImageFront = $color['image-front'];
             $firstImageBack = $color['image-back'];
             $firstImageSide = $color['image-side'];
-
           }
-        }
       }
       $content = '<div id="shirt-image-wrapper">
                         <div id="thumbs-wrapper">
