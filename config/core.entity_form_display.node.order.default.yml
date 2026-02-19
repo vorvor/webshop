@@ -165,16 +165,6 @@ content:
         delete_confirmation: false
         show_drag_and_drop: false
         show_collapse_all: false
-  field_product:
-    type: entity_reference_autocomplete
-    weight: 10
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
   title:
     type: string_textfield
     weight: 0
@@ -185,6 +175,7 @@ content:
     third_party_settings: {  }
 hidden:
   created: true
+  field_product: true
   path: true
   promote: true
   revision_log: true
