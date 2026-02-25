@@ -7,6 +7,7 @@ namespace Drupal\w_solo_api\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\File\FileSystemInterface;
+use Drupal\taxonomy\Entity\Term;
 
 /**
  * Returns responses for W solo api routes.
@@ -19,7 +20,7 @@ final class WSoloApiController extends ControllerBase {
   public function __invoke(): array {
 
     $data = \Drupal::service('w_solo_api.midocean_client')->getProducts();
-  dpm($data);
+    //dpm($data);
     /** @var \Drupal\Core\File\FileSystemInterface $file_system */
     $file_system = \Drupal::service('file_system');
 
@@ -56,8 +57,8 @@ final class WSoloApiController extends ControllerBase {
     if ($realpath && file_exists($realpath)) {
       $data = Json::decode(file_get_contents($realpath));
 
-      $data = $this->filterData($data, 'product_class', 'T-shirt');
-      dpm($data);
+     // $data = $this->filterData($data, 'product_class', 'T-shirt');
+      //dpm($data);
 
 /*
  * write t-shirt products data separately to files
@@ -80,16 +81,82 @@ final class WSoloApiController extends ControllerBase {
 */
     }
 
-    // Get variants.
-    $colors = [];
-    foreach ($data['2289']['variants'] as $variant) {
-      if (!in_array($variant['color_code'], $colors)) {
-        $colors[] = $variant['color_code'];
+    $file_system = \Drupal::service('file_system');
+
+    $directory = 'public://';
+    $filepath = $directory . 'colorCodes.json';
+    $realpath = $file_system->realpath($filepath);
+
+    if ($realpath && file_exists($realpath)) {
+      $colorPM = Json::decode(file_get_contents($realpath));
+    }
+
+    $flatCPM = ['red' => '#FF0000', 'green' => '#00FF00', 'silver' => '#C0C0C0',
+      'yellow' => '#FFFF00', 'blue' => '#0000FF',
+      'white' => '#FFFFFF', 'black' => '#000000', 'cork color' => '#ffffff'];
+    foreach ($colorPM as $key => $item) {
+      $flatCPM[strtolower(preg_replace('/[^0-9]/', '', $item['name']))] = $item['hex'];
+    }
+
+//dpm($flatCPM);
+
+    $colorCodes = [];
+    $missing = [];
+    foreach ($data as $key => $item) {
+      //dpm($item['master_code'] . ':' . $key);
+      foreach ($item['variants'] as $variant) {
+        $hexV = '???';
+        if (isset($variant['color_group'])) {
+          $hexV = $flatCPM[strtolower(preg_replace('/[^0-9]/', '', $variant['color_group']))];
+        } elseif (isset($variant['pms_color'])) {
+          $hexV = $flatCPM[strtolower(preg_replace('/[^0-9]/', '', $variant['pms_color']))];
+        }
+
+        if (empty($hexV)) {
+          $hexV = $flatCPM[strtolower(preg_replace('/[^0-9]/', '', $variant['color_group']))];
+        }
+
+        if ($hexV == '???' || empty($hexV)) {
+          $missing[] = $variant['color_code'] . ':' . $variant['color_group'] . ':' . $variant['pms_color'];
+        }
+
+        $vals = $variant['color_code'] . ':' . $variant['color_group'] . ':' . $variant['pms_color'] . ':' . $hexV;
+        if (!in_array($vals, $colorCodes)) {
+          $colorCodes[] = $vals;
+        }
       }
     }
-    dpm($colors);
-    dpm($data['2289']['variants']);
 
+    dpm('A');
+    dpm($missing);
+    dpm('B');
+    //dpm($colorCodes);
+
+    shuffle($data);              // randomize order
+    $data = array_slice($data, 0, 50);
+
+    foreach ($data as $row) {
+      //dpm($row['variants']);
+    }
+
+// Write one product to file cache
+    /*
+    $directory = 'public://other';
+    $file_system->prepareDirectory(
+      $directory,
+      FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS
+    );
+
+
+      $item = $data['2131'];
+      $filepath = $directory . '/' . $item['master_code'] . '.json';
+
+      file_put_contents(
+        $file_system->realpath($filepath),
+        Json::encode($item)
+      );
+
+*/
     $build['content'] = [
       '#type' => 'item',
       '#markup' => $this->t('It works!'),
@@ -109,5 +176,94 @@ final class WSoloApiController extends ControllerBase {
     return $data;
   }
 
+  public function colorsToDb() {
+    $file_system = \Drupal::service('file_system');
 
+    $directory = 'public://midocean';
+    $filepath = $directory . '/products.json';
+    $realpath = $file_system->realpath($filepath);
+
+    $data = Json::decode(file_get_contents($realpath));
+
+    $directory = 'public://';
+    $filepath = $directory . 'colorCodes.json';
+    $realpath = $file_system->realpath($filepath);
+
+    if ($realpath && file_exists($realpath)) {
+      $colorPM = Json::decode(file_get_contents($realpath));
+    }
+
+    $flatCPM = ['red' => '#FF0000', 'green' => '#00FF00', 'silver' => '#C0C0C0',
+      'yellow' => '#FFFF00', 'blue' => '#0000FF',
+      'white' => '#FFFFFF', 'black' => '#000000', 'cork color' => '#ffffff'];
+    foreach ($colorPM as $key => $item) {
+      $flatCPM[strtolower(preg_replace('/[^0-9]/', '', $item['name']))] = $item['hex'];
+    }
+
+    $colorCodes = [];
+    $missing = [];
+
+    $tids = \Drupal::entityQuery('taxonomy_term')
+      ->condition('vid', 'colors')
+      ->accessCheck(FALSE)
+      ->execute();
+
+    if (!empty($tids)) {
+      $terms = Term::loadMultiple($tids);
+      foreach ($terms as $term) {
+        $term->delete();
+      }
+    }
+
+    foreach ($data as $key => $item) {
+      //dpm($item['master_code'] . ':' . $key);
+      foreach ($item['variants'] as $variant) {
+        $hexV = '???';
+        if (isset($variant['pms_color'])) {
+          $hexV = $flatCPM[strtolower(preg_replace('/[^0-9]/', '', $variant['pms_color']))];
+        } elseif (isset($variant['color_group'])) {
+          $hexV = $flatCPM[strtolower($variant['color_group'])];
+        }
+
+        if (empty($hexV)) {
+          $hexV = $flatCPM[strtolower(preg_replace('/[^0-9]/', '', $variant['color_group']))];
+        }
+
+        if ($hexV == '???' || empty($hexV)) {
+          $missing[] = $variant['color_code'] . ':' . $variant['color_group'] . ':' . $variant['pms_color'];
+        }
+
+        $vals = $variant['color_code'] . ':' . $variant['color_group'] . ':' . $variant['pms_color'] . ':' . $hexV;
+        if (!in_array($vals, $colorCodes)) {
+          $colorCodes[] = $vals;
+
+          $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+          $existing = $storage->loadByProperties([
+            'vid' => 'colors',
+            'name' => $variant['color_code'],
+          ]);
+
+          $term = $existing ? reset($existing) : FALSE;
+
+          if (!$term) {
+            Term::create([
+              'vid' => 'colors',
+              'name' => $variant['color_description'],
+              'field_color_group' => $variant['color_group'],
+              'field_color_pms' => $variant['pms_color'],
+              'field_color_hex' => $hexV,
+              'field_color_code' => $variant['color_code'],
+            ])->save();
+          }
+        }
+      }
+    }
+
+    $build['content'] = [
+      '#type' => 'item',
+      '#markup' => $this->t('It works!'),
+    ];
+
+    return $build;
+  }
 }

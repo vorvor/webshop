@@ -32,7 +32,7 @@
 
 
           if (!isAvailable && data.id !== '') {
-            return null;
+            //return null;
           }
 
           const dot = `<span class="color-dot" style="background:${colors[data.id]}"></span>`;

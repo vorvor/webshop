@@ -13,3 +13,11 @@ w_solo_api.cache:
     _controller: '\Drupal\w_solo_api\Controller\WSoloApiController::readCache'
   requirements:
     _permission: 'access content'
+
+w_solo_api.colors_to_db:
+  path: '/w-solo-api/colors-to-db'
+  defaults:
+    _title: 'Cache'
+    _controller: '\Drupal\w_solo_api\Controller\WSoloApiController::colorsToDb'
+  requirements:
+    _permission: 'access content'

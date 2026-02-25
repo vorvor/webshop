@@ -52,7 +52,7 @@ final class ColorselectionBlock extends BlockBase implements ContainerFactoryPlu
    */
   public function build(): array {
     $parts = explode('/', $this->currentPath->getPath());
-    $content = '';
+    $colorsContent = '';
     if ($parts[1] == 'node' && is_numeric($parts[2])) {
       $nid = $parts[2];
       $product = $this->entityTypeManager->getStorage('node')->load($nid);
@@ -64,29 +64,33 @@ final class ColorselectionBlock extends BlockBase implements ContainerFactoryPlu
           $colorName = $color['term-label'];
           $hex = $color['term-hex'];
 
-          $content .= '<span class="color-dot" title="' . $colorName . '" class="color-dot" data-color-code="'
-            . $colorCode . '" data-color-hex="' . $hex . '" style="background:'
-            . $hex . '" data-image-front-url="' . $color['image-front'] . '" data-image-back-url="'
-            . $color['image-back'] . '" data-image-side-url="' . $color['image-side'] . '"></span>';
-
-          if (!$firstImageFront) {
-            $firstImageFront = $color['image-front'];
-            $firstImageBack = $color['image-back'];
-            $firstImageSide = $color['image-side'];
+          $images = [];
+          foreach ($color['images'] as $key => $image) {
+            $images[] = 'data-image-' . $key . '-url="' . $image['url'] . '"';
           }
+
+        $colorsContent .= '<span class="color-dot" title="' . $colorName . '" class="color-dot" data-color-code="'
+          . $colorCode . '" data-color-hex="' . $hex . '" style="background:'
+          . $hex . '" ' . implode(' ', $images) . '></span>';
       }
+
       $content = '<div id="shirt-image-wrapper">
-                        <div id="thumbs-wrapper">
-                            <div id="front-thumb" class="thumb"><img id="shirt-image-front-thumb" src="' . $firstImageFront . '"></div>
-                            <div id="back-thumb" class="thumb"><img id="shirt-image-back-thumb" src="' . $firstImageBack . '"></div>
-                            <div id="side-thumb" class="thumb"><img id="shirt-image-side-thumb" src="' . $firstImageSide . '"></div>
-                        </div>
+                        <div id="thumbs-wrapper">';
+
+      foreach ($colors[0]['images'] as $key =>$image) {
+        $content .= '<div class="thumb thumb-' . $key . '"><img src="' . $image['url'] . '"></div>';
+      }
+
+      $content .= '                     </div>
                         <div id="original">
-                            <img id="shirt-image" src="' . $firstImageFront . '">
+                            <img id="shirt-image" src="' . $colors[0]['images'][0]['url'] . '">
                         </div>
                         </div>
                         <div id="color-selector">'
-      . $content;
+      . $colorsContent;
+
+
+
       $content .= '</div>';
     }
     $build['content'] = [

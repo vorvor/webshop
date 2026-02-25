@@ -23,6 +23,8 @@
 
 #shirt-image-wrapper {
   position: relative;
+  overflow: hidden;
+
   #thumbs-wrapper {
     position: absolute;
     left: 10px;
@@ -32,6 +34,10 @@
       width: 100px;
       margin-bottom: 12px;
     }
+  }
+
+  #original {
+    padding-left: 126px;
   }
 }
 
@@ -54,6 +60,7 @@
 .product-top {
   display: flex;
   justify-content: space-between;
+  gap: 24px;
 
   .product-top-item {
     width: 50%;

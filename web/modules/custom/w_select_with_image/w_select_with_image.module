@@ -2,55 +2,64 @@
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\NodeInterface;
+use Drupal\taxonomy\Entity\Term;
+
+function w_select_with_image_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) : void {
+  //dpm($form_id);
+  if ($form_id == 'node_order_form') {
+    w_select_with_image_form_node_order_form_alter($form, $form_state);
+  }
+}
 
 /**
  * Implements hook_form_FORM_ID_alter().
  * Example: article node form + field_colors taxonomy term reference.
  */
 function w_select_with_image_form_node_order_form_alter(array &$form, FormStateInterface $form_state) {
+
+  // Get available colors by master code.
+  $route_match = \Drupal::routeMatch();
+  $nid = $route_match->getParameter('node');
+  if ($nid instanceof NodeInterface) {
+    $nid = $nid->id();
+  }
+
+  $nid = is_numeric($nid) ? (int) $nid : null;
+  $product = \Drupal::entityTypeManager()->getStorage('node')->load($nid);
+  $masterCode = $product->get('field_master_code')->getValue()[0]['value'];
+
+  $colors = \Drupal::service('w_solo_api.get_colors')->getColors($masterCode);
+
+  $form['field_product']['#default_value'] = $product->id();
+
   $el =& $form['field_order_options']['widget'][0]['subform']['field_color']['widget'];
   $el['#attributes']['class'][] = 'js-color-select2';
 
-  $hexCodes = [];
-  if (!empty($el['#options']) && is_array($el['#options'])) {
-    $tids = array_filter(array_keys($el['#options']), 'is_numeric');
-    if ($tids) {
-      /** @var \Drupal\taxonomy\TermStorageInterface $storage */
-      $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
-      $terms = $storage->loadMultiple($tids);
+  //dpm($colors);
+  //dpm('AAA');
 
-      foreach ($terms as $tid => $term) {
-        $hex = $term->get('field_color_hex')->value ?? '';
-        if ($hex) {
-          $el['#option_attributes'][$tid]['data-color'] = $hex;
-          $hexCodes[$tid] = $hex;
-        }
-      }
+  $el['#options'] = [];
+  foreach ($colors as $color) {
+    $colorCode = strtolower($color['color-code']);
+    $tids = \Drupal::entityQuery('taxonomy_term')
+      ->condition('vid', 'colors')
+      ->condition('field_color_code', $colorCode)
+      ->accessCheck(FALSE)
+      ->execute();
+
+    if (!empty($tids)) {
+      $tid = reset($tids);
+      $colorDetails = Term::load($tid);
+      $el['#options'][$tid] = $colorDetails->label();
+      $el['#option_attributes'][$tid]['data-color'] = $colorDetails->get('field_color_hex')->value;
+      $hexCodes[$tid] = $colorDetails->get('field_color_hex')->value;
     }
-
-    $route_match = \Drupal::routeMatch();
-    $nid = $route_match->getParameter('node');
-    if ($nid instanceof NodeInterface) {
-      $nid = $nid->id();
-    }
-
-    $nid = is_numeric($nid) ? (int) $nid : null;
-    $product = \Drupal::entityTypeManager()->getStorage('node')->load($nid);
-    $masterCode = $product->get('field_master_code')->getValue()[0]['value'];
-
-    $colors = \Drupal::service('w_solo_api.get_colors')->getColors($masterCode);
-
-    $availableColors = [];
-    foreach ($colors as $color) {
-      $availableColors[$color['term-id']] = $color['term-id'];
-    }
-
-    $form['field_product']['#default_value'] = $product->id();
   }
 
   $form['#attached']['library'][] = 'w_select_with_image/color_select2';
   $form['#attached']['drupalSettings']['colorSelect2'] = $hexCodes;
-  $form['#attached']['drupalSettings']['availableColors'] = $availableColors;
+
+  $form['#attached']['drupalSettings']['availableColors'] = $colors;
 
 
   $form['popup'] = [
@@ -58,51 +67,4 @@ function w_select_with_image_form_node_order_form_alter(array &$form, FormStateI
     '#markup' => '<div id="open-popup" class="button button--small">Place image on shirt</div>',
     '#weight' => 1,
   ];
-}
-
-function w_select_with_image_form_node_order_edit_form_alter(array &$form, FormStateInterface $form_state) {
-  $el =& $form['field_order_options']['widget'][0]['subform']['field_color']['widget'];
-  $el['#attributes']['class'][] = 'js-color-select2';
-
-  $hexCodes = [];
-  if (!empty($el['#options']) && is_array($el['#options'])) {
-    $tids = array_filter(array_keys($el['#options']), 'is_numeric');
-    if ($tids) {
-      /** @var \Drupal\taxonomy\TermStorageInterface $storage */
-      $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
-      $terms = $storage->loadMultiple($tids);
-
-      foreach ($terms as $tid => $term) {
-        $hex = $term->get('field_color_hex')->value ?? '';
-        if ($hex) {
-          $el['#option_attributes'][$tid]['data-color'] = $hex;
-          $hexCodes[$tid] = $hex;
-        }
-      }
-    }
-
-    // Order form on product page.
-    $route_match = \Drupal::routeMatch();
-    $nid = $route_match->getParameter('node');
-    if ($nid instanceof NodeInterface) {
-      $nid = $nid->id();
-    }
-
-    $nid = is_numeric($nid) ? (int) $nid : null;
-    $product = \Drupal::entityTypeManager()->getStorage('node')->load($nid);
-    $bundle = $product->bundle();
-
-    if ($bundle == 'product') {
-      $colors = $product->get('field_available_colors')->getValue();
-      $availableColors = [];
-      foreach ($colors as $color) {
-        $availableColors[$color['target_id']] = $color['target_id'];
-      }
-    }
-  }
-
-  $form['#attached']['library'][] = 'w_select_with_image/color_select2';
-  $form['#attached']['drupalSettings']['colorSelect2'] = $hexCodes;
-  $form['#attached']['drupalSettings']['availableColors'] = $availableColors;
-
 }
