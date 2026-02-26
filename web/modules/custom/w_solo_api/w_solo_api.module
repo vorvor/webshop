@@ -5,6 +5,9 @@
  * Primary module hooks for W Solo API module.
  */
 
+use Drupal\Component\Serialization\Json;
+use Drupal\Core\File\FileSystemInterface;
+
 /**
  * Implements hook_views_data_alter().
  */
@@ -18,4 +21,91 @@ function w_solo_api_views_data_alter(array &$data) {
       'id' => 'master_product_from_master_id', // <-- your @ViewsField plugin ID
     ],
   ];
+}
+
+function w_solo_api_entity_create(\Drupal\Core\Entity\EntityInterface $entity) : void {
+ $bundle = $entity->bundle();
+  $a = 1;
+}
+
+function w_solo_api_entity_presave(\Drupal\Core\Entity\EntityInterface $entity) : void
+{
+  $bundle = $entity->bundle();
+  if ($bundle == 'product' && $entity->hasField('field_master_code') && !empty($entity->get('field_master_code')->value)) {
+    $masterId = $entity->get('field_master_code')->value;
+
+    $file_system = \Drupal::service('file_system');
+
+    $directory = 'public://midocean';
+    $filepath = $directory . '/products.json';
+    $realpath = $file_system->realpath($filepath);
+
+    if ($realpath && file_exists($realpath)) {
+      $data = Json::decode(file_get_contents($realpath));
+
+      foreach ($data as $key => $item) {
+        if ($item['master_code'] == $masterId) {
+          break;
+        }
+      }
+
+      $directory = 'public://t-shirt';
+      $file_system->prepareDirectory(
+        $directory,
+        FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS
+      );
+
+
+      $item = $data[$key];
+      $filepath = $directory . '/' . $item['master_code'] . '.json';
+
+      file_put_contents(
+        $file_system->realpath($filepath),
+        Json::encode($item)
+      );
+    }
+  }
+
+}
+
+function w_solo_api_entity_update(\Drupal\Core\Entity\EntityInterface $entity) : void {
+  \Drupal::logger('example')->info('ENTITY_TYPE updated: @label', [
+    '@label' => $entity->label(),
+  ]);
+
+  $bundle = $entity->bundle();
+  if ($bundle == 'product' && $entity->hasField('field_master_code') && !empty($entity->get('field_master_code')->value)) {
+    $masterId = $entity->get('field_master_code')->value;
+
+    $file_system = \Drupal::service('file_system');
+
+    $directory = 'public://midocean';
+    $filepath = $directory . '/products.json';
+    $realpath = $file_system->realpath($filepath);
+
+    if ($realpath && file_exists($realpath)) {
+      $data = Json::decode(file_get_contents($realpath));
+
+      foreach ($data as $key => $item) {
+        if ($item['master_code'] == $masterId) {
+          break;
+        }
+      }
+
+      $directory = 'public://t-shirt';
+      $file_system->prepareDirectory(
+        $directory,
+        FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS
+      );
+
+
+      $item = $data[$key];
+      $filepath = $directory . '/' . $item['master_code'] . '.json';
+
+      file_put_contents(
+        $file_system->realpath($filepath),
+        Json::encode($item)
+      );
+    }
+  }
 }

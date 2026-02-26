@@ -24,6 +24,7 @@ final class WSoloApiController extends ControllerBase {
     /** @var \Drupal\Core\File\FileSystemInterface $file_system */
     $file_system = \Drupal::service('file_system');
 
+
     $directory = 'public://midocean';
     $file_system->prepareDirectory(
       $directory,
@@ -81,6 +82,8 @@ final class WSoloApiController extends ControllerBase {
 */
     }
 
+    /*
+
     $file_system = \Drupal::service('file_system');
 
     $directory = 'public://';
@@ -127,20 +130,25 @@ final class WSoloApiController extends ControllerBase {
       }
     }
 
-    dpm('A');
+    dpm('missing.');
     dpm($missing);
-    dpm('B');
+
     //dpm($colorCodes);
 
     shuffle($data);              // randomize order
     $data = array_slice($data, 0, 50);
 
-    foreach ($data as $row) {
-      //dpm($row['variants']);
+    */
+
+    dpm($data[1000]);
+    foreach ($data as $key => $item) {
+      if ($item['master_code'] == 'MO8422') {
+        break;
+      }
     }
 
 // Write one product to file cache
-    /*
+
     $directory = 'public://other';
     $file_system->prepareDirectory(
       $directory,
@@ -148,7 +156,7 @@ final class WSoloApiController extends ControllerBase {
     );
 
 
-      $item = $data['2131'];
+      $item = $data[$key];
       $filepath = $directory . '/' . $item['master_code'] . '.json';
 
       file_put_contents(
@@ -156,7 +164,7 @@ final class WSoloApiController extends ControllerBase {
         Json::encode($item)
       );
 
-*/
+
     $build['content'] = [
       '#type' => 'item',
       '#markup' => $this->t('It works!'),

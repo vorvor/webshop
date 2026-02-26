@@ -1,7 +1,7 @@
 #color-selector {
   display: inline-flex;
   flex-wrap: wrap;
-  margin-top: 12px;
+  margin-top: 24px;
   align-items: center;
   gap: 8px;
 }
@@ -29,6 +29,9 @@
     position: absolute;
     left: 10px;
     top: 10px;
+    overflow-y: scroll;
+    height: 100%;
+
     .thumb {
       cursor: pointer;
       width: 100px;

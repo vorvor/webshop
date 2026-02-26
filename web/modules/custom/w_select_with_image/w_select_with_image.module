@@ -32,34 +32,40 @@ function w_select_with_image_form_node_order_form_alter(array &$form, FormStateI
 
   $form['field_product']['#default_value'] = $product->id();
 
-  $el =& $form['field_order_options']['widget'][0]['subform']['field_color']['widget'];
-  $el['#attributes']['class'][] = 'js-color-select2';
+  foreach ($form['field_order_options']['widget'] as $key => $widget) {
+    if (is_int($key)) {
+      $el =& $form['field_order_options']['widget'][$key]['subform']['field_color']['widget'];
+      $el['#attributes']['class'][] = 'js-color-select2';
 
-  //dpm($colors);
-  //dpm('AAA');
+      //dpm($colors);
 
-  $el['#options'] = [];
-  foreach ($colors as $color) {
-    $colorCode = strtolower($color['color-code']);
-    $tids = \Drupal::entityQuery('taxonomy_term')
-      ->condition('vid', 'colors')
-      ->condition('field_color_code', $colorCode)
-      ->accessCheck(FALSE)
-      ->execute();
+      $el['#options'] = [];
+      $colorsReKeyed = [];
+      foreach ($colors as $color) {
+        $colorCode = strtolower($color['color-code']);
+        $tids = \Drupal::entityQuery('taxonomy_term')
+          ->condition('vid', 'colors')
+          ->condition('field_color_code', $colorCode)
+          ->accessCheck(FALSE)
+          ->execute();
 
-    if (!empty($tids)) {
-      $tid = reset($tids);
-      $colorDetails = Term::load($tid);
-      $el['#options'][$tid] = $colorDetails->label();
-      $el['#option_attributes'][$tid]['data-color'] = $colorDetails->get('field_color_hex')->value;
-      $hexCodes[$tid] = $colorDetails->get('field_color_hex')->value;
+        if (!empty($tids)) {
+          $tid = reset($tids);
+          $colorDetails = Term::load($tid);
+          $el['#options'][$tid] = $colorDetails->label();
+          $el['#option_attributes'][$tid]['data-color'] = $colorDetails->get('field_color_hex')->value;
+          $hexCodes[$tid] = $colorDetails->get('field_color_hex')->value;
+
+          $colorsReKeyed[$tid] = $color;
+        }
+      }
     }
   }
 
   $form['#attached']['library'][] = 'w_select_with_image/color_select2';
   $form['#attached']['drupalSettings']['colorSelect2'] = $hexCodes;
 
-  $form['#attached']['drupalSettings']['availableColors'] = $colors;
+  $form['#attached']['drupalSettings']['availableColors'] = $colorsReKeyed;
 
 
   $form['popup'] = [

@@ -46,9 +46,11 @@ class ColorService {
       $colors = [];
       $colorCodes = [];
 
-      dpm($data);
+      //dpm($data['variants']);
 
+      $sizeTextile = [];
       foreach ($data['variants'] as $variant) {
+        $sizeTextile[$variant['color_code']][] = $variant['size_textile'];
         if (!in_array($variant['color_code'], $colorCodes)) {
           $colorCodes[] = $variant['color_code'];
 
@@ -72,6 +74,12 @@ class ColorService {
             'term-label' => $variant['color_description'],
             'term-hex' => $hexV,
           ];
+        }
+      }
+
+      foreach ($colors as $key => &$color) {
+        if (isset($sizeTextile[$color['color-code']])) {
+          $color['sizes'] = $sizeTextile[$color['color-code']];
         }
       }
 
