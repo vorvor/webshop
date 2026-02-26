@@ -14,7 +14,7 @@ div[data-drupal-selector="tabledrag-toggle-weight-wrapper"] {
 
 /* Product page */
 
-.view-products {
+.view-products, .view-frontpage {
 
   .view-content {
     display: flex;
