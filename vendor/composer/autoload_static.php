@@ -152,6 +152,7 @@ class ComposerStaticInit1c94884feafe7e7de67cff6263fe48f2
             'Consolidation\\AnnotatedCommand\\' => 31,
             'Composer\\Semver\\' => 16,
             'Composer\\Installers\\' => 20,
+            'ComposerDrupalLenient\\' => 22,
             'CommerceGuys\\Intl\\' => 18,
             'CommerceGuys\\Addressing\\' => 24,
         ),
@@ -177,7 +178,6 @@ class ComposerStaticInit1c94884feafe7e7de67cff6263fe48f2
         'cweagans\\Composer\\' =>
         array (
             0 => __DIR__ . '/..' . '/cweagans/composer-patches/src',
-            1 => __DIR__ . '/..' . '/cweagans/composer-configurable-plugin/src',
         ),
         'Twig\\' =>
         array (
@@ -492,6 +492,10 @@ class ComposerStaticInit1c94884feafe7e7de67cff6263fe48f2
         'Composer\\Installers\\' =>
         array (
             0 => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers',
+        ),
+        'ComposerDrupalLenient\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/mglaman/composer-drupal-lenient/src',
         ),
         'CommerceGuys\\Intl\\' =>
         array (

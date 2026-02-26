@@ -2,23 +2,22 @@
  * @file
  * Select2 integration.
  */
+
+// Support for jQuery 4 #6298
+// @see https://github.com/select2/select2/issues/6298
+if (!jQuery.isArray) {
+  jQuery.isArray = Array.isArray || function (value) {
+    return Object.prototype.toString.call(value) === '[object Array]';
+  };
+}
+if (!jQuery.trim) {
+  jQuery.trim = function (text) {
+    return text == null ? "" : text.trim();
+  };
+}
+
 (function ($, drupalSettings, Sortable, once) {
   'use strict';
-
-
-    // Support for jQuery 4 #6298
-      // @see https://github.com/select2/select2/issues/6298
-        if (!jQuery.isArray) {
-    jQuery.isArray = Array.isArray || function (value) {
-          return Object.prototype.toString.call(value) === '[object Array]';
-        };
-    }
-  if (!jQuery.trim) {
-      jQuery.trim = function (text) {
-          return text == null ? "" : text.trim();
-        };
-    }
-
 
   Drupal.behaviors.select2 = {
     attach: function (context) {
