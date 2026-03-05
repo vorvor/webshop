@@ -46,7 +46,7 @@ class ColorService {
       $colors = [];
       $colorCodes = [];
 
-      //dpm($data['variants']);
+      //dpm($data);
 
       $sizeTextile = [];
       foreach ($data['variants'] as $variant) {

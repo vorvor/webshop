@@ -14,3 +14,8 @@ services:
   w_solo_api.get_details:
     class: Drupal\w_solo_api\Service\DetailsService
     arguments: ['@http_client', '@logger.channel.w_solo_api']
+
+  w_solo_api.get_print_areas:
+    class: Drupal\w_solo_api\Service\PrintAreaService
+    arguments: [ '@http_client', '@logger.channel.w_solo_api' ]
+

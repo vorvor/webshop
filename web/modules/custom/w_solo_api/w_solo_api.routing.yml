@@ -21,3 +21,11 @@ w_solo_api.colors_to_db:
     _controller: '\Drupal\w_solo_api\Controller\WSoloApiController::colorsToDb'
   requirements:
     _permission: 'access content'
+
+w_solo_api.print_data:
+  path: '/w-solo-api/print-data'
+  defaults:
+    _title: 'Cache'
+    _controller: '\Drupal\w_solo_api\Controller\WSoloApiController::printData'
+  requirements:
+    _permission: 'access content'

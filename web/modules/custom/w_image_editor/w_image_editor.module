@@ -9,6 +9,7 @@ use Drupal\field\FieldConfigInterface;
 use Drupal\file\Entity\File;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\node\NodeInterface;
+use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\taxonomy\Entity\Term;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +21,59 @@ use Drupal\file\Element\ManagedFile;
 function w_image_editor_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
   if ($form_id == 'node_order_form' || $form_id == 'node_order_edit_form') {
     $form['#attached']['library'][] = 'w_image_editor/global';
+
+    $route_match = \Drupal::routeMatch();
+    $nid = $route_match->getParameter('node');
+    if ($nid instanceof NodeInterface) {
+      $nid = $nid->id();
+    }
+
+    $nid = is_numeric($nid) ? (int) $nid : null;
+    $product = \Drupal::entityTypeManager()->getStorage('node')->load($nid);
+    $masterCode = $product->get('field_master_code')->getValue()[0]['value'];
+
+    $printAreas = \Drupal::service('w_solo_api.get_print_areas')->getPrintArea($masterCode);
+    dpm($printAreas);
+
+    $printArea = $form_state->getUserInput()['print_area_controls']['field_print_area_select'];
+    $items = array_filter(
+      array_keys($form['field_image_placement']['widget']),
+      'is_numeric'
+    );
+
+    $count = count($items);
+
+    for ($c = 0; $c < $count; $c++) {
+      $form['field_image_placement']['widget'][$c]['subform']['field_print_position']['widget'][0]['#disabled'] = TRUE;
+    }
+
+    $form['field_image_placement']['widget'][$count - 1]['#attributes'] = ['class' => ['hidden']];
+
+    if (!is_null($printArea)) {
+
+      $form['field_image_placement']['widget'][$count - 2]['subform']['field_print_position']['widget'][0]['value']['#value'] = $printArea;
+    }
+
+    dpm($printArea);
+    dpm($form['field_image_placement']['widget'][0]['subform']['field_print_position']['widget'][0]['value']['#default_value']);
+
+
+    $areas = [];
+    foreach ($printAreas['printing_positions'] as $area) {
+      $areas[$area['position_id']]= $area['position_id'];
+    }
+
+    $form['print_area_controls'] = [
+      '#type' => 'container',
+      '#weight' => 10,
+      '#tree' => TRUE,
+    ];
+
+    $form['print_area_controls']['field_print_area_select'] = [
+      '#title' => 'Print Area',
+      '#type' => 'select',
+      '#options' => $areas,
+    ];
   }
 
   if ($form_id == 'node_order_edit_form') {
@@ -50,6 +104,44 @@ function w_image_editor_form_alter(array &$form, FormStateInterface $form_state,
       ];
     }
   }
+}
+
+function w_image_editor_add_paragraph_submit(array &$form, FormStateInterface $form_state) {
+  $paragraph_field = 'field_image_placement';
+  $selected = $form_state->getValue(['print_area_controls', 'field_print_area']);
+
+  $input = $form_state->getUserInput();
+  $selected = $input['print_area_controls']['field_print_area_select'] ?? NULL;
+
+  dpm($form_state->getValues());
+  dpm($selected);
+  dpm('ˆˆˆ');
+
+  if (empty($selected)) {
+    $form_state->setRebuild(TRUE);
+    return;
+  }
+
+  /** @var \Drupal\node\NodeInterface $node */
+  $node = $form_state->getFormObject()->getEntity();
+
+  // Create the paragraph of the correct bundle (machine name).
+  $p = Paragraph::create([
+    'type' => 'image_placement_wrapper',
+    'field_print_position' => $selected,
+  ]);
+
+  // Append it to the node field.
+  $node->get($paragraph_field)->appendItem($p);
+
+
+  // Important: rebuild so the widget shows the new delta.
+  $form_state->setRebuild(TRUE);
+}
+
+function w_image_editor_add_paragraph_ajax(array &$form, FormStateInterface $form_state) {
+  // Return the paragraphs field element (wrapped).
+  return $form['field_image_placement'];
 }
 
 /**

@@ -38,6 +38,36 @@ final class WSoloApiController extends ControllerBase {
       Json::encode($data)
     );
 
+    $build['content'] = [
+      '#type' => 'item',
+      '#markup' => $this->t('It works!'),
+    ];
+
+    return $build;
+  }
+
+
+  public function printData(): array {
+
+    $data = \Drupal::service('w_solo_api.midocean_client')->getPrintData();
+
+    /** @var \Drupal\Core\File\FileSystemInterface $file_system */
+    $file_system = \Drupal::service('file_system');
+
+
+    $directory = 'public://midocean';
+    $file_system->prepareDirectory(
+      $directory,
+      FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS
+    );
+
+    $filepath = $directory . '/printdata.json';
+
+    file_put_contents(
+      $file_system->realpath($filepath),
+      Json::encode($data)
+    );
+
 
 
     $build['content'] = [
@@ -48,15 +78,17 @@ final class WSoloApiController extends ControllerBase {
     return $build;
   }
 
+
   public function readCache() {
     $file_system = \Drupal::service('file_system');
 
     $directory = 'public://midocean';
-    $filepath = $directory . '/products.json';
+    $filepath = $directory . '/printdata.json';
     $realpath = $file_system->realpath($filepath);
 
     if ($realpath && file_exists($realpath)) {
       $data = Json::decode(file_get_contents($realpath));
+      dpm($data['products'][0]);
 
      // $data = $this->filterData($data, 'product_class', 'T-shirt');
       //dpm($data);
@@ -140,14 +172,17 @@ final class WSoloApiController extends ControllerBase {
 
     */
 
-    dpm($data[1000]);
-    foreach ($data as $key => $item) {
+
+
+
+// Write one product to file cache
+/*
+ *
+ * foreach ($data as $key => $item) {
       if ($item['master_code'] == 'MO8422') {
         break;
       }
     }
-
-// Write one product to file cache
 
     $directory = 'public://other';
     $file_system->prepareDirectory(
@@ -164,7 +199,7 @@ final class WSoloApiController extends ControllerBase {
         Json::encode($item)
       );
 
-
+*/
     $build['content'] = [
       '#type' => 'item',
       '#markup' => $this->t('It works!'),

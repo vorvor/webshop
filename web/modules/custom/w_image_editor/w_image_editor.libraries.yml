@@ -5,6 +5,7 @@ global:
   js:
     https://cdn.jsdelivr.net/npm/fabric@latest/dist/index.min.js: {type: external, minified: true}
     src/js/image-editor.js: {}
+    src/js/print-area.js: {}
 
   dependencies:
     - core/jquery
