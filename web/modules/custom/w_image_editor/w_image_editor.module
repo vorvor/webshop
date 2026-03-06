@@ -5,6 +5,7 @@ use Drupal\Core\Entity\Entity\EntityViewDisplay;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\HtmlCommand;
+use Drupal\Core\Render\Markup;
 use Drupal\field\FieldConfigInterface;
 use Drupal\file\Entity\File;
 use Drupal\image\Entity\ImageStyle;
@@ -22,6 +23,7 @@ function w_image_editor_form_alter(array &$form, FormStateInterface $form_state,
   if ($form_id == 'node_order_form' || $form_id == 'node_order_edit_form') {
     $form['#attached']['library'][] = 'w_image_editor/global';
 
+    // Get print area data from midocean api.
     $route_match = \Drupal::routeMatch();
     $nid = $route_match->getParameter('node');
     if ($nid instanceof NodeInterface) {
@@ -31,10 +33,10 @@ function w_image_editor_form_alter(array &$form, FormStateInterface $form_state,
     $nid = is_numeric($nid) ? (int) $nid : null;
     $product = \Drupal::entityTypeManager()->getStorage('node')->load($nid);
     $masterCode = $product->get('field_master_code')->getValue()[0]['value'];
-
     $printAreas = \Drupal::service('w_solo_api.get_print_areas')->getPrintArea($masterCode);
     dpm($printAreas);
 
+    // Current print area - user selection.
     $printArea = $form_state->getUserInput()['print_area_controls']['field_print_area_select'];
     dpm('printarea' . $printArea);
     $items = array_filter(
@@ -42,25 +44,35 @@ function w_image_editor_form_alter(array &$form, FormStateInterface $form_state,
       'is_numeric'
     );
 
+    // Count paragraph items.
     $count = count($items);
-
-    $addedImage = $form['field_image_placement']['widget'][0]['subform']['field_image']['widget']['selection'][0]['target_id'];
-
-
+    // Hide last, empty paragraph item.
     $form['field_image_placement']['widget'][$count - 1]['#attributes'] = ['class' => ['hidden']];
-
-    if (!is_null($printArea)) {
-      $form['field_image_placement']['widget'][$count - 2]['subform']['field_print_position']['widget'][0]['value']['#value'] = $printArea;
-    }
+    // Autofilled print area disabled, user cannot change.
+    $form['field_image_placement']['widget'][$count - 2]['subform']['field_print_position']['widget'][0]['value']['#value'] = $printArea;
 
     for ($c = 0; $c < $count; $c++) {
       $form['field_image_placement']['widget'][$c]['subform']['field_print_position']['widget'][0]['#disabled'] = TRUE;
+
       if ($c == $count - 2) {
         dpm($c . 'last round');
-        $form['field_image_placement']['widget'][$c]['subform']['field_image']['widget']['#suffix'] = $printArea;
+        $bgImg = $form_state->getUserInput()['area_' . $printArea];
+
       } else {
-        $form['field_image_placement']['widget'][$c]['subform']['field_image']['widget']['#suffix'] = $form['field_image_placement']['widget'][$c]['subform']['field_print_position']['widget'][0]['value']['#default_value'];
+        $bgImg = $form_state->getUserInput()['area_' . $form['field_image_placement']['widget'][$c]['subform']['field_print_position']['widget'][0]['value']['#default_value']];
+
       }
+      //$form['field_image_placement']['widget'][$c]['subform']['field_image']['widget']['#suffix'] = "<img src='$bgImg'>";;
+      $form['field_image_placement']['widget'][$c]['subform']['field_image']['widget']['#suffix'] = Markup::create("
+        <div class=\"after-image-area\" data-paragraph-image=\"1\" data-type=\"front\" data-once=\"imageEditor\">
+                    <div class=\"editor-fields-front\">
+                      </div>
+          <div id=\"editor-canvas-front\">
+            <canvas id=\"editor-front\" width=\"300\" height=\"300\" style=\"background:url($bgImg)\"></canvas>
+          </div>
+        </div>");
+
+
 
       dpm($c . 'A' . $form['field_image_placement']['widget'][$c]['subform']['field_print_position']['widget'][0]['value']['#value']);
       dpm($c . 'B' . $printArea);
@@ -68,6 +80,12 @@ function w_image_editor_form_alter(array &$form, FormStateInterface $form_state,
 
     $areas = [];
     foreach ($printAreas['printing_positions'] as $area) {
+      $imgUrl = $area['images'][0]['print_position_image_with_area'];
+      $form['area_' . $area['position_id']] = [
+        '#type' => 'hidden',
+        '#value' => $imgUrl,
+      ];
+
       $areas[$area['position_id']]= $area['position_id'];
     }
 

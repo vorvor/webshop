@@ -6,6 +6,7 @@
   .paragraphs-subform {
     display: flex;
     position: relative;
+    flex-wrap: wrap;
 
     fieldset {
       width: 50%;
