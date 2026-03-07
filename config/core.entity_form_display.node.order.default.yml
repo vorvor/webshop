@@ -3,9 +3,14 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.order.field_image_placement_back
-    - field.field.node.order.field_image_placement_front
-    - field.field.node.order.field_image_placement_side
+    - field.field.node.order.field_image_placement_0
+    - field.field.node.order.field_image_placement_1
+    - field.field.node.order.field_image_placement_2
+    - field.field.node.order.field_image_placement_3
+    - field.field.node.order.field_image_placement_4
+    - field.field.node.order.field_image_placement_5
+    - field.field.node.order.field_image_placement_6
+    - field.field.node.order.field_image_placement_7
     - field.field.node.order.field_order_options
     - field.field.node.order.field_product
     - node.type.order
@@ -15,12 +20,17 @@ dependencies:
     - paragraphs_features
 third_party_settings:
   field_group:
-    group_image_placement:
+    group_print_areas:
       children:
-        - group_front
-        - group_back
-        - group_side
-      label: 'Image placement'
+        - group_print_area_1
+        - group_print_area_2
+        - group_print_area_0
+        - group_print_area_3
+        - group_print_area_4
+        - group_print_area_5
+        - group_print_area_6
+        - group_print_area_7
+      label: 'Print areas'
       region: content
       parent_name: ''
       weight: 2
@@ -32,13 +42,29 @@ third_party_settings:
         label_as_html: false
         direction: horizontal
         width_breakpoint: 640
-    group_front:
+    group_print_area_1:
       children:
-        - field_image_placement_front
-      label: Front
+        - field_image_placement_1
+      label: 'Print area 1'
       region: content
-      parent_name: group_image_placement
-      weight: 6
+      parent_name: group_print_areas
+      weight: 5
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        formatter: open
+        description: ''
+        required_fields: true
+    group_print_area_2:
+      children:
+        - field_image_placement_2
+      label: 'Print area 2'
+      region: content
+      parent_name: group_print_areas
+      weight: 20
       format_type: tab
       format_settings:
         classes: ''
@@ -48,13 +74,13 @@ third_party_settings:
         formatter: closed
         description: ''
         required_fields: true
-    group_back:
+    group_print_area_3:
       children:
-        - field_image_placement_back
-      label: Back
+        - field_image_placement_3
+      label: 'Print area 3'
       region: content
-      parent_name: group_image_placement
-      weight: 7
+      parent_name: group_print_areas
+      weight: 21
       format_type: tab
       format_settings:
         classes: ''
@@ -64,13 +90,77 @@ third_party_settings:
         formatter: closed
         description: ''
         required_fields: true
-    group_side:
+    group_print_area_4:
       children:
-        - field_image_placement_side
-      label: Side
+        - field_image_placement_4
+      label: 'Print area 4'
       region: content
-      parent_name: group_image_placement
-      weight: 8
+      parent_name: group_print_areas
+      weight: 22
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_print_area_5:
+      children:
+        - field_image_placement_5
+      label: 'Print area 5'
+      region: content
+      parent_name: group_print_areas
+      weight: 23
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_print_area_6:
+      children:
+        - field_image_placement_6
+      label: 'Print area 6'
+      region: content
+      parent_name: group_print_areas
+      weight: 24
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_print_area_7:
+      children:
+        - field_image_placement_7
+      label: 'Print area 7'
+      region: content
+      parent_name: group_print_areas
+      weight: 25
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_print_area_0:
+      children:
+        - field_image_placement_0
+      label: 'Print area 0'
+      region: content
+      parent_name: group_print_areas
+      weight: 3
       format_type: tab
       format_settings:
         classes: ''
@@ -85,9 +175,9 @@ targetEntityType: node
 bundle: order
 mode: default
 content:
-  field_image_placement_back:
+  field_image_placement_0:
     type: paragraphs
-    weight: 5
+    weight: 6
     region: content
     settings:
       title: Paragraph
@@ -103,7 +193,25 @@ content:
         collapse_edit_all: collapse_edit_all
         duplicate: duplicate
     third_party_settings: {  }
-  field_image_placement_front:
+  field_image_placement_1:
+    type: paragraphs
+    weight: 3
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      features:
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+  field_image_placement_2:
     type: paragraphs
     weight: 4
     region: content
@@ -121,9 +229,81 @@ content:
         collapse_edit_all: collapse_edit_all
         duplicate: duplicate
     third_party_settings: {  }
-  field_image_placement_side:
+  field_image_placement_3:
+    type: paragraphs
+    weight: 7
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      features:
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+  field_image_placement_4:
+    type: paragraphs
+    weight: 8
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      features:
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+  field_image_placement_5:
     type: paragraphs
     weight: 9
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      features:
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+  field_image_placement_6:
+    type: paragraphs
+    weight: 10
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      features:
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+  field_image_placement_7:
+    type: paragraphs
+    weight: 11
     region: content
     settings:
       title: Paragraph

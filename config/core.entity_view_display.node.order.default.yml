@@ -3,9 +3,14 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.order.field_image_placement_back
-    - field.field.node.order.field_image_placement_front
-    - field.field.node.order.field_image_placement_side
+    - field.field.node.order.field_image_placement_0
+    - field.field.node.order.field_image_placement_1
+    - field.field.node.order.field_image_placement_2
+    - field.field.node.order.field_image_placement_3
+    - field.field.node.order.field_image_placement_4
+    - field.field.node.order.field_image_placement_5
+    - field.field.node.order.field_image_placement_6
+    - field.field.node.order.field_image_placement_7
     - field.field.node.order.field_order_options
     - field.field.node.order.field_product
     - node.type.order
@@ -17,32 +22,77 @@ targetEntityType: node
 bundle: order
 mode: default
 content:
-  field_image_placement_back:
+  field_image_placement_0:
     type: entity_reference_revisions_entity_view
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
-    weight: 103
+    weight: 109
     region: content
-  field_image_placement_front:
+  field_image_placement_1:
     type: entity_reference_revisions_entity_view
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
-    weight: 102
+    weight: 107
     region: content
-  field_image_placement_side:
+  field_image_placement_2:
     type: entity_reference_revisions_entity_view
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
-    weight: 104
+    weight: 108
+    region: content
+  field_image_placement_3:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 110
+    region: content
+  field_image_placement_4:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 111
+    region: content
+  field_image_placement_5:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 112
+    region: content
+  field_image_placement_6:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 113
+    region: content
+  field_image_placement_7:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 114
     region: content
   field_order_options:
     type: entity_reference_revisions_entity_view

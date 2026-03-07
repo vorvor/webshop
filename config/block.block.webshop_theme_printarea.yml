@@ -1,0 +1,28 @@
+uuid: 78ab97ee-6db7-43a3-84f9-9b45461b0a17
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - w_image_editor
+  theme:
+    - webshop_theme
+id: webshop_theme_printarea
+theme: webshop_theme
+region: content_above
+weight: 0
+provider: null
+plugin: w_image_editor_print_area
+settings:
+  id: w_image_editor_print_area
+  label: printArea
+  label_display: visible
+  provider: w_image_editor
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      product: product

@@ -5,7 +5,7 @@ dependencies:
   config:
     - field.storage.paragraph.field_color
     - paragraphs.paragraphs_type.order_option
-    - taxonomy.vocabulary.t_shirt_colors
+    - taxonomy.vocabulary.colors
 id: paragraph.order_option.field_color
 field_name: field_color
 entity_type: paragraph
@@ -20,7 +20,7 @@ settings:
   handler: 'default:filter_existing_terms'
   handler_settings:
     target_bundles:
-      t_shirt_colors: t_shirt_colors
+      colors: colors
     sort:
       field: name
       direction: asc

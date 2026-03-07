@@ -2,6 +2,7 @@
   Drupal.behaviors.imageEditor = {
     attach(context) {
       once('imageEditorPopup', '#open-popup', context).forEach((e) => {
+        $('.horizontal-tab-button').hide();
         // popup opener
         $(e).click(function() {
           if ($(this).hasClass('active')) {
@@ -14,17 +15,27 @@
         })
 
       })
+
+      once('imageEditorBackgrounds', '.after-image-area-list', context).forEach((element, index) => {
+        let printAreaName = $(element).data('print-area-name');
+        let imageUrl = $(element).val();
+        console.log('.horizontal-tab-button-' + index + ' canvas');
+        console.log(imageUrl);
+        $('.horizontal-tab-button-' + index).show();
+        $('.horizontal-tab-button-' + index + ' strong').html(printAreaName);
+        $('#edit-group-print-area-' + index + ' canvas').css('background-image', 'url(' + imageUrl + ')');
+      })
+
       once('imageEditor', '.after-image-area', context).forEach((element) => {
+        let parent = $(element).data('parent');
+        let parentHyphen = parent.replace(/_/g, '-');
 
-
-        let type = $(element).data('type');
-        console.log(`editor ${type} loaded`);
-        let src = $(`#field_image-media-library-wrapper-field_image_placement_${type}-0-subform .field--name-thumbnail img`).attr('src');
+        let src = $(`#field_image-media-library-wrapper-${parent}-0-subform .field--name-thumbnail img`).attr('src');
         if (src !== undefined) {
 
           console.log(src);
 
-          const canvas = new fabric.Canvas(`editor-${type}`, {
+          const canvas = new fabric.Canvas(`editor-${parent}`, {
             centeredScaling: false,
             centeredRotation: true,
             uniformScaling: true,
@@ -100,10 +111,10 @@
 */
 
             console.log('updated.');
-            $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-rotation-0-value"]`).val(Math.round(angle));
-            $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-top-0-value"]`).val(Math.round(top));
-            $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-left-0-value"]`).val(Math.round(left));
-            $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-scale-0-value"]`).val(parseFloat(scaleX).toFixed(2));
+            $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-rotation-0-value"]`).val(Math.round(angle));
+            $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-top-0-value"]`).val(Math.round(top));
+            $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-left-0-value"]`).val(Math.round(left));
+            $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-scale-0-value"]`).val(parseFloat(scaleX).toFixed(2));
 
           }
 
@@ -141,20 +152,20 @@
           // 2) FOREGROUND (your existing functionality)
           // ----------------------------
           const url = src;
-          console.log('Loading ' + type, url);
+          //console.log('Loading ' + type, url);
 
           const htmlImg = new Image();
           htmlImg.crossOrigin = 'anonymous';
 
           htmlImg.onload = () => {
-            console.log(`✅ ${type}:`, htmlImg.naturalWidth, htmlImg.naturalHeight);
+            //console.log(`✅ ${type}:`, htmlImg.naturalWidth, htmlImg.naturalHeight);
             let ratio = htmlImg.naturalWidth / htmlImg.naturalHeight;
             let xScale = 116 / htmlImg.naturalWidth;
 
-            let angle = $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-rotation-0-value"]`).val();
-            let topC = $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-top-0-value"]`).val();
-            let leftC = $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-left-0-value"]`).val();
-            let scale = $(`input[data-drupal-selector="edit-field-image-placement-${type}-0-subform-field-scale-0-value"]`).val();
+            let angle = $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-rotation-0-value"]`).val();
+            let topC = $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-top-0-value"]`).val();
+            let leftC = $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-left-0-value"]`).val();
+            let scale = $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-scale-0-value"]`).val();
 
             console.log(`Xscale: ${xScale}`);
             console.log(angle, topC, Math.round(leftC), scale);

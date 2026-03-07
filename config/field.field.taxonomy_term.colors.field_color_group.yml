@@ -1,0 +1,19 @@
+uuid: 8bf0d09c-3d34-4638-b5a0-db03db24ad2b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_color_group
+    - taxonomy.vocabulary.colors
+id: taxonomy_term.colors.field_color_group
+field_name: field_color_group
+entity_type: taxonomy_term
+bundle: colors
+label: 'Color group'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

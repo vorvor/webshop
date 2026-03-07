@@ -1,0 +1,57 @@
+uuid: ad5a6200-88b0-4351-aa3a-6085e876eca1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.colors.field_color_code
+    - field.field.taxonomy_term.colors.field_color_group
+    - field.field.taxonomy_term.colors.field_color_hex
+    - field.field.taxonomy_term.colors.field_color_pms
+    - taxonomy.vocabulary.colors
+  module:
+    - text
+id: taxonomy_term.colors.default
+targetEntityType: taxonomy_term
+bundle: colors
+mode: default
+content:
+  description:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_color_code:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_color_group:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_color_hex:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_color_pms:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden: {  }

@@ -1,0 +1,19 @@
+uuid: e250b002-c376-42f7-8d9f-6cd29036a449
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_color_hex
+    - taxonomy.vocabulary.colors
+id: taxonomy_term.colors.field_color_hex
+field_name: field_color_hex
+entity_type: taxonomy_term
+bundle: colors
+label: 'Color hex'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

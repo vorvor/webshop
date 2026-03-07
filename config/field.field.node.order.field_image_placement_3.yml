@@ -1,18 +1,18 @@
-uuid: 11d03049-1835-428f-a2c1-fab357f867e6
+uuid: 679a0c45-00db-4255-9d05-65aefca4ebac
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_image_placement_back
+    - field.storage.node.field_image_placement_3
     - node.type.order
-    - paragraphs.paragraphs_type.image_placement_back
+    - paragraphs.paragraphs_type.image_placement_wrapper
   module:
     - entity_reference_revisions
-id: node.order.field_image_placement_back
-field_name: field_image_placement_back
+id: node.order.field_image_placement_3
+field_name: field_image_placement_3
 entity_type: node
 bundle: order
-label: 'Image placement back'
+label: 'Image placement 3'
 description: ''
 required: false
 translatable: false
@@ -22,19 +22,22 @@ settings:
   handler: 'default:paragraph'
   handler_settings:
     target_bundles:
-      image_placement_back: image_placement_back
+      image_placement_wrapper: image_placement_wrapper
     negate: 0
     target_bundles_drag_drop:
       image_placement_back:
-        weight: 5
-        enabled: true
-      image_placement_front:
         weight: 6
         enabled: false
-      image_placement_right:
+      image_placement_front:
         weight: 7
         enabled: false
-      order_option:
+      image_placement_side:
         weight: 8
+        enabled: false
+      image_placement_wrapper:
+        weight: 9
+        enabled: true
+      order_option:
+        weight: 10
         enabled: false
 field_type: entity_reference_revisions

@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.node.product.body
     - field.field.node.product.field_available_colors
+    - field.field.node.product.field_category
     - field.field.node.product.field_master_code
     - field.field.node.product.field_product_type
     - field.field.node.product.field_sku
@@ -37,6 +38,12 @@ content:
   field_available_colors:
     type: options_buttons
     weight: 122
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_category:
+    type: options_select
+    weight: 125
     region: content
     settings: {  }
     third_party_settings: {  }

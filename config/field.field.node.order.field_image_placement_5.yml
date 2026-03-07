@@ -1,18 +1,18 @@
-uuid: 2d8653fd-5fef-470d-a0ab-f4498beefe26
+uuid: 538666d1-d57a-4265-83f7-dcaccb517156
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_image_placement_side
+    - field.storage.node.field_image_placement_5
     - node.type.order
-    - paragraphs.paragraphs_type.image_placement_side
+    - paragraphs.paragraphs_type.image_placement_wrapper
   module:
     - entity_reference_revisions
-id: node.order.field_image_placement_side
-field_name: field_image_placement_side
+id: node.order.field_image_placement_5
+field_name: field_image_placement_5
 entity_type: node
 bundle: order
-label: 'Image placement side'
+label: 'Image placement 5'
 description: ''
 required: false
 translatable: false
@@ -22,7 +22,7 @@ settings:
   handler: 'default:paragraph'
   handler_settings:
     target_bundles:
-      image_placement_side: image_placement_side
+      image_placement_wrapper: image_placement_wrapper
     negate: 0
     target_bundles_drag_drop:
       image_placement_back:
@@ -31,10 +31,10 @@ settings:
       image_placement_front:
         weight: 7
         enabled: false
-      image_placement_right:
+      image_placement_side:
         weight: 8
         enabled: false
-      image_placement_side:
+      image_placement_wrapper:
         weight: 9
         enabled: true
       order_option:

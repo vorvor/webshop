@@ -1,4 +1,4 @@
-uuid: dd26a12b-992a-4cbb-9db3-541dbce63da5
+uuid: 80b5c4cb-ff8b-429b-9836-f2d3ef9a1583
 langcode: en
 status: true
 dependencies:
@@ -6,8 +6,8 @@ dependencies:
     - entity_reference_revisions
     - node
     - paragraphs
-id: node.field_image_placement_side
-field_name: field_image_placement_side
+id: node.field_image_placement_0
+field_name: field_image_placement_0
 entity_type: node
 type: entity_reference_revisions
 settings:

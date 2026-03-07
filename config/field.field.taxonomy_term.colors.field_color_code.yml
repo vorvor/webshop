@@ -1,0 +1,19 @@
+uuid: dc5153b5-7257-428c-9db4-492a0b594d74
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_color_code
+    - taxonomy.vocabulary.colors
+id: taxonomy_term.colors.field_color_code
+field_name: field_color_code
+entity_type: taxonomy_term
+bundle: colors
+label: 'Color code'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

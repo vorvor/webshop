@@ -1,0 +1,10 @@
+uuid: 77a5c05d-81c0-4db0-81c5-bd05f4bb2ee1
+langcode: en
+status: true
+dependencies: {  }
+id: image_placement_wrapper
+label: 'Image placement wrapper'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

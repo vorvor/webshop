@@ -1,0 +1,43 @@
+uuid: 0ba767a5-302f-4c21-9229-a6344f35469a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_image_placement_0
+    - node.type.order
+    - paragraphs.paragraphs_type.image_placement_wrapper
+  module:
+    - entity_reference_revisions
+id: node.order.field_image_placement_0
+field_name: field_image_placement_0
+entity_type: node
+bundle: order
+label: 'Image placement 0'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      image_placement_wrapper: image_placement_wrapper
+    negate: 0
+    target_bundles_drag_drop:
+      image_placement_back:
+        weight: 6
+        enabled: false
+      image_placement_front:
+        weight: 7
+        enabled: false
+      image_placement_side:
+        weight: 8
+        enabled: false
+      image_placement_wrapper:
+        weight: 9
+        enabled: true
+      order_option:
+        weight: 10
+        enabled: false
+field_type: entity_reference_revisions

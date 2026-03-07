@@ -1,0 +1,19 @@
+uuid: a616280a-9858-412f-bf1f-1d32d3b68cb3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_color_pms
+    - taxonomy.vocabulary.colors
+id: taxonomy_term.colors.field_color_pms
+field_name: field_color_pms
+entity_type: taxonomy_term
+bundle: colors
+label: 'Color PMS'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
