@@ -188,6 +188,10 @@
             //console.log(`✅ ${type}:`, htmlImg.naturalWidth, htmlImg.naturalHeight);
             let ratio = htmlImg.naturalWidth / htmlImg.naturalHeight;
             let xScale = imageWidth * 0.35 / htmlImg.naturalWidth;
+            let startingWidth = htmlImg.naturalWidth * xScale;
+            let startingHeight = htmlImg.naturalHeight * xScale;
+
+            console.log('STARTWIDTH: ' + startingWidth);
 
             let angle = $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-rotation-0-value"]`).val();
             let topC = $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-top-0-value"]`).val();
@@ -204,7 +208,7 @@
 
             const fabImg = new fabric.Image(htmlImg, {
               left: !leftC ? (imageLeft * 0.35 + imageWidth * 0.35 / 2) : Math.round(leftC),
-              top: !topC ? (imageTop * 0.35 + imageHeight * 0.35 / 2) : Math.round(topC),
+              top: !topC ? (imageTop * 0.35 + imageHeight * 0.35 / 2) - 40 : Math.round(topC),
               scaleX: !scale ? xScale : scale,
               scaleY: !scale ? xScale : scale,
               cornerStyle: 'circle',
@@ -231,7 +235,7 @@
             canvas.setActiveObject(fabImg);
             canvas.requestRenderAll();
 
-            var maxScaleX = 116 / htmlImg.naturalWidth;
+            var maxScaleX = imageWidth * 0.35 / htmlImg.naturalWidth;
             var maxScaleY = 116 / htmlImg.naturalHeight;
 
             canvas.on('object:scaling', function(e) {
@@ -248,6 +252,44 @@
                 obj.left = obj.lastGoodLeft;
                 obj.top = obj.lastGoodTop;
               }
+              obj.lastGoodTop = obj.top;
+              obj.lastGoodLeft = obj.left;
+            })
+
+
+
+
+            canvas.on('object:moving', function(e) {
+              var minLeft = (imageLeft * 0.35 + imageWidth * 0.35 * 0.5);
+              var minTop = (imageTop * 0.35 + imageHeight * 0.35 / 2) - 40;
+              var maxRight = (imageLeftWidth * 0.35 + imageWidth * 0.35 * 0.5);
+              var maxTop = (imageTopHeight * 0.35 + imageHeight * 0.35 / 2) - 40;
+
+              let obj = e.target;
+              console.log('width NOW');
+              let widthNow = htmlImg.naturalWidth * obj.scaleX;
+              let heightNow = htmlImg.naturalHeight * obj.scaleX;
+              let diffx = (startingWidth - widthNow) / 2;
+              let diffy = (startingHeight - heightNow) / 2;
+
+              if(obj.left < minLeft - diffx) {
+                obj.left = obj.lastGoodLeft;
+                console.log('stop');
+              }
+
+              if(obj.left > maxRight - widthNow - diffx) {
+                obj.left = obj.lastGoodLeft;
+                console.log('stop');
+              }
+
+              if(obj.top < minTop - diffy) {
+                obj.top = obj.lastGoodTop;
+              }
+
+              if(obj.top > maxTop - heightNow - diffy) {
+                obj.top = obj.lastGoodTop;
+              }
+
               obj.lastGoodTop = obj.top;
               obj.lastGoodLeft = obj.left;
             })
