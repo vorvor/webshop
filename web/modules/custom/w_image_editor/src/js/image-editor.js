@@ -26,9 +26,20 @@
         $('#edit-group-print-area-' + index + ' canvas').css('background-image', 'url(' + imageUrl + ')');
       })
 
-      once('imageEditor', '.after-image-area', context).forEach((element) => {
+      once('imageEditor', '.after-image-area', context).forEach((element, index) => {
         let parent = $(element).data('parent');
         let parentHyphen = parent.replace(/_/g, '-');
+
+
+        const bgData = $('.after-image-area-list-' + parent);
+        const imageUrl = bgData.val();
+        const imageLeft = bgData.attr('data-left');
+        const imageTop = bgData.attr('data-top');
+        const imageLeftWidth = bgData.attr('data-left-width');
+        const imageTopHeight = bgData.attr('data-top-height');
+
+        const imageWidth = imageLeftWidth - imageLeft;
+        const imageHeight = imageTopHeight - imageTop;
 
         let src = $(`#field_image-media-library-wrapper-${parent}-0-subform .field--name-thumbnail img`).attr('src');
         if (src !== undefined) {
@@ -40,6 +51,22 @@
             centeredRotation: true,
             uniformScaling: true,
             lockUniScaling: true
+          });
+
+          fabric.Image.fromURL(imageUrl).then((img) => {
+            img.canvas = canvas;
+
+            img.set({
+              scaleX: 0.35,
+              scaleY: 0.35,
+              originX: 'left',
+              originY: 'top',
+              left: 0,
+              top: 0
+            });
+
+            canvas.backgroundImage = img;
+            canvas.requestRenderAll();
           });
 
           // We’ll store the "start" state of the active object when user begins an action
@@ -160,19 +187,24 @@
           htmlImg.onload = () => {
             //console.log(`✅ ${type}:`, htmlImg.naturalWidth, htmlImg.naturalHeight);
             let ratio = htmlImg.naturalWidth / htmlImg.naturalHeight;
-            let xScale = 116 / htmlImg.naturalWidth;
+            let xScale = imageWidth * 0.35 / htmlImg.naturalWidth;
 
             let angle = $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-rotation-0-value"]`).val();
             let topC = $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-top-0-value"]`).val();
             let leftC = $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-left-0-value"]`).val();
             let scale = $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-scale-0-value"]`).val();
 
+            console.log('top:' + imageTop + ' left:' + imageLeft)
+            console.log('height:' + imageHeight + ' width:' + imageWidth);
+
             console.log(`Xscale: ${xScale}`);
-            console.log(angle, topC, Math.round(leftC), scale);
+            console.log('Left' + imageLeft + ':' + (223 + parseInt(imageWidth) * 0.35) + ':'  + ': ' + ((imageLeft + (parseInt(imageWidth) / 2)) * 0.35));
+
+            // 223 -> 126
 
             const fabImg = new fabric.Image(htmlImg, {
-              left: !leftC ? 100 : Math.round(leftC),
-              top: !topC ? 100 : Math.round(topC),
+              left: !leftC ? (imageLeft * 0.35 + imageWidth * 0.35 / 2) : Math.round(leftC),
+              top: !topC ? (imageTop * 0.35 + imageHeight * 0.35 / 2) : Math.round(topC),
               scaleX: !scale ? xScale : scale,
               scaleY: !scale ? xScale : scale,
               cornerStyle: 'circle',

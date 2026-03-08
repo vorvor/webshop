@@ -35,7 +35,7 @@ function w_image_editor_form_alter(array &$form, FormStateInterface $form_state,
     $product = \Drupal::entityTypeManager()->getStorage('node')->load($nid);
     $masterCode = $product->get('field_master_code')->getValue()[0]['value'];
     $printAreas = \Drupal::service('w_solo_api.get_print_areas')->getPrintArea($masterCode);
-    //dpm($printAreas);
+    dpm($printAreas);
 
     /*
     // Current print area - user selection.
@@ -67,18 +67,24 @@ function w_image_editor_form_alter(array &$form, FormStateInterface $form_state,
 
 
     $areas = [];
+    $c = 0;
     foreach ($printAreas['printing_positions'] as $area) {
       $imgUrl = $area['images'][0]['print_position_image_with_area'];
       $form['area_' . $area['position_id']] = [
         '#type' => 'textfield',
         '#value' => $imgUrl,
         '#attributes' => [
-          'class' => ['after-image-area-list'],
+          'class' => ['after-image-area-list', 'after-image-area-list-field_image_placement_' . $c],
           'data-print-area-name' => $area['position_id'],
+          'data-left' => $area['points'][0]['distance_from_left'],
+          'data-top' => $area['points'][0]['distance_from_top'],
+          'data-left-width' => $area['points'][1]['distance_from_left'],
+          'data-top-height' => $area['points'][1]['distance_from_top'],
         ],
       ];
 
       $areas[$area['position_id']]= $area['position_id'];
+      $c++;
     }
 
     $form['print_area_controls'] = [

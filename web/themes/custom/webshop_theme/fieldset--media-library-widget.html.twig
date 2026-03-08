@@ -89,7 +89,7 @@
     {{ children }}
       <div class="after-image-area editor-wrapper-{{ parent }}" data-parent="{{ parent }}">
         {# <div id="hud-back">Waiting…</div> #}
-        <div class="editor-fields-back">
+        <div class="editor-fields">
           {#
           <input id="rotation-back" type="text" value="0">
           <input id="top-back" type="text" value="0">
@@ -98,7 +98,7 @@
           #}
         </div>
         <div id="editor-canvas-back">
-          <canvas id="editor-{{ parent }}" width="300" height="300"></canvas>
+          <canvas id="editor-{{ parent }}" width="400" height="400"></canvas>
         </div>
       </div>
     {% if suffix %}

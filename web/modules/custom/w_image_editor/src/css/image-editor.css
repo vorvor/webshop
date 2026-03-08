@@ -28,6 +28,10 @@
       position: absolute;
       top: 142px;
     }
+
+    .js-media-library-selection {
+      position: absolute;
+    }
   }
 
   article[data-drupal-selector="edit-field-image-placement-front-0-subform-field-image-selection-0-rendered-entity"],
@@ -145,10 +149,20 @@
   }
 }
 
-.editor-canvas {
+#editor-field_image_placement_0,
+#editor-field_image_placement_1,
+#editor-field_image_placement_2,
+#editor-field_image_placement_3,
+#editor-field_image_placement_4,
+#editor-field_image_placement_5,
+#editor-field_image_placement_6 {
   background-repeat: no-repeat;
   background-position: 50% 50%;
   background-size: 70%;
+}
+
+.js-media-library-selection article {
+  display: none;
 }
 
 
