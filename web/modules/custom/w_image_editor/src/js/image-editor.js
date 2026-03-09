@@ -6,7 +6,7 @@
         // popup opener
         $(e).click(function() {
           if ($(this).hasClass('active')) {
-            $(this).removeClass('active').html('Place image on shirt');
+            $(this).removeClass('active').html('Place image on product');
             $('.horizontal-tabs').hide();
           } else {
             $(this).addClass('active').html('Close image place');
@@ -44,7 +44,7 @@
         let src = $(`#field_image-media-library-wrapper-${parent}-0-subform .field--name-thumbnail img`).attr('src');
         if (src !== undefined) {
 
-          console.log(src);
+          const generalScale = 0.6;
 
           const canvas = new fabric.Canvas(`editor-${parent}`, {
             centeredScaling: false,
@@ -57,8 +57,8 @@
             img.canvas = canvas;
 
             img.set({
-              scaleX: 0.35,
-              scaleY: 0.35,
+              scaleX: generalScale,
+              scaleY: generalScale,
               originX: 'left',
               originY: 'top',
               left: 0,
@@ -137,7 +137,6 @@
             document.getElementById(`scale-${type}`).value = scaleX;
 */
 
-            console.log('updated.');
             $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-rotation-0-value"]`).val(Math.round(angle));
             $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-top-0-value"]`).val(Math.round(top));
             $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-left-0-value"]`).val(Math.round(left));
@@ -187,11 +186,22 @@
           htmlImg.onload = () => {
             //console.log(`✅ ${type}:`, htmlImg.naturalWidth, htmlImg.naturalHeight);
             let ratio = htmlImg.naturalWidth / htmlImg.naturalHeight;
-            let xScale = imageWidth * 0.35 / htmlImg.naturalWidth;
+
+
+            let xScale = 0.8;
+
+            bgRatio = imageWidth / imageHeight;
+            imRatio = htmlImg.naturalWidth / htmlImg.naturalHeight;
+
+            if (bgRatio > imRatio) {
+              xScale = ((imageHeight * generalScale) / htmlImg.naturalHeight) * 0.8;
+            } else {
+              xScale = ((imageWidth * generalScale) / htmlImg.naturalWidth) * 0.8;
+            }
+
+            //let xScale = imageWidth * generalScale / htmlImg.naturalWidth;
             let startingWidth = htmlImg.naturalWidth * xScale;
             let startingHeight = htmlImg.naturalHeight * xScale;
-
-            console.log('STARTWIDTH: ' + startingWidth);
 
             let angle = $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-rotation-0-value"]`).val();
             let topC = $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-top-0-value"]`).val();
@@ -202,13 +212,20 @@
             console.log('height:' + imageHeight + ' width:' + imageWidth);
 
             console.log(`Xscale: ${xScale}`);
-            console.log('Left' + imageLeft + ':' + (223 + parseInt(imageWidth) * 0.35) + ':'  + ': ' + ((imageLeft + (parseInt(imageWidth) / 2)) * 0.35));
+            console.log('Left' + imageLeft + ':' + (223 + parseInt(imageWidth) * generalScale) + ':'  + ': ' + ((imageLeft + (parseInt(imageWidth) / 2)) * generalScale));
 
             // 223 -> 126
 
+            console.log('imageLeft' + imageLeft);
+            console.log('imageLeft scaled' + (imageLeft * generalScale));
+            console.log('imageWidth' + htmlImg.naturalWidth);
+            console.log('xScale' + xScale);
+            console.log('imageWidth scaled' + (htmlImg.naturalWidth * xScale));
+
+
             const fabImg = new fabric.Image(htmlImg, {
-              left: !leftC ? (imageLeft * 0.35 + imageWidth * 0.35 / 2) : Math.round(leftC),
-              top: !topC ? (imageTop * 0.35 + imageHeight * 0.35 / 2) - 40 : Math.round(topC),
+              left: !leftC ? (imageLeft * generalScale + htmlImg.naturalWidth * xScale / 2) : Math.round(leftC),
+              top: !topC ? (imageTop * generalScale + htmlImg.naturalHeight * xScale / 2) : Math.round(topC),
               scaleX: !scale ? xScale : scale,
               scaleY: !scale ? xScale : scale,
               cornerStyle: 'circle',
@@ -235,8 +252,8 @@
             canvas.setActiveObject(fabImg);
             canvas.requestRenderAll();
 
-            var maxScaleX = imageWidth * 0.35 / htmlImg.naturalWidth;
-            var maxScaleY = 116 / htmlImg.naturalHeight;
+            var maxScaleX = imageWidth * generalScale / htmlImg.naturalWidth;
+            //var maxScaleY = 116 / htmlImg.naturalHeight;
 
             canvas.on('object:scaling', function(e) {
               let obj = e.target;
@@ -256,30 +273,29 @@
               obj.lastGoodLeft = obj.left;
             })
 
-
-
-
             canvas.on('object:moving', function(e) {
-              var minLeft = (imageLeft * 0.35 + imageWidth * 0.35 * 0.5);
-              var minTop = (imageTop * 0.35 + imageHeight * 0.35 / 2) - 40;
-              var maxRight = (imageLeftWidth * 0.35 + imageWidth * 0.35 * 0.5);
-              var maxTop = (imageTopHeight * 0.35 + imageHeight * 0.35 / 2) - 40;
-
               let obj = e.target;
-              console.log('width NOW');
+
               let widthNow = htmlImg.naturalWidth * obj.scaleX;
               let heightNow = htmlImg.naturalHeight * obj.scaleX;
               let diffx = (startingWidth - widthNow) / 2;
               let diffy = (startingHeight - heightNow) / 2;
 
+              var minLeft = (imageLeft * generalScale + widthNow * 0.5);
+              var minTop = (imageTop * generalScale + heightNow * 0.5);
+              var maxRight = (imageLeftWidth * generalScale + widthNow * 0.5);
+              var maxTop = (imageTopHeight * generalScale + heightNow / 2);
+
+              console.log('minLeft:' + minLeft + ' maxRight:' + maxRight);
+
               if(obj.left < minLeft - diffx) {
                 obj.left = obj.lastGoodLeft;
-                console.log('stop');
+
               }
 
               if(obj.left > maxRight - widthNow - diffx) {
                 obj.left = obj.lastGoodLeft;
-                console.log('stop');
+
               }
 
               if(obj.top < minTop - diffy) {

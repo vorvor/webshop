@@ -144,7 +144,7 @@
   }
 
   canvas {
-    width: 400px;
+    width: 800px;
     border: 1px solid #ccc;
   }
 }
@@ -157,7 +157,7 @@
 #editor-field_image_placement_5,
 #editor-field_image_placement_6 {
   background-repeat: no-repeat;
-  background-position: 50% 50%;
+  background-position: 0 0;
   background-size: 70%;
 }
 

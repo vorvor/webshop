@@ -70,7 +70,7 @@ function w_select_with_image_form_node_order_form_alter(array &$form, FormStateI
 
   $form['popup'] = [
     '#type' => 'markup',
-    '#markup' => '<div id="open-popup" class="button button--small">Place image on shirt</div>',
+    '#markup' => '<div id="open-popup" class="button button--small">Place image on product</div>',
     '#weight' => 1,
   ];
 }

@@ -87,6 +87,7 @@ function w_image_editor_form_alter(array &$form, FormStateInterface $form_state,
       $c++;
     }
 
+    /*
     $form['print_area_controls'] = [
       '#type' => 'container',
       '#weight' => 10,
@@ -98,6 +99,7 @@ function w_image_editor_form_alter(array &$form, FormStateInterface $form_state,
       '#type' => 'select',
       '#options' => $areas,
     ];
+    */
   }
 
   if ($form_id == 'node_order_edit_form') {
