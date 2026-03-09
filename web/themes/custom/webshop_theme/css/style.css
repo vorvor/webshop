@@ -2,6 +2,11 @@
   background: none;
 }
 
+.print-area-image-placements {
+  thead {
+    display: none;
+  }
+}
 
 
 .layout--content-medium, .layout--pass--content-medium > * {
@@ -47,10 +52,18 @@ div[data-drupal-selector="tabledrag-toggle-weight-wrapper"] {
 }
 
 .field--name-field-order-options {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  padding: 0 15px 1px;
+  border-radius: 10px;
+
   table {
     background: none !important;
 
     thead {
+      display: none;
+    }
+
+    td.delta-order {
       display: none;
     }
   }
