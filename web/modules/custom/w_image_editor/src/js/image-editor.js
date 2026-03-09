@@ -3,7 +3,7 @@
     attach(context) {
       once('imageEditorPopup', '#open-popup', context).forEach((e) => {
         $('.horizontal-tab-button').hide();
-        // popup opener
+        // Image placing on product print areas popup opener.
         $(e).click(function() {
           if ($(this).hasClass('active')) {
             $(this).removeClass('active').html('Place image on product');
@@ -19,11 +19,11 @@
       once('imageEditorBackgrounds', '.after-image-area-list', context).forEach((element, index) => {
         let printAreaName = $(element).data('print-area-name');
         let imageUrl = $(element).val();
-        console.log('.horizontal-tab-button-' + index + ' canvas');
-        console.log(imageUrl);
+
+        // There are 7 tabs default, show only adecvate number depending on number of print areas.
         $('.horizontal-tab-button-' + index).show();
+        // Set tabs labels depending on print area names.
         $('.horizontal-tab-button-' + index + ' strong').html(printAreaName);
-        $('#edit-group-print-area-' + index + ' canvas').css('background-image', 'url(' + imageUrl + ')');
       })
 
       once('imageEditor', '.after-image-area', context).forEach((element, index) => {
@@ -32,43 +32,47 @@
 
 
         const bgData = $('.after-image-area-list-' + parent);
-        const imageUrl = bgData.val();
-        const imageLeft = bgData.attr('data-left');
-        const imageTop = bgData.attr('data-top');
-        const imageLeftWidth = bgData.attr('data-left-width');
-        const imageTopHeight = bgData.attr('data-top-height');
+        const bgImageUrl = bgData.val();
+        const bgImageLeft = bgData.attr('data-left');
+        const bgImageTop = bgData.attr('data-top');
+        const bgImageLeftWidth = bgData.attr('data-left-width');
+        const bgImageTopHeight = bgData.attr('data-top-height');
 
-        const imageWidth = imageLeftWidth - imageLeft;
-        const imageHeight = imageTopHeight - imageTop;
+        const bgImageWidth = bgImageLeftWidth - bgImageLeft;
+        const bgImageHeight = bgImageTopHeight - bgImageTop;
+
+        // Background scale.
+        const generalScale = 0.6;
+
+        // Init fabric on canvases.
+        const canvas = new fabric.Canvas(`editor-${parent}`, {
+          centeredScaling: false,
+          centeredRotation: true,
+          uniformScaling: true,
+          lockUniScaling: true
+        });
+
+        // Set canvas background coming from midocean api print area source.
+        fabric.Image.fromURL(bgImageUrl).then((img) => {
+          img.canvas = canvas;
+
+          img.set({
+            scaleX: generalScale,
+            scaleY: generalScale,
+            originX: 'left',
+            originY: 'top',
+            left: 0,
+            top: 0
+          });
+
+          canvas.backgroundImage = img;
+          canvas.requestRenderAll();
+        });
 
         let src = $(`#field_image-media-library-wrapper-${parent}-0-subform .field--name-thumbnail img`).attr('src');
+
+        // Trigger: image selected from Media selector and thumbnail appeared.
         if (src !== undefined) {
-
-          const generalScale = 0.6;
-
-          const canvas = new fabric.Canvas(`editor-${parent}`, {
-            centeredScaling: false,
-            centeredRotation: true,
-            uniformScaling: true,
-            lockUniScaling: true
-          });
-
-          fabric.Image.fromURL(imageUrl).then((img) => {
-            img.canvas = canvas;
-
-            img.set({
-              scaleX: generalScale,
-              scaleY: generalScale,
-              originX: 'left',
-              originY: 'top',
-              left: 0,
-              top: 0
-            });
-
-            canvas.backgroundImage = img;
-            canvas.requestRenderAll();
-          });
-
           // We’ll store the "start" state of the active object when user begins an action
           let startState = null;
 
@@ -137,6 +141,7 @@
             document.getElementById(`scale-${type}`).value = scaleX;
 */
 
+            // Update paragraph fields with current transform data.
             $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-rotation-0-value"]`).val(Math.round(angle));
             $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-top-0-value"]`).val(Math.round(top));
             $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-left-0-value"]`).val(Math.round(left));
@@ -177,57 +182,49 @@
           // ----------------------------
           // 2) FOREGROUND (your existing functionality)
           // ----------------------------
-          const url = src;
-          //console.log('Loading ' + type, url);
-
           const htmlImg = new Image();
           htmlImg.crossOrigin = 'anonymous';
 
           htmlImg.onload = () => {
-            //console.log(`✅ ${type}:`, htmlImg.naturalWidth, htmlImg.naturalHeight);
-            let ratio = htmlImg.naturalWidth / htmlImg.naturalHeight;
 
 
-            let xScale = 0.8;
-
-            bgRatio = imageWidth / imageHeight;
-            imRatio = htmlImg.naturalWidth / htmlImg.naturalHeight;
-
-            if (bgRatio > imRatio) {
-              xScale = ((imageHeight * generalScale) / htmlImg.naturalHeight) * 0.8;
+            // Depending on bg image w/h ratio and uploaded image w/h ratio, decided width or height should be scaled to fit boundaries.
+            let htmlImgScale;
+            let bgRatio = bgImageWidth / bgImageHeight;
+            let imRatio = htmlImg.naturalWidth / htmlImg.naturalHeight;
+            if (bgRatio >= imRatio) {
+              htmlImgScale = ((bgImageHeight * generalScale) / htmlImg.naturalHeight) * 0.8;
             } else {
-              xScale = ((imageWidth * generalScale) / htmlImg.naturalWidth) * 0.8;
+              htmlImgScale = ((bgImageWidth * generalScale) / htmlImg.naturalWidth) * 0.8;
             }
 
-            //let xScale = imageWidth * generalScale / htmlImg.naturalWidth;
-            let startingWidth = htmlImg.naturalWidth * xScale;
-            let startingHeight = htmlImg.naturalHeight * xScale;
+            let startingWidth = htmlImg.naturalWidth * htmlImgScale;
+            let startingHeight = htmlImg.naturalHeight * htmlImgScale;
 
+            // Grab back info from node fields if already changed.
             let angle = $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-rotation-0-value"]`).val();
             let topC = $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-top-0-value"]`).val();
             let leftC = $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-left-0-value"]`).val();
             let scale = $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-scale-0-value"]`).val();
 
-            console.log('top:' + imageTop + ' left:' + imageLeft)
-            console.log('height:' + imageHeight + ' width:' + imageWidth);
+            console.log('top:' + bgImageTop + ' left:' + bgImageLeft)
+            console.log('height:' + bgImageHeight + ' width:' + bgImageWidth);
 
-            console.log(`Xscale: ${xScale}`);
-            console.log('Left' + imageLeft + ':' + (223 + parseInt(imageWidth) * generalScale) + ':'  + ': ' + ((imageLeft + (parseInt(imageWidth) / 2)) * generalScale));
+            console.log(`Xscale: ${htmlImgScale}`);
+            console.log('Left' + bgImageLeft + ':' + (223 + parseInt(bgImageWidth) * generalScale) + ':'  + ': ' + ((bgImageLeft + (parseInt(bgImageWidth) / 2)) * generalScale));
 
-            // 223 -> 126
-
-            console.log('imageLeft' + imageLeft);
-            console.log('imageLeft scaled' + (imageLeft * generalScale));
+            console.log('bgImageLeft' + bgImageLeft);
+            console.log('bgImageLeft scaled' + (bgImageLeft * generalScale));
             console.log('imageWidth' + htmlImg.naturalWidth);
-            console.log('xScale' + xScale);
-            console.log('imageWidth scaled' + (htmlImg.naturalWidth * xScale));
+            console.log('xScale' + htmlImgScale);
+            console.log('bgImageWidth scaled' + (htmlImg.naturalWidth * htmlImgScale));
 
-
+            // Uploaded image (thumbnail) added to canvas with fabric.
             const fabImg = new fabric.Image(htmlImg, {
-              left: !leftC ? (imageLeft * generalScale + htmlImg.naturalWidth * xScale / 2) : Math.round(leftC),
-              top: !topC ? (imageTop * generalScale + htmlImg.naturalHeight * xScale / 2) : Math.round(topC),
-              scaleX: !scale ? xScale : scale,
-              scaleY: !scale ? xScale : scale,
+              left: !leftC ? (bgImageLeft * generalScale + htmlImg.naturalWidth * htmlImgScale / 2) : Math.round(leftC),
+              top: !topC ? (bgImageTop * generalScale + htmlImg.naturalHeight * htmlImgScale / 2) : Math.round(topC),
+              scaleX: !scale ? htmlImgScale : scale,
+              scaleY: !scale ? htmlImgScale : scale,
               cornerStyle: 'circle',
               cornerStrokeColor: 'orange',
               cornerColor: 'red',
@@ -252,9 +249,9 @@
             canvas.setActiveObject(fabImg);
             canvas.requestRenderAll();
 
-            var maxScaleX = imageWidth * generalScale / htmlImg.naturalWidth;
-            //var maxScaleY = 116 / htmlImg.naturalHeight;
+            var maxScaleX = bgImageWidth * generalScale / htmlImg.naturalWidth;
 
+            // Limit scaling depending on print area boundaries.
             canvas.on('object:scaling', function(e) {
               let obj = e.target;
               console.log('scaling' + obj.scaleX + ':' + maxScaleX);
@@ -273,6 +270,7 @@
               obj.lastGoodLeft = obj.left;
             })
 
+            // Limit moving depending on print area boundaries.
             canvas.on('object:moving', function(e) {
               let obj = e.target;
 
@@ -281,21 +279,17 @@
               let diffx = (startingWidth - widthNow) / 2;
               let diffy = (startingHeight - heightNow) / 2;
 
-              var minLeft = (imageLeft * generalScale + widthNow * 0.5);
-              var minTop = (imageTop * generalScale + heightNow * 0.5);
-              var maxRight = (imageLeftWidth * generalScale + widthNow * 0.5);
-              var maxTop = (imageTopHeight * generalScale + heightNow / 2);
-
-              console.log('minLeft:' + minLeft + ' maxRight:' + maxRight);
+              var minLeft = (bgImageLeft * generalScale + widthNow * 0.5);
+              var minTop = (bgImageTop * generalScale + heightNow * 0.5);
+              var maxRight = (bgImageLeftWidth * generalScale + widthNow * 0.5);
+              var maxTop = (bgImageTopHeight * generalScale + heightNow / 2);
 
               if(obj.left < minLeft - diffx) {
                 obj.left = obj.lastGoodLeft;
-
               }
 
               if(obj.left > maxRight - widthNow - diffx) {
                 obj.left = obj.lastGoodLeft;
-
               }
 
               if(obj.top < minTop - diffy) {
@@ -321,7 +315,7 @@
             alert('Foreground failed to load: ' + url + '\nCheck Network tab for 404 / blocked request.');
           };
 
-          htmlImg.src = url;
+          htmlImg.src = src;
         }
       });
     }
