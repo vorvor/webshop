@@ -20,7 +20,7 @@ use Drupal\file\Element\ManagedFile;
  * Implements hook_form_alter().
  */
 function w_image_editor_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
-  if ($form_id == 'node_order_form' || $form_id == 'node_order_edit_form') {
+  if ($form_id == 'node_order_form') {
     $form['#attached']['library'][] = 'w_image_editor/global';
 
 
@@ -32,59 +32,63 @@ function w_image_editor_form_alter(array &$form, FormStateInterface $form_state,
     }
 
     $nid = is_numeric($nid) ? (int) $nid : null;
-    $product = \Drupal::entityTypeManager()->getStorage('node')->load($nid);
-    $masterCode = $product->get('field_master_code')->getValue()[0]['value'];
-    $printAreas = \Drupal::service('w_solo_api.get_print_areas')->getPrintArea($masterCode);
-    dpm($printAreas);
 
-    /*
-    // Current print area - user selection.
-    $printArea = $form_state->getUserInput()['print_area_controls']['field_print_area_select'];
-    $items = array_filter(
-      array_keys($form['field_image_placement']['widget']),
-      'is_numeric'
-    );
+    if (!is_null($nid)) {
+      $product = \Drupal::entityTypeManager()->getStorage('node')->load($nid);
+      $masterCode = $product->get('field_master_code')->getValue()[0]['value'];
+      $printAreas = \Drupal::service('w_solo_api.get_print_areas')->getPrintArea($masterCode);
+      dpm($printAreas);
 
-    // Count paragraph items.
-    $count = count($items);
-    // Hide the last, empty paragraph item.
-    //$form['field_image_placement']['widget'][$count - 1]['#attributes'] = ['class' => ['hidden']];
+      $form['field_product']['widget'][0]['target_id']['#default_value'] = $product;
+      /*
+      // Current print area - user selection.
+      $printArea = $form_state->getUserInput()['print_area_controls']['field_print_area_select'];
+      $items = array_filter(
+        array_keys($form['field_image_placement']['widget']),
+        'is_numeric'
+      );
 
-    $form['field_image_placement']['widget'][$count - 2]['subform']['field_print_position']['widget'][0]['value']['#value'] = $printArea;
+      // Count paragraph items.
+      $count = count($items);
+      // Hide the last, empty paragraph item.
+      //$form['field_image_placement']['widget'][$count - 1]['#attributes'] = ['class' => ['hidden']];
 
-    for ($c = 0; $c < $count; $c++) {
-      // Autofilled print area disabled, user cannot change.
-      $form['field_image_placement']['widget'][$c]['subform']['field_print_position']['widget'][0]['#disabled'] = TRUE;
+      $form['field_image_placement']['widget'][$count - 2]['subform']['field_print_position']['widget'][0]['value']['#value'] = $printArea;
 
-      if ($c == $count - 2) { $currentArea = $printArea; }
-      else {
-        $currentArea = $form['field_image_placement']['widget'][$c]['subform']['field_print_position']['widget'][0]['value']['#default_value'];
+      for ($c = 0; $c < $count; $c++) {
+        // Autofilled print area disabled, user cannot change.
+        $form['field_image_placement']['widget'][$c]['subform']['field_print_position']['widget'][0]['#disabled'] = TRUE;
+
+        if ($c == $count - 2) { $currentArea = $printArea; }
+        else {
+          $currentArea = $form['field_image_placement']['widget'][$c]['subform']['field_print_position']['widget'][0]['value']['#default_value'];
+        }
+
+        $bgImg = $form_state->getUserInput()['area_' . $currentArea];
+
+      } */
+
+
+      $areas = [];
+      $c = 0;
+      foreach ($printAreas['printing_positions'] as $area) {
+        $imgUrl = $area['images'][0]['print_position_image_with_area'];
+        $form['area_' . $area['position_id']] = [
+          '#type' => 'hidden',
+          '#value' => $imgUrl,
+          '#attributes' => [
+            'class' => ['after-image-area-list', 'after-image-area-list-field_image_placement_' . $c],
+            'data-print-area-name' => $area['position_id'],
+            'data-left' => $area['points'][0]['distance_from_left'],
+            'data-top' => $area['points'][0]['distance_from_top'],
+            'data-left-width' => $area['points'][1]['distance_from_left'],
+            'data-top-height' => $area['points'][1]['distance_from_top'],
+          ],
+        ];
+
+        $areas[$area['position_id']] = $area['position_id'];
+        $c++;
       }
-
-      $bgImg = $form_state->getUserInput()['area_' . $currentArea];
-
-    } */
-
-
-    $areas = [];
-    $c = 0;
-    foreach ($printAreas['printing_positions'] as $area) {
-      $imgUrl = $area['images'][0]['print_position_image_with_area'];
-      $form['area_' . $area['position_id']] = [
-        '#type' => 'hidden',
-        '#value' => $imgUrl,
-        '#attributes' => [
-          'class' => ['after-image-area-list', 'after-image-area-list-field_image_placement_' . $c],
-          'data-print-area-name' => $area['position_id'],
-          'data-left' => $area['points'][0]['distance_from_left'],
-          'data-top' => $area['points'][0]['distance_from_top'],
-          'data-left-width' => $area['points'][1]['distance_from_left'],
-          'data-top-height' => $area['points'][1]['distance_from_top'],
-        ],
-      ];
-
-      $areas[$area['position_id']]= $area['position_id'];
-      $c++;
     }
 
     /*
@@ -103,32 +107,7 @@ function w_image_editor_form_alter(array &$form, FormStateInterface $form_state,
   }
 
   if ($form_id == 'node_order_edit_form') {
-    $sides = ['front', 'back', 'side'];
-    foreach ($sides as $side) {
-      $form["field_image_placement_$side"]['widget'][0]['subform']['field_image']['widget']['image_editor'] = [
-        '#type' => 'container',
-        '#attributes' => [
-          'class' => ['after-image-area'],
-          'data-paragraph-image' => '1',
-          'data-type' => $side,
-        ],
-        '#weight' => 1,
 
-        'canvas_wrap' => [
-          '#type' => 'container',
-          '#attributes' => ['id' => "editor-canvas-$side"],
-          'canvas' => [
-            '#type' => 'html_tag',
-            '#tag' => 'canvas',
-            '#attributes' => [
-              'id' => "editor-$side",
-              'width' => 300,
-              'height' => 300,
-            ],
-          ],
-        ],
-      ];
-    }
   }
 }
 
@@ -267,15 +246,27 @@ function w_image_editor_preprocess_node(array &$variables): void {
   }
 
   $variables['#attached']['library'][] = 'w_image_editor/image-placement-product-page';
-  $sides = ['front', 'back', 'side'];
-  $style = '';
-  foreach ($sides as $side) {
-    $scale = $node->get("field_image_placement_$side")->entity->get('field_scale')->getValue()[0]['value'];
-    $left = $node->get("field_image_placement_$side")->entity->get('field_left')->getValue()[0]['value'];
-    $top = $node->get("field_image_placement_$side")->entity->get('field_top')->getValue()[0]['value'];
-    $rotation = $node->get("field_image_placement_$side")->entity->get('field_rotation')->getValue()[0]['value'];
 
-    $imagePalcement = $node->get("field_image_placement_$side")
+  // Get print area data from midocean api.
+  $productId = $node->get('field_product')->getValue()[0]['target_id'];
+
+  $product = \Drupal::entityTypeManager()->getStorage('node')->load($productId);
+  $masterCode = $product->get('field_master_code')->getValue()[0]['value'];
+  $printAreas = \Drupal::service('w_solo_api.get_print_areas')->getPrintArea($masterCode);
+
+  $printAreasRefactored = [];
+  foreach ($printAreas['printing_positions'] as $area) {
+    $printAreasRefactored[$area['position_id']] = $area['images'][0]['print_position_image_with_area'];
+  }
+
+  $style = '';
+  for ($c = 0; $c <7; $c++) {
+    $scale = $node->get("field_image_placement_$c")->entity->get('field_scale')->getValue()[0]['value'];
+    $left = $node->get("field_image_placement_$c")->entity->get('field_left')->getValue()[0]['value'];
+    $top = $node->get("field_image_placement_$c")->entity->get('field_top')->getValue()[0]['value'];
+    $rotation = $node->get("field_image_placement_$c")->entity->get('field_rotation')->getValue()[0]['value'];
+
+    $imagePalcement = $node->get("field_image_placement_$c")
       ->entity;
     $image = $imagePalcement->get('field_image')
       ->entity;
@@ -292,11 +283,17 @@ function w_image_editor_preprocess_node(array &$variables): void {
 
       $variables['#attributes'] = $variables['#attributes'] ?? [];
       $existing = $variables['#attributes']['style'] ?? '';
-      $style .= trim($existing . ' ' . "--field-image-$side-scale: {$scale};");
-      $style .= " --field-image-$side-left: {$left}px; --field-image-$side-top: {$top}px; --field-image-$side-rotation: {$rotation};";
+      $style .= trim($existing . ' ' . "--field-image-$c-scale: {$scale};");
+      $style .= " --field-image-$c-left: {$left}px; --field-image-$c-top: {$top}px; --field-image-$c-rotation: {$rotation};";
+
+      $printArea = $node->get("field_image_placement_$c")->entity->get('field_print_position')->getValue()[0]['value'];
+      $style .= ' --bg-image-' . $c . ': url("' . $printAreasRefactored[$printArea] . '");';
+
+
       $variables['attributes']['style'] = $style;
     }
   }
+
 
 
 }
@@ -362,23 +359,27 @@ function w_image_editor_preprocess_paragraph(array &$variables): void {
 
     if ($field_name === 'field_color' && !is_null($paragraph->get($field_name)->entity)) {
 
+      $a = $paragraph->get($field_name)->entity->label();
       $termId = \Drupal::entityQuery("taxonomy_term")
         ->condition("vid", "t_shirt_colors")
         ->condition("name", $paragraph->get($field_name)->entity->label())
         ->accessCheck()
         ->execute();
 
-      $colorTerm = Term::load(reset($termId));
-      $colorCode = $colorTerm->get('field_color_hex')->value ?? '';
+      if (!empty($termId) && is_array(reset($termId))) {
+        $colorTerm = Term::load(reset($termId));
+        $colorCode = $colorTerm->get('field_color_hex')->value ?? '';
 
-      $color = [
-        'name' => $field_name,
-        'colorCode' => $colorCode,
-        'weight' => (int)($components[$field_name]['weight'] ?? 0),
-        'label' => $definition->getLabel(),
-        'value' => $paragraph->get($field_name)->entity->label(),
-      ];
+        $color = [
+          'name' => $field_name,
+          'colorCode' => $colorCode,
+          'weight' => (int)($components[$field_name]['weight'] ?? 0),
+          'label' => $definition->getLabel(),
+          'value' => $paragraph->get($field_name)->entity->label(),
+        ];
+      }
     }
+
 
     if (str_contains($field_name, 'amount')) {
       $has_value = !$paragraph->get($field_name)->isEmpty();

@@ -99,14 +99,9 @@
     {# Comments not part of content, so they won't inherit .text-content styles. #}
     {{ content
     |without('comment')
-    |without(content.field_image_placement_front)
-    |without(content.field_image_placement_back)
-    |without(content.field_image_placement_side)
     }}
     <div class="image-placement">
-      {{ content.field_image_placement_front }}
-      {{ content.field_image_placement_back }}
-      {{ content.field_image_placement_side }}
+
     </div>
   </div>
   {% if content.comment %}

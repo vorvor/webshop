@@ -2,23 +2,131 @@
   position: relative;
 }
 
-.node .field--name-field-image-placement-front img {
-  left: var(--field-image-front-left);
-  top: var(--field-image-front-top);
-  scale: var(--field-image-front-scale);
-  transform: rotate(var(--field-image-front-rotation));
+.node--type-order .field--type-entity-reference-revisions .paragraph--type--image-placement-wrapper .field--name-field-image {
+  .field__item {
+    position: relative;
+    height: 700px;
+    background-size: 55%;
+    background-repeat: no-repeat;
+  }
+
+  img {
+    position: absolute;
+    left: var(--field-image-0-left);
+    top: var(--field-image-0-top);
+    scale: var(--field-image-0-scale);
+    transform: rotate(var(--field-image-0-rotation));
+  }
 }
 
-.node .field--name-field-image-placement-back img {
-  left: var(--field-image-back-left);
-  top: var(--field-image-back-top);
-  scale: var(--field-image-back-scale);
-  transform: rotate(var(--field-image-back-rotation));
+.node .field--name-field-image-placement-0 .paragraph--type--image-placement-wrapper .field--name-field-image {
+  .field__item::before {
+    content: var(--bg-image-0);
+    display: block;
+    transform: scale(0.6);
+    transform-origin: top left;
+  }
+
+  img {
+    position: absolute;
+    left: var(--field-image-0-left);
+    top: var(--field-image-0-top);
+    scale: var(--field-image-0-scale);
+    transform: rotate(var(--field-image-0-rotation));
+  }
 }
 
-.node .field--name-field-image-placement-side img {
-  left: var(--field-image-side-left);
-  top: var(--field-image-side-top);
-  scale: var(--field-image-side-scale);
-  transform: rotate(var(--field-image-side-rotation));
+.node--type-order .field--name-field-image-placement-1 .paragraph--type--image-placement-wrapper .field--name-field-image {
+  .field__item {
+    background-image: var(--bg-image-1);
+  }
+
+  img {
+    left: var(--field-image-1-left);
+    top: var(--field-image-1-top);
+    scale: var(--field-image-1-scale);
+    transform: rotate(var(--field-image-1-rotation));
+  }
 }
+
+.node--type-order .field--name-field-image-placement-2 .paragraph--type--image-placement-wrapper .field--name-field-image {
+  .field__item {
+    background-image: var(--bg-image-2);
+  }
+
+  img {
+    left: var(--field-image-2-left);
+    top: var(--field-image-2-top);
+    scale: var(--field-image-2-scale);
+    transform: rotate(var(--field-image-2-rotation));
+  }
+}
+
+.node--type-order .field--name-field-image-placement-3 .paragraph--type--image-placement-wrapper .field--name-field-image {
+  .field__item::before {
+    content: var(--bg-image-3);
+    display: block;
+    transform: scale(0.6);
+    transform-origin: top left;
+  }
+
+  img {
+    left: var(--field-image-3-left);
+    top: var(--field-image-3-top);
+    scale: var(--field-image-3-scale);
+    transform: rotate(var(--field-image-3-rotation));
+  }
+}
+
+.node--type-order .field--name-field-image-placement-4 {
+  .field__item {
+    background-image: var(--bg-image-4);
+  }
+
+  img {
+    left: var(--field-image-4-left);
+    top: var(--field-image-4-top);
+    scale: var(--field-image-4-scale);
+    transform: rotate(var(--field-image-4-rotation));
+  }
+}
+
+.node--type-order .field--name-field-image-placement-5 {
+  .field__item {
+    background-image: var(--bg-image-5);
+  }
+
+  img {
+    left: var(--field-image-side-left);
+    top: var(--field-image-side-top);
+    scale: var(--field-image-side-scale);
+    transform: rotate(var(--field-image-side-rotation));
+  }
+}
+
+.node--type-order .field--name-field-image-placement-6 {
+  .field__item {
+    background-image: var(--bg-image-6);
+  }
+
+  img {
+    left: var(--field-image-side-left);
+    top: var(--field-image-side-top);
+    scale: var(--field-image-side-scale);
+    transform: rotate(var(--field-image-side-rotation));
+  }
+}
+
+.node--type-order .field--name-field-image-placement-7 {
+  .field__item {
+    background-image: var(--bg-image-7);
+  }
+
+  img {
+    left: var(--field-image-side-left);
+    top: var(--field-image-side-top);
+    scale: var(--field-image-side-scale);
+    transform: rotate(var(--field-image-side-rotation));
+  }
+}
+

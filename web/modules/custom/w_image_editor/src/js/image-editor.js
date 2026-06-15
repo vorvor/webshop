@@ -24,6 +24,7 @@
         $('.horizontal-tab-button-' + index).show();
         // Set tabs labels depending on print area names.
         $('.horizontal-tab-button-' + index + ' strong').html(printAreaName);
+        $('#edit-field-image-placement-' + index + '-0-subform-field-print-position-0-value').val(printAreaName);
       })
 
       once('imageEditor', '.after-image-area', context).forEach((element, index) => {
@@ -207,6 +208,8 @@
             let leftC = $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-left-0-value"]`).val();
             let scale = $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-scale-0-value"]`).val();
 
+            $(`input[data-drupal-selector="edit-${parentHyphen}-0-subform-field-original-size-0-value"]`).val(htmlImg.naturalWidth);
+
             console.log('top:' + bgImageTop + ' left:' + bgImageLeft)
             console.log('height:' + bgImageHeight + ' width:' + bgImageWidth);
 
@@ -279,24 +282,28 @@
               let diffx = (startingWidth - widthNow) / 2;
               let diffy = (startingHeight - heightNow) / 2;
 
+              console.log('startingWidth: ' + startingWidth);
+              console.log('widthNow: ' + widthNow);
+              console.log('diffX: ' + diffx);
+
               var minLeft = (bgImageLeft * generalScale + widthNow * 0.5);
               var minTop = (bgImageTop * generalScale + heightNow * 0.5);
               var maxRight = (bgImageLeftWidth * generalScale + widthNow * 0.5);
               var maxTop = (bgImageTopHeight * generalScale + heightNow / 2);
 
-              if(obj.left < minLeft - diffx) {
+              if(obj.left < minLeft) {
                 obj.left = obj.lastGoodLeft;
               }
 
-              if(obj.left > maxRight - widthNow - diffx) {
+              if(obj.left > maxRight - widthNow) {
                 obj.left = obj.lastGoodLeft;
               }
 
-              if(obj.top < minTop - diffy) {
+              if(obj.top < minTop) {
                 obj.top = obj.lastGoodTop;
               }
 
-              if(obj.top > maxTop - heightNow - diffy) {
+              if(obj.top > maxTop - heightNow) {
                 obj.top = obj.lastGoodTop;
               }
 
